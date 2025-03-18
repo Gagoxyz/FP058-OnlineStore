@@ -1,6 +1,7 @@
-package org.onlinestore;
+package org.javaenjoyers.modelo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Cliente {
 
@@ -8,7 +9,7 @@ public abstract class Cliente {
     private String nombre;
     private String domicilio;
     private String nif;
-    private ArrayList<Pedido> pedidos;
+    private List<Pedido> pedidos;
 
     public Cliente(String email, String nombre, String domicilio, String nif) {
         this.email = email;

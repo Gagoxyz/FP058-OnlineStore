@@ -1,4 +1,4 @@
-package org.onlinestore;
+package org.javaenjoyers.modelo;
 
 public class Premium extends Cliente{
 
@@ -18,6 +18,7 @@ public class Premium extends Cliente{
                 "\nEmail: " + getEmail() +
                 "\nDomicilio: " + getDomicilio() +
                 "\nCuota: " + Premium.CUOTA + "€" +
-                "\nDescuento: " + Premium.DESCUENTO + "%";
+                "\nDescuento: " + Premium.DESCUENTO + "%" +
+                "\n";
     }
 }
