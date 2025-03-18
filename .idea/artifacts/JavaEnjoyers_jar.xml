@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="JavaEnjoyers:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/JavaEnjoyers_jar</output-path>
+    <root id="archive" name="JavaEnjoyers.jar">
+      <element id="module-output" name="JavaEnjoyers" />
+    </root>
+  </artifact>
+</component>

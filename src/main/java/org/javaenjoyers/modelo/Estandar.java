@@ -1,4 +1,4 @@
-package org.onlinestore;
+package org.javaenjoyers.modelo;
 
 public class Estandar extends Cliente {
 
@@ -13,6 +13,7 @@ public class Estandar extends Cliente {
                 "\nNombre: " + getNombre() +
                 "\nNIF: " + getNif() +
                 "\nEmail: " + getEmail() +
-                "\nDomicilio: " + getDomicilio();
+                "\nDomicilio: " + getDomicilio() +
+                "\n";
     }
 }

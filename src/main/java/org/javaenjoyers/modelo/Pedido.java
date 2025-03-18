@@ -1,4 +1,4 @@
-package org.onlinestore;
+package org.javaenjoyers.modelo;
 
 import java.time.LocalDateTime;
 
@@ -10,12 +10,12 @@ public class Pedido {
     private int cantidad;
     private LocalDateTime fechaHoraPedido;
 
-    public Pedido(int numPedido, Cliente cliente, Articulo articulo, int cantidad, LocalDateTime fechaHoraPedido) {
+    public Pedido(int numPedido, Cliente cliente, Articulo articulo, int cantidad) {
         this.numPedido = numPedido;
         this.cliente = cliente;
         this.articulo = articulo;
         this.cantidad = cantidad;
-        this.fechaHoraPedido = fechaHoraPedido;
+        this.fechaHoraPedido = LocalDateTime.now();
     }
 
     public int getNumPedido() {
@@ -52,10 +52,6 @@ public class Pedido {
 
     public LocalDateTime getFechaHoraPedido() {
         return fechaHoraPedido;
-    }
-
-    public void setFechaHoraPedido(LocalDateTime fechaHoraPedido) {
-        this.fechaHoraPedido = fechaHoraPedido;
     }
 
     @Override
