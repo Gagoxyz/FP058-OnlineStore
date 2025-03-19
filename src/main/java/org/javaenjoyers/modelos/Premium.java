@@ -1,4 +1,4 @@
-package org.javaenjoyers.modelo;
+package org.javaenjoyers.modelos;
 
 public class Premium extends Cliente{
 
@@ -12,7 +12,7 @@ public class Premium extends Cliente{
 
     @Override
     public String toString() {
-        return "Cliente PREMIUM" +
+        return "\nCliente PREMIUM" +
                 "\nNombre: " + getNombre() +
                 "\nNIF: " + getNif() +
                 "\nEmail: " + getEmail() +

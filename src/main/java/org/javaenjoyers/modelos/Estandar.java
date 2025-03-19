@@ -1,4 +1,4 @@
-package org.javaenjoyers.modelo;
+package org.javaenjoyers.modelos;
 
 public class Estandar extends Cliente {
 
@@ -9,7 +9,7 @@ public class Estandar extends Cliente {
 
     @Override
     public String toString() {
-        return "Cliente ESTANDAR" +
+        return "\nCliente ESTANDAR" +
                 "\nNombre: " + getNombre() +
                 "\nNIF: " + getNif() +
                 "\nEmail: " + getEmail() +

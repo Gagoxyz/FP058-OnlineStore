@@ -1,4 +1,4 @@
-package org.javaenjoyers.modelo;
+package org.javaenjoyers.modelos;
 
 import java.util.ArrayList;
 import java.util.List;

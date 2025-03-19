@@ -1,6 +1,7 @@
-package org.javaenjoyers.modelo;
+package org.javaenjoyers.modelos;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Pedido {
 
@@ -10,12 +11,21 @@ public class Pedido {
     private int cantidad;
     private LocalDateTime fechaHoraPedido;
 
-    public Pedido(int numPedido, Cliente cliente, Articulo articulo, int cantidad) {
-        this.numPedido = numPedido;
+    // constructor para número de pedido autoincrementable (será el índice + 1)
+    public Pedido(Cliente cliente, Articulo articulo, int cantidad) {
         this.cliente = cliente;
         this.articulo = articulo;
         this.cantidad = cantidad;
         this.fechaHoraPedido = LocalDateTime.now();
+    }
+
+    // constructor para crear objetos con diferentes fechas
+    public Pedido(Cliente cliente, Articulo articulo, int cantidad, LocalDateTime fechaHoraPedido) {
+        this.numPedido = numPedido;
+        this.cliente = cliente;
+        this.articulo = articulo;
+        this.cantidad = cantidad;
+        this.fechaHoraPedido = fechaHoraPedido;
     }
 
     public int getNumPedido() {
@@ -54,14 +64,14 @@ public class Pedido {
         return fechaHoraPedido;
     }
 
+    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
     @Override
     public String toString() {
-        return "Pedido{" +
-                "numPedido=" + numPedido +
-                ", cliente=" + cliente +
-                ", articulo=" + articulo +
-                ", cantidad=" + cantidad +
-                ", fechaHoraPedido=" + fechaHoraPedido +
-                '}';
+        return "\nNúmero de pedido: #" + numPedido +
+                "\nCliente: " + cliente.getNombre() +
+                "\nArtículo: " + articulo.getCodigoProducto() +
+                "\nCantidad: " + cantidad +
+                "\nFehca/hora del pedido: " + fechaHoraPedido.format(formato);
     }
 }

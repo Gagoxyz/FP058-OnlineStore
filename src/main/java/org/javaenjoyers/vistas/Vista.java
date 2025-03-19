@@ -1,6 +1,6 @@
-package org.javaenjoyers.vista;
+package org.javaenjoyers.vistas;
 
-import org.javaenjoyers.controlador.Controlador;
+import org.javaenjoyers.controladores.Controlador;
 
 import java.util.Scanner;
 
@@ -34,19 +34,18 @@ public class Vista {
     }
 
     public void menuPrincipal(){
-        int opcionMenu;
+        int opcion;
         boolean app = true;
 
         while(app) {
-            System.out.println("Selecciona una opción:");
+            System.out.println("\nSelecciona una opción:");
             System.out.println("1. Gestión clientes");
             System.out.println("2. Gestión artículos");
             System.out.println("3. Gestión pedidos");
             System.out.println("0. Salir");
-            opcionMenu = teclado.nextInt();
-            teclado.nextLine();
+            opcion = teclado.nextInt();
 
-            switch (opcionMenu) {
+            switch (opcion){
                 case 1:
                     menuClientes();
                     break;
@@ -57,55 +56,63 @@ public class Vista {
                     menuPedidos();
                     break;
                 case 0:
-                    app = false;
                     return;
                 default:
-                    System.out.println("Opción incorrecta\n");
+                    System.out.println("\nOpción incorrecta.\n");
                     break;
             }
         }
     }
 
     public void menuClientes(){
-        int opcionMenu;
+        int opcion;
 
-        System.out.println("Menú clientes:");
+        System.out.println("\nMenú clientes:");
         System.out.println("1. Añadir cliente");
         System.out.println("2. Mostrar clientes");
         System.out.println("3. Mostrar clientes Estandar");
         System.out.println("4. Mostrar clientes Premium");
         System.out.println("0. Atrás");
-        opcionMenu = teclado.nextInt();
+        opcion = teclado.nextInt();
         teclado.nextLine();
 
-        switch (opcionMenu) {
-            case 1:
-                controlador.agregarCliente();
-                break;
-            case 2:
-                controlador.mostrarClientes();
-                break;
-            case 3:
-                controlador.mostrarClientesEstandar();
-                break;
-            case 4:
-                controlador.mostrarClientesPremium();
-                break;
-            case 0:
-                menuPrincipal();
-                break;
-            default:
-                System.out.println("Opción incorrecta\n");
-                break;
-        }
+        controlador.opcionGestionClientes(opcion);
     }
 
     public void menuArticulos(){
-        System.out.println("nada de momento");
+        int opcion;
+
+        System.out.println("\nMenú artículos:");
+        System.out.println("1. Añadir artículo");
+        System.out.println("2. Mostrar artículos");
+        System.out.println("0. Atrás");
+        opcion = teclado.nextInt();
+        teclado.nextLine();
+
+        controlador.opcionGestionArticulos(opcion);;
     }
 
     public void menuPedidos(){
-        System.out.println("nada de nada");
+        int opcion;
+
+        System.out.println("\nMenú pedidos:");
+        System.out.println("1. Añadir pedido");
+        System.out.println("2. Eliminar pedido");
+        System.out.println("3. Mostrar pedidos pendientes");
+        System.out.println("4. Mostrar pedidos enviados");
+        System.out.println("0. Atrás");
+        opcion = teclado.nextInt();
+        teclado.nextLine();
+
+        controlador.opcionGestionPedidos(opcion);;
     }
 
+    public String solicitarDato(String string){
+        System.out.println(string);
+        return teclado.nextLine();
+    }
+
+    public void mostrarMensaje(String string){
+        System.out.println(string);
+    }
 }

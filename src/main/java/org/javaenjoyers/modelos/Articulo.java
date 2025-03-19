@@ -1,4 +1,4 @@
-package org.javaenjoyers.modelo;
+package org.javaenjoyers.modelos;
 
 public class Articulo {
 
@@ -58,12 +58,10 @@ public class Articulo {
 
     @Override
     public String toString() {
-        return "Articulo{" +
-                "codigoProducto='" + codigoProducto + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", precioVenta=" + precioVenta +
-                ", gastosEnvio=" + gastosEnvio +
-                ", tiempoPrepEnvio=" + tiempoPrepEnvio +
-                '}';
+        return "\nCódigo del producto: " + codigoProducto +
+                "\nDescripción: " + descripcion +
+                "\nPrecio de venta: " + precioVenta + "€" +
+                "\nGastos de envío: " + gastosEnvio + "€" +
+                "\nTiempo preparación envío (en segundos): " + tiempoPrepEnvio;
     }
 }

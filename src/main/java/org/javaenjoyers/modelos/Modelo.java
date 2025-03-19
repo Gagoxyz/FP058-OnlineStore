@@ -1,6 +1,7 @@
-package org.javaenjoyers.modelo;
+package org.javaenjoyers.modelos;
 
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class Modelo {
 
@@ -30,10 +31,6 @@ public class Modelo {
         gestorClientes.listar().stream().filter(cliente -> cliente instanceof Premium).forEach(System.out::println);
     }
 
-    public void eliminarCliente(Cliente cliente){
-        gestorClientes.eliminar(cliente);
-    }
-
     public void agregarArticulo(Articulo articulo){
         gestorArticulos.agregar(articulo);
     }
@@ -42,11 +39,9 @@ public class Modelo {
         gestorArticulos.listar().forEach(System.out::println);
     }
 
-    public void eliminarArticulo(Articulo articulo){
-        gestorArticulos.eliminar(articulo);
-    }
-
     public void agregarPedido(Pedido pedido){
+        int numPedido = gestorPedidos.listSize() + 1;
+        pedido.setNumPedido(numPedido);
         gestorPedidos.agregar(pedido);
     }
 
@@ -54,7 +49,23 @@ public class Modelo {
         gestorPedidos.listar().forEach(System.out::println);
     }
 
-    public void eliminarPedido(Pedido pedido){
-        gestorPedidos.eliminar(pedido);
+    public GestorDatos<Pedido> getPedidos(){
+        return gestorPedidos;
+    }
+
+    public boolean verificarTiempoPedido(Pedido pedidoCliente){
+        boolean excesoTiempo = false;
+        LocalDateTime fechaHoraActual = LocalDateTime.now();
+        long tiempoPedido = pedidoCliente.getFechaHoraPedido().until(fechaHoraActual, ChronoUnit.SECONDS);
+
+        if(tiempoPedido > pedidoCliente.getArticulo().getTiempoPrepEnvio()){
+            excesoTiempo = true;
+        }
+
+        return excesoTiempo;
+    }
+
+    public void eliminarPedido(int index){
+        gestorPedidos.eliminarElemento(index);
     }
 }

@@ -1,4 +1,4 @@
-package org.javaenjoyers.modelo;
+package org.javaenjoyers.modelos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +32,32 @@ public class GestorDatos<T> {
 
     /**
      * Método para eliminar un objeto de la lista
-     * @param elemento Objeto para eliminar según el tipo de dato
+     * @param index Objeto para eliminar según el tipo de dato
      * @return Devuelve True/False dependiendo si se eliminó
      */
-    public boolean eliminar(T elemento){
-        return lista.remove(elemento);
+    public boolean eliminarElemento(int index){
+        T elementoLista = lista.get(index);
+        return lista.remove(elementoLista);
     }
 
+//
+//    public T accederIndex(int index){
+//        T listaConIndex = lista.get(index);
+//
+//        return listaConIndex;
+//    }
+
+    public int listSize(){
+        return lista.size();
+    }
+
+    public void iterarList(){
+        for (int i = 0; i < lista.size(); i++){
+            System.out.println(lista.get(i).toString());
+        }
+    }
+
+    public List<T> accederLista(){
+        return lista;
+    }
 }
