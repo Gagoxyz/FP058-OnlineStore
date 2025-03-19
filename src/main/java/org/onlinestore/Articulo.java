@@ -17,6 +17,7 @@ public class Articulo {
     }
 
 
+
     public String getCodigoProducto() {
         return codigoProducto;
     }
