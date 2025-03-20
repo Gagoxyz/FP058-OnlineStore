@@ -20,7 +20,8 @@ public class Main {
         Cliente cliente02 = new Premium("david@premium.com", "David", "c/cliente estandar S/N", "87654321X");
         Cliente cliente03 = new Premium("maria@premium.com", "Maria", "c/cliente estandar S/N", "87654321X");
         Cliente cliente04 = new Estandar("xavid@premium.com", "Xavi", "c/cliente estandar S/N", "87654321X");
-        Articulo articulo01 = new Articulo("A001", "Artículo de prueba", 20.99f, 4.99f, 120);
+        Articulo articulo01 = new Articulo("A001", "Teclado y ratón oficina", 20.99f, 4.99f, 120);
+        Articulo articulo02 = new Articulo("A002", "Televisor LG 55 pulgadas", 899.99f, 10.99f, 360);
         Pedido pedido01 = new Pedido(cliente01, articulo01, 1);
         Pedido pedido02 = new Pedido(cliente02, articulo01, 2, LocalDateTime.of(2025,03,19,10,30,00));
         Pedido pedido04 = new Pedido(cliente04, articulo01, 1);
@@ -32,6 +33,7 @@ public class Main {
         modelo.agregarCliente(cliente03);
         modelo.agregarCliente(cliente04);
         modelo.agregarArticulo(articulo01);
+        modelo.agregarArticulo(articulo02);
         modelo.agregarPedido(pedido01);
         modelo.agregarPedido(pedido02);
         modelo.agregarPedido(pedido03);

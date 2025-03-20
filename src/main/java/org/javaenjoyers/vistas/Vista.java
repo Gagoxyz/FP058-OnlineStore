@@ -8,17 +8,9 @@ public class Vista {
 
     Scanner teclado = new Scanner(System.in);
 
-    private Controlador controlador;
+    private final Controlador controlador;
 
     public Vista(Controlador controlador) {
-        this.controlador = controlador;
-    }
-
-    public Controlador getControlador() {
-        return controlador;
-    }
-
-    public void setControlador(Controlador controlador) {
         this.controlador = controlador;
     }
 
@@ -35,9 +27,8 @@ public class Vista {
 
     public void menuPrincipal(){
         int opcion;
-        boolean app = true;
 
-        while(app) {
+        while(true) {
             System.out.println("\nSelecciona una opción:");
             System.out.println("1. Gestión clientes");
             System.out.println("2. Gestión artículos");
@@ -89,7 +80,7 @@ public class Vista {
         opcion = teclado.nextInt();
         teclado.nextLine();
 
-        controlador.opcionGestionArticulos(opcion);;
+        controlador.opcionGestionArticulos(opcion);
     }
 
     public void menuPedidos(){
@@ -104,7 +95,7 @@ public class Vista {
         opcion = teclado.nextInt();
         teclado.nextLine();
 
-        controlador.opcionGestionPedidos(opcion);;
+        controlador.opcionGestionPedidos(opcion);
     }
 
     public String solicitarDato(String string){

@@ -15,20 +15,28 @@ public class Modelo {
         gestorPedidos = new GestorDatos<>();
     }
 
+    public GestorDatos<Cliente> getClientes(){
+        return gestorClientes;
+    }
+
     public void agregarCliente(Cliente cliente){
         gestorClientes.agregar(cliente);
     }
 
     public void mostrarClientes(){
-        gestorClientes.listar().forEach(System.out::println);
+        gestorClientes.getLista().forEach(System.out::println);
     }
 
     public void mostrarClientesEstandar(){
-        gestorClientes.listar().stream().filter(cliente -> cliente instanceof Estandar).forEach(System.out::println);
+        gestorClientes.getLista().stream().filter(cliente -> cliente instanceof Estandar).forEach(System.out::println);
     }
 
     public void mostrarClientesPremium(){
-        gestorClientes.listar().stream().filter(cliente -> cliente instanceof Premium).forEach(System.out::println);
+        gestorClientes.getLista().stream().filter(cliente -> cliente instanceof Premium).forEach(System.out::println);
+    }
+
+    public GestorDatos<Articulo> getArticulos(){
+        return gestorArticulos;
     }
 
     public void agregarArticulo(Articulo articulo){
@@ -36,7 +44,7 @@ public class Modelo {
     }
 
     public void mostrarArticulos(){
-        gestorArticulos.listar().forEach(System.out::println);
+        gestorArticulos.getLista().forEach(System.out::println);
     }
 
     public void agregarPedido(Pedido pedido){
@@ -46,7 +54,7 @@ public class Modelo {
     }
 
     public void mostrarPedidos(){
-        gestorPedidos.listar().forEach(System.out::println);
+        gestorPedidos.getLista().forEach(System.out::println);
     }
 
     public GestorDatos<Pedido> getPedidos(){

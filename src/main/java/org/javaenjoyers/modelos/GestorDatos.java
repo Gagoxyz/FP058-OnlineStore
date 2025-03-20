@@ -14,20 +14,16 @@ public class GestorDatos<T> {
      */
     private List<T> lista = new ArrayList<>();
 
+    public List<T> getLista(){
+        return lista;
+    }
+
     /**
      * Método para agregar objetos a la lista
      * @param elemento objeto del tipo indicado
      */
     public void agregar(T elemento){
         lista.add(elemento);
-    }
-
-    /**
-     * Método para listar los objetos de la lista
-     * @return Lista de objetos en función del tipo de dato indicado
-     */
-    public List<T> listar(){
-        return new ArrayList<>(lista);
     }
 
     /**
@@ -40,24 +36,7 @@ public class GestorDatos<T> {
         return lista.remove(elementoLista);
     }
 
-//
-//    public T accederIndex(int index){
-//        T listaConIndex = lista.get(index);
-//
-//        return listaConIndex;
-//    }
-
     public int listSize(){
         return lista.size();
-    }
-
-    public void iterarList(){
-        for (int i = 0; i < lista.size(); i++){
-            System.out.println(lista.get(i).toString());
-        }
-    }
-
-    public List<T> accederLista(){
-        return lista;
     }
 }

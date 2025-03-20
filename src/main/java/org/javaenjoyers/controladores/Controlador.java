@@ -111,6 +111,7 @@ public class Controlador {
     public void opcionGestionPedidos(int opcion){
         switch (opcion){
             case 1:
+                nuevoPedido();
                 break;
             case 2:
                 eliminarPedido();
@@ -129,12 +130,40 @@ public class Controlador {
         }
     }
 
+    public void nuevoPedido(){
+        String emailCliente = vista.solicitarDato("\nIndica el email del cliente:");
+        Cliente cliente = buscarClientePorEmail(emailCliente);
+
+        while (cliente == null){
+            vista.mostrarMensaje("\nCliente no existe, se procede a registradrlo.");
+            nuevoCliente();
+            cliente = buscarClientePorEmail(emailCliente);
+        }
+        modelo.mostrarArticulos();
+        String codigoProducto = vista.solicitarDato("\nIndica el código del producto:");
+        Articulo articulo = buscarArticuloPorCodigo(codigoProducto);
+        String cantidad = vista.solicitarDato("\nIndica la cantidad:");
+        int intCantidad = Integer.parseInt(cantidad);
+
+        Pedido nuevoPedido = new Pedido(cliente, articulo, intCantidad);
+        modelo.agregarPedido(nuevoPedido);
+        vista.mostrarMensaje("\nSe ha registrado el pedido correctamente.\n");
+    }
+
+    public Cliente buscarClientePorEmail(String email){
+        return modelo.getClientes().getLista().stream().filter(cliente -> cliente.getEmail().equalsIgnoreCase(email)).findFirst().orElse(null);
+    }
+
+    public Articulo buscarArticuloPorCodigo(String codigo){
+        return modelo.getArticulos().getLista().stream().filter(articulo -> articulo.getCodigoProducto().equalsIgnoreCase(codigo)).findFirst().orElse(null);
+    }
+
     public void eliminarPedido(){
         modelo.mostrarPedidos();
         String numeroPedido = vista.solicitarDato("\nIndica el número del pedido:");
         int nPedido = (Integer.parseInt(numeroPedido)) -1;
 
-        Pedido eliminarPedido = modelo.getPedidos().accederLista().get(nPedido);
+        Pedido eliminarPedido = modelo.getPedidos().getLista().get(nPedido);
 
         if(!modelo.verificarTiempoPedido(eliminarPedido)){
             modelo.eliminarPedido(nPedido);
@@ -146,7 +175,7 @@ public class Controlador {
 
     public void mostrarPedidosPdteEnvio(){
         String nombreCliente = vista.solicitarDato("\nIndica el nombre del cliente:");
-        for (Pedido pedido : modelo.getPedidos().accederLista()){
+        for (Pedido pedido : modelo.getPedidos().getLista()){
             if(pedido.getCliente().getNombre().equals(nombreCliente) && !modelo.verificarTiempoPedido(pedido)){
                 vista.mostrarMensaje(pedido.toString());
             }
@@ -155,7 +184,7 @@ public class Controlador {
 
     public void mostrarPedidosEnviados(){
         String nombreCliente = vista.solicitarDato("\nIndica el nombre del cliente:");
-        for (Pedido pedido : modelo.getPedidos().accederLista()){
+        for (Pedido pedido : modelo.getPedidos().getLista()){
             if(pedido.getCliente().getNombre().equals(nombreCliente) && modelo.verificarTiempoPedido(pedido)){
                 vista.mostrarMensaje(pedido.toString());
             }

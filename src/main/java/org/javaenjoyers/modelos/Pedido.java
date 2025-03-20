@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class Pedido {
 
-    private int numPedido; //pendiente hacer autoincrementable
+    private int numPedido; //autoincrementable (es el índice +1)
     private Cliente cliente;
     private Articulo articulo;
     private int cantidad;
@@ -21,7 +21,6 @@ public class Pedido {
 
     // constructor para crear objetos con diferentes fechas
     public Pedido(Cliente cliente, Articulo articulo, int cantidad, LocalDateTime fechaHoraPedido) {
-        this.numPedido = numPedido;
         this.cliente = cliente;
         this.articulo = articulo;
         this.cantidad = cantidad;
