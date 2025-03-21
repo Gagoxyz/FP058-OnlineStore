@@ -1,40 +1,33 @@
 package org.javaenjoyers.controlador;
 
 
+import org.javaenjoyers.RepositorioGenerico;
 import org.javaenjoyers.modelo.Articulo;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ArticuloControlador {
-    private Map<String, Articulo> articulos;
+    private RepositorioGenerico<Articulo> articulos;
 
     public ArticuloControlador() {
-        this.articulos = new HashMap<>();
+        this.articulos = new RepositorioGenerico<>();
     }
 
-    public void agregarArticulo(String codigo, String descripcion, float precio, float gastosEnvio, int tiempoPreparacion) {
-        if (articulos.containsKey(codigo)) {
-            System.out.println("Error: Ya existe un artículo con ese código.");
-            return;
-        }
-        Articulo articulo = new Articulo(codigo, descripcion, precio, gastosEnvio, tiempoPreparacion);
-        articulos.put(codigo, articulo);
-        System.out.println("Artículo agregado correctamente.");
+    public void agregarArticulo(String codigo, Articulo articulo) {
+        articulos.agregar(codigo, articulo);
+    }
+
+    public Articulo obtenerArticulo(String codigo) {
+        return articulos.obtener(codigo);
+    }
+
+    public void eliminarArticulo(String codigo) {
+        articulos.eliminar(codigo);
     }
 
     public void mostrarArticulos() {
-        if (articulos.isEmpty()) {
-            System.out.println("No hay artículos registrados.");
-        } else {
-            System.out.println("Listado de artículos:");
-            articulos.values().forEach(System.out::println);
-        }
+        articulos.mostrarTodos();
     }
-
-    public Articulo buscarArticulo(String codigo) {
-        return articulos.get(codigo);
-    }
-
 
 }

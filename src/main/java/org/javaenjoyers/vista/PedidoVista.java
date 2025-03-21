@@ -5,7 +5,9 @@ import org.javaenjoyers.controlador.ClienteControlador;
 import org.javaenjoyers.controlador.PedidoControlador;
 import org.javaenjoyers.modelo.Articulo;
 import org.javaenjoyers.modelo.Cliente;
+import org.javaenjoyers.modelo.Pedido;
 
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class PedidoVista {
@@ -26,41 +28,49 @@ public class PedidoVista {
         do {
             System.out.println("\n Gestión de Pedidos");
             System.out.println("1. Añadir Pedido");
-            System.out.println("2. Eliminar Pedido");
-            System.out.println("3. Mostrar Pedidos Pendientes");
-            System.out.println("4. Mostrar Pedidos Enviados");
-            System.out.println("5. Volver al menú principal");
+            System.out.println("2. Mostrar Pedidos");
+            System.out.println("3. Volver al menú principal");
             System.out.print("Selecciona una opción: ");
             opcion = scanner.nextInt();
             scanner.nextLine();
 
             switch (opcion) {
                 case 1 -> agregarPedido();
-                case 2 -> eliminarPedido();
-                case 3 -> pedidoControlador.mostrarPedidosPendientes();
-                case 4 -> pedidoControlador.mostrarPedidosEnviados();
-                case 5 -> System.out.println("Volviendo al menú principal...");
-                default -> System.out.println("Opción no válida.");
+                case 2 -> mostrarPedidosPendientes();
+                case 3 -> System.out.println(" Volviendo al menú principal...");
+                default -> System.out.println(" Opción no válida.");
             }
-        } while (opcion != 5);
+        } while (opcion != 3);
     }
 
     private void agregarPedido() {
         System.out.print("Email del cliente: ");
-        Cliente cliente = clienteControlador.buscarCliente(scanner.nextLine());
+        Cliente cliente = clienteControlador.obtenerCliente(scanner.nextLine());
+        if (cliente == null) {
+            System.out.println("Error: Cliente no encontrado.");
+            return;
+        }
+
         System.out.print("Código del artículo: ");
-        Articulo articulo = articuloControlador.buscarArticulo(scanner.nextLine());
+        Articulo articulo = articuloControlador.obtenerArticulo(scanner.nextLine());
+        if (articulo == null) {
+            System.out.println(" Error: Artículo no encontrado.");
+            return;
+        }
+
         System.out.print("Cantidad: ");
         int cantidad = scanner.nextInt();
         scanner.nextLine();
 
-        pedidoControlador.agregarPedido(cliente, articulo, cantidad);
+        int nuevoNumeroPedido = pedidoControlador.contarPedidos() + 1;
+        pedidoControlador.agregarPedido(nuevoNumeroPedido, new Pedido(nuevoNumeroPedido, cliente, articulo, cantidad, LocalDateTime.now()));
+
+        System.out.println("Pedido agregado con éxito.");
     }
-    public void eliminarPedido() {
-        System.out.print("Ingrese el número de pedido a eliminar: ");
-        int numPedido = scanner.nextInt();
-        scanner.nextLine(); // Limpiar buffer
-        pedidoControlador.eliminarPedido(numPedido);
+
+    private void mostrarPedidosPendientes() {
+        System.out.println("\n Pedidos Pendientes:");
+        pedidoControlador.mostrarPedidos();
     }
 
 }

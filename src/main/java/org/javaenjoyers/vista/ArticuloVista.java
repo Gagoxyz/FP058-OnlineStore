@@ -1,6 +1,7 @@
 package org.javaenjoyers.vista;
 
 import org.javaenjoyers.controlador.ArticuloControlador;
+import org.javaenjoyers.modelo.Articulo;
 
 import java.util.Scanner;
 
@@ -22,13 +23,13 @@ public class ArticuloVista {
             System.out.println("3. Volver al menú principal");
             System.out.print("Selecciona una opción: ");
             opcion = scanner.nextInt();
-            scanner.nextLine(); // Limpiar buffer
+            scanner.nextLine();
 
             switch (opcion) {
                 case 1 -> agregarArticulo();
-                case 2 -> articuloControlador.mostrarArticulos();
+                case 2 -> mostrarArticulos();
                 case 3 -> System.out.println("Volviendo al menú principal...");
-                default -> System.out.println("Opción no válida.");
+                default -> System.out.println(" Opción no válida.");
             }
         } while (opcion != 3);
     }
@@ -44,9 +45,13 @@ public class ArticuloVista {
         float gastosEnvio = scanner.nextFloat();
         System.out.print("Tiempo de preparación (minutos): ");
         int tiempoPrep = scanner.nextInt();
-        scanner.nextLine(); // Limpiar buffer
+        scanner.nextLine();
 
-        articuloControlador.agregarArticulo(codigo, descripcion, precio, gastosEnvio, tiempoPrep);
+        articuloControlador.agregarArticulo(codigo, new Articulo(codigo, descripcion, precio, gastosEnvio, tiempoPrep));
     }
 
+    private void mostrarArticulos() {
+        System.out.println("\n📜 Lista de Artículos:");
+        articuloControlador.mostrarArticulos();
+    }
 }
