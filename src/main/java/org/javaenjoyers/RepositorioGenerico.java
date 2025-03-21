@@ -26,8 +26,13 @@ public class RepositorioGenerico<T> {
         elementos.values().forEach(System.out::println);
     }
 
-    // 📌 Nuevo método para contar elementos
+    // Metodo para contar elementos
     public int contarElementos() {
         return elementos.size();
+    }
+
+    // Metodo necesario para obtener todos los elementos
+    public Map<String, T> obtenerTodos() {
+        return elementos;
     }
 }
