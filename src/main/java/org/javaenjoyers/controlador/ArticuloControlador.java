@@ -2,6 +2,7 @@ package org.javaenjoyers.controlador;
 
 
 import org.javaenjoyers.RepositorioGenerico;
+import org.javaenjoyers.excepciones.ElementoNoEncontradoException;
 import org.javaenjoyers.modelo.Articulo;
 
 import java.util.HashMap;
@@ -15,14 +16,24 @@ public class ArticuloControlador {
     }
 
     public void agregarArticulo(String codigo, Articulo articulo) {
+        if (articulos.obtener(codigo) != null) {
+            throw new IllegalArgumentException("El artículo con código " + codigo + " ya existe.");
+        }
         articulos.agregar(codigo, articulo);
     }
 
     public Articulo obtenerArticulo(String codigo) {
-        return articulos.obtener(codigo);
+        Articulo articulo = articulos.obtener(codigo);
+        if (articulo == null) {
+            throw new ElementoNoEncontradoException("Artículo con código " + codigo + " no encontrado.");
+        }
+        return articulo;
     }
 
     public void eliminarArticulo(String codigo) {
+        if (articulos.obtener(codigo) == null) {
+            throw new ElementoNoEncontradoException("No se puede eliminar. Artículo con código " + codigo + " no encontrado.");
+        }
         articulos.eliminar(codigo);
     }
 

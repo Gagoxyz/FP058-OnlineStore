@@ -2,6 +2,8 @@ package org.javaenjoyers.controlador;
 
 
 import org.javaenjoyers.RepositorioGenerico;
+import org.javaenjoyers.excepciones.ElementoNoEncontradoException;
+import org.javaenjoyers.excepciones.PedidoNoEliminableException;
 import org.javaenjoyers.modelo.Articulo;
 import org.javaenjoyers.modelo.Cliente;
 import org.javaenjoyers.modelo.Pedido;
@@ -23,10 +25,24 @@ public class PedidoControlador {
     }
 
     public Pedido obtenerPedido(int numPedido) {
-        return pedidos.obtener(String.valueOf(numPedido));
+        Pedido pedido = pedidos.obtener(String.valueOf(numPedido));
+        if (pedido == null) {
+            throw new ElementoNoEncontradoException("⚠️ Pedido con número " + numPedido + " no encontrado.");
+        }
+        return pedido;
     }
 
     public void eliminarPedido(int numPedido) {
+        Pedido pedido = pedidos.obtener(String.valueOf(numPedido));
+        if (pedido == null) {
+            throw new ElementoNoEncontradoException("⚠️ No se puede eliminar. Pedido con número " + numPedido + " no encontrado.");
+        }
+
+        LocalDateTime tiempoLimite = pedido.getFechaHoraPedido().plusMinutes(pedido.getArticulo().getTiempoPrepEnvio());
+        if (LocalDateTime.now().isAfter(tiempoLimite)) {
+            throw new PedidoNoEliminableException("⚠️ No se puede eliminar. El pedido ya fue enviado.");
+        }
+
         pedidos.eliminar(String.valueOf(numPedido));
     }
 
