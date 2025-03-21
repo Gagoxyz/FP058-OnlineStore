@@ -58,7 +58,7 @@ public class Modelo {
         return gestorArticulos;
     }
 
-    public Map<String , Articulo> getArticuloPorCodigo(){
+    public Map<String , Articulo> getArticulosPorCodigo(){
         return articulosPorCodigo;
     }
 
@@ -69,10 +69,6 @@ public class Modelo {
 
     public void mostrarArticulos(){
         gestorArticulos.getLista().forEach(System.out::println);
-    }
-
-    public Articulo buscarArticuloPorCodigo(String codigo){
-        return articulosPorCodigo.get(codigo);
     }
 
     public void agregarPedido(Pedido pedido){

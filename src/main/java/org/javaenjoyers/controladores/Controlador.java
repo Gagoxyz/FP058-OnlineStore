@@ -167,7 +167,7 @@ public class Controlador {
     }
 
     public Articulo buscarArticuloPorCodigo(String codigo){
-        return modelo.getArticuloPorCodigo().get(codigo);
+        return modelo.getArticulosPorCodigo().get(codigo);
     }
 
     public void eliminarPedido(){
