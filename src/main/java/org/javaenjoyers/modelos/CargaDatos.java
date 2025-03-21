@@ -1,0 +1,36 @@
+package org.javaenjoyers.modelos;
+
+import java.time.LocalDateTime;
+
+public class CargaDatos {
+
+  public static void cargarDatos(Modelo modelo){
+      // objetos de prueba
+      Cliente cliente01 = new Estandar("milena@estandar.com", "Milena", "c/cliente estandar S/N", "123456789");
+      Cliente cliente02 = new Premium("david@premium.com", "David", "c/cliente estandar S/N", "87654321X");
+      Cliente cliente03 = new Premium("maria@premium.com", "Maria", "c/cliente estandar S/N", "87654321X");
+      Cliente cliente04 = new Estandar("xavid@premium.com", "Xavi", "c/cliente estandar S/N", "87654321X");
+      Articulo articulo01 = new Articulo("A001", "Teclado y ratón oficina", 20.99f, 4.99f, 120);
+      Articulo articulo02 = new Articulo("A002", "Televisor LG 55 pulgadas", 899.99f, 10.99f, 360);
+      Articulo articulo03 = new Articulo("A003", "ASUS TUF Gaming A15", 699f, 4.99f, 30);
+      Pedido pedido01 = new Pedido(cliente01, articulo01, 1);
+      Pedido pedido02 = new Pedido(cliente02, articulo01, 2, LocalDateTime.of(2025,3,19,10,30,0));
+      Pedido pedido04 = new Pedido(cliente04, articulo01, 1);
+      Pedido pedido03 = new Pedido(cliente03, articulo01,2,LocalDateTime.of(2025, 3, 19, 11, 5, 15));
+      Pedido pedido05 = new Pedido(cliente01, articulo03, 1);
+
+      // añadimos los elementos a sus respectivas listas
+      modelo.agregarCliente(cliente01);
+      modelo.agregarCliente(cliente02);
+      modelo.agregarCliente(cliente03);
+      modelo.agregarCliente(cliente04);
+      modelo.agregarArticulo(articulo01);
+      modelo.agregarArticulo(articulo02);
+      modelo.agregarArticulo(articulo03);
+      modelo.agregarPedido(pedido01);
+      modelo.agregarPedido(pedido02);
+      modelo.agregarPedido(pedido03);
+      modelo.agregarPedido(pedido04);
+      modelo.agregarPedido(pedido05);
+  }
+}

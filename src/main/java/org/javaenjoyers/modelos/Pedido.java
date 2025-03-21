@@ -1,18 +1,21 @@
 package org.javaenjoyers.modelos;
 
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Pedido {
 
-    private int numPedido; //autoincrementable (es el índice +1)
-    private Cliente cliente;
-    private Articulo articulo;
-    private int cantidad;
-    private LocalDateTime fechaHoraPedido;
+    private static int contadorPedidos = 1; //contador de pedidos
+    private int numPedido;
+    private final Cliente cliente;
+    private final Articulo articulo;
+    private final int cantidad;
+    private final LocalDateTime fechaHoraPedido;
 
     // constructor para número de pedido autoincrementable (será el índice + 1)
     public Pedido(Cliente cliente, Articulo articulo, int cantidad) {
+        this.numPedido = contadorPedidos++;
         this.cliente = cliente;
         this.articulo = articulo;
         this.cantidad = cantidad;
@@ -39,24 +42,8 @@ public class Pedido {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
     public Articulo getArticulo() {
         return articulo;
-    }
-
-    public void setArticulo(Articulo articulo) {
-        this.articulo = articulo;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
     }
 
     public LocalDateTime getFechaHoraPedido() {
@@ -65,12 +52,29 @@ public class Pedido {
 
     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
+    public float precioPedido(){
+        float precioArtiuclos = articulo.getPrecioVenta() * cantidad;
+        float gastosEnvio = articulo.getGastosEnvio();
+        float precioPedido = precioArtiuclos + gastosEnvio;
+
+        if (cliente instanceof Premium){
+            gastosEnvio -= (gastosEnvio * Premium.DESCUENTO / 100f);
+            precioPedido = precioArtiuclos + gastosEnvio;
+        }
+        DecimalFormat df = new DecimalFormat("#.00");
+        String precioFormateado = df.format(precioPedido);
+        precioFormateado = precioFormateado.replace(',', '.');
+
+        return Float.parseFloat(precioFormateado);
+    }
+
     @Override
     public String toString() {
         return "\nNúmero de pedido: #" + numPedido +
                 "\nCliente: " + cliente.getNombre() +
                 "\nArtículo: " + articulo.getCodigoProducto() +
                 "\nCantidad: " + cantidad +
+                "\nPrecio pedido: " + precioPedido() + "€" +
                 "\nFehca/hora del pedido: " + fechaHoraPedido.format(formato);
     }
 }

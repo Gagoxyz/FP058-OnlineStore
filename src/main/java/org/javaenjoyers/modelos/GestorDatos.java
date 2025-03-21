@@ -12,7 +12,7 @@ public class GestorDatos<T> {
     /**
      * Atributo de tipo Lista, contendrá los objetos de cada tipo
      */
-    private List<T> lista = new ArrayList<>();
+    private final List<T> lista = new ArrayList<>();
 
     public List<T> getLista(){
         return lista;
@@ -26,14 +26,8 @@ public class GestorDatos<T> {
         lista.add(elemento);
     }
 
-    /**
-     * Método para eliminar un objeto de la lista
-     * @param index Objeto para eliminar según el tipo de dato
-     * @return Devuelve True/False dependiendo si se eliminó
-     */
-    public boolean eliminarElemento(int index){
-        T elementoLista = lista.get(index);
-        return lista.remove(elementoLista);
+    public void eliminarObjeto(T elemento){
+        lista.remove(elemento);
     }
 
     public int listSize(){

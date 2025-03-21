@@ -8,12 +8,20 @@ import java.util.Objects;
 
 public class Controlador {
 
-    private Modelo modelo;
-    private Vista vista;
+    private final Modelo modelo;
+    private final Vista vista;
 
     public Controlador(Modelo modelo, Vista vista) {
         this.modelo = modelo;
         this.vista = vista;
+    }
+
+    public void bienvenida(){
+        vista.bienvenida();
+    }
+
+    public void inicio(){
+        vista.menuPrincipal();
     }
 
     public void opcionGestionClientes(int opcion){
@@ -49,15 +57,19 @@ public class Controlador {
         String email = vista.solicitarDato("Indica el Email:");
         String domicilio = vista.solicitarDato("Indica el Domicilio:");
 
-        if(Objects.equals(tipoCliente, "Estandar")) {
-            Cliente nuevoCliente = new Estandar(email, nombre, domicilio, nif);
-            modelo.agregarCliente(nuevoCliente);
+        Cliente nuevoCliente;
+        if (Objects.equals(tipoCliente, "Estandar")){
+            nuevoCliente = new Estandar(email, nombre, domicilio, nif);
         } else {
-            Cliente nuevoCliente = new Premium (email, nombre, domicilio, nif);
-            modelo.agregarCliente(nuevoCliente);
+            nuevoCliente = new Premium(email,nombre, domicilio, nif);
         }
+        modelo.agregarCliente(nuevoCliente);
 
-        vista.mostrarMensaje("\nCliente registrado correctamente.\n");
+        if(modelo.getClientes().getLista().contains(nuevoCliente)){
+            vista.mostrarMensaje("\nCliente registrado correctamente.\n");
+        } else {
+            vista.mostrarMensaje("\nNo se registro nuevo cliente, ya existe.");
+        }
     }
 
     public void mostrarClientes(){
@@ -132,7 +144,7 @@ public class Controlador {
 
     public void nuevoPedido(){
         String emailCliente = vista.solicitarDato("\nIndica el email del cliente:");
-        Cliente cliente = buscarClientePorEmail(emailCliente);
+        Cliente cliente = modelo.buscarClientePorEmail(emailCliente);
 
         while (cliente == null){
             vista.mostrarMensaje("\nCliente no existe, se procede a registradrlo.");
@@ -151,43 +163,62 @@ public class Controlador {
     }
 
     public Cliente buscarClientePorEmail(String email){
-        return modelo.getClientes().getLista().stream().filter(cliente -> cliente.getEmail().equalsIgnoreCase(email)).findFirst().orElse(null);
+        return modelo.getClientesPorEmail().get(email);
     }
 
     public Articulo buscarArticuloPorCodigo(String codigo){
-        return modelo.getArticulos().getLista().stream().filter(articulo -> articulo.getCodigoProducto().equalsIgnoreCase(codigo)).findFirst().orElse(null);
+        return modelo.getArticuloPorCodigo().get(codigo);
     }
 
     public void eliminarPedido(){
         modelo.mostrarPedidos();
         String numeroPedido = vista.solicitarDato("\nIndica el número del pedido:");
-        int nPedido = (Integer.parseInt(numeroPedido)) -1;
+        int nPedido = (Integer.parseInt(numeroPedido));
+        Pedido eliminarPedido = null;
+        for (Pedido p : modelo.getPedidos().getLista()){
+            if(p.getNumPedido() == nPedido){
+                eliminarPedido = p;
+                break;
+            }
+        }
 
-        Pedido eliminarPedido = modelo.getPedidos().getLista().get(nPedido);
-
-        if(!modelo.verificarTiempoPedido(eliminarPedido)){
-            modelo.eliminarPedido(nPedido);
-            vista.mostrarMensaje("\nPedido eliminado correctamente.\n");
+        if (eliminarPedido != null){
+            if(!modelo.verificarTiempoPedido(eliminarPedido)){
+                modelo.eliminarPedido(nPedido);
+                vista.mostrarMensaje("\nPedido eliminado correctamente.\n");
+            } else {
+                vista.mostrarMensaje("\nPedido enviado, no se puede eliminar.\n");
+            }
         } else {
-            vista.mostrarMensaje("\nPedido enviado, no se puede eliminar.");
+            vista.mostrarMensaje("\nNo hay ningún pedido con ese número.\n");
         }
     }
 
     public void mostrarPedidosPdteEnvio(){
-        String nombreCliente = vista.solicitarDato("\nIndica el nombre del cliente:");
+        String emailCliente = vista.solicitarDato("\nIndica el email del cliente:");
+        boolean clienteEncontrado = false;
         for (Pedido pedido : modelo.getPedidos().getLista()){
-            if(pedido.getCliente().getNombre().equals(nombreCliente) && !modelo.verificarTiempoPedido(pedido)){
+            if(pedido.getCliente().getEmail().equals(emailCliente) && !modelo.verificarTiempoPedido(pedido)){
                 vista.mostrarMensaje(pedido.toString());
+                clienteEncontrado = true;
             }
+        }
+        if(!clienteEncontrado){
+            vista.mostrarMensaje("\nNo hay ningún cliente registrado con el correo " + emailCliente + "\n");
         }
     }
 
     public void mostrarPedidosEnviados(){
-        String nombreCliente = vista.solicitarDato("\nIndica el nombre del cliente:");
+        String emailCliente = vista.solicitarDato("\nIndica el email del cliente:");
+        boolean clienteEncontrado = false;
         for (Pedido pedido : modelo.getPedidos().getLista()){
-            if(pedido.getCliente().getNombre().equals(nombreCliente) && modelo.verificarTiempoPedido(pedido)){
+            if(pedido.getCliente().getEmail().equals(emailCliente) && modelo.verificarTiempoPedido(pedido)){
                 vista.mostrarMensaje(pedido.toString());
+                clienteEncontrado = true;
             }
+        }
+        if(!clienteEncontrado){
+            vista.mostrarMensaje("\nNo hay ningún cliente registrado con el correo " + emailCliente + "\n");
         }
     }
 }

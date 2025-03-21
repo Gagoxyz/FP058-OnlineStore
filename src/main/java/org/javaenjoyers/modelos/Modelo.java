@@ -2,12 +2,17 @@ package org.javaenjoyers.modelos;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class Modelo {
 
-    private GestorDatos<Cliente> gestorClientes;
-    private GestorDatos<Articulo> gestorArticulos;
-    private GestorDatos<Pedido> gestorPedidos;
+    private final GestorDatos<Cliente> gestorClientes;
+    private final GestorDatos<Articulo> gestorArticulos;
+    private final GestorDatos<Pedido> gestorPedidos;
+    private final Map<String, Cliente> clientesPorEmail = new HashMap<>();
+    private final Map<String, Articulo> articulosPorCodigo = new HashMap<>();
 
     public Modelo(){
         gestorClientes = new GestorDatos<>();
@@ -15,12 +20,22 @@ public class Modelo {
         gestorPedidos = new GestorDatos<>();
     }
 
+    public Map<String, Cliente> getClientesPorEmail(){
+        return clientesPorEmail;
+    }
+
     public GestorDatos<Cliente> getClientes(){
         return gestorClientes;
     }
 
     public void agregarCliente(Cliente cliente){
+        for (Cliente cli : getClientes().getLista()){
+            if (Objects.equals(cli.getEmail(), cliente.getEmail())){
+                return;
+            }
+        }
         gestorClientes.agregar(cliente);
+        clientesPorEmail.put(cliente.getEmail(), cliente);
     }
 
     public void mostrarClientes(){
@@ -35,16 +50,29 @@ public class Modelo {
         gestorClientes.getLista().stream().filter(cliente -> cliente instanceof Premium).forEach(System.out::println);
     }
 
+    public Cliente buscarClientePorEmail(String email){
+        return clientesPorEmail.get(email);
+    }
+
     public GestorDatos<Articulo> getArticulos(){
         return gestorArticulos;
     }
 
+    public Map<String , Articulo> getArticuloPorCodigo(){
+        return articulosPorCodigo;
+    }
+
     public void agregarArticulo(Articulo articulo){
         gestorArticulos.agregar(articulo);
+        articulosPorCodigo.put(articulo.getCodigoProducto(), articulo);
     }
 
     public void mostrarArticulos(){
         gestorArticulos.getLista().forEach(System.out::println);
+    }
+
+    public Articulo buscarArticuloPorCodigo(String codigo){
+        return articulosPorCodigo.get(codigo);
     }
 
     public void agregarPedido(Pedido pedido){
@@ -73,7 +101,7 @@ public class Modelo {
         return excesoTiempo;
     }
 
-    public void eliminarPedido(int index){
-        gestorPedidos.eliminarElemento(index);
+    public void eliminarPedido(int numPedido){
+        gestorPedidos.getLista().stream().filter(pedido -> pedido.getNumPedido() == numPedido).findFirst().ifPresent(gestorPedidos::eliminarObjeto);
     }
 }

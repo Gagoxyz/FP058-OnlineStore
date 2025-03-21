@@ -2,11 +2,11 @@ package org.javaenjoyers.modelos;
 
 public class Articulo {
 
-    private String codigoProducto;
-    private String descripcion;
-    private float precioVenta;
-    private float gastosEnvio;
-    private int tiempoPrepEnvio;
+    private final String codigoProducto;
+    private final String descripcion;
+    private final float precioVenta;
+    private final float gastosEnvio;
+    private final int tiempoPrepEnvio;
 
     public Articulo(String codigoProducto, String descripcion, float precioVenta, float gastosEnvio, int tiempoPrepEnvio) {
         this.codigoProducto = codigoProducto;
@@ -20,40 +20,16 @@ public class Articulo {
         return codigoProducto;
     }
 
-    public void setCodigoProducto(String codigoProducto) {
-        this.codigoProducto = codigoProducto;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     public float getPrecioVenta() {
         return precioVenta;
-    }
-
-    public void setPrecioVenta(float precioVenta) {
-        this.precioVenta = precioVenta;
     }
 
     public float getGastosEnvio() {
         return gastosEnvio;
     }
 
-    public void setGastosEnvio(float gastosEnvio) {
-        this.gastosEnvio = gastosEnvio;
-    }
-
     public int getTiempoPrepEnvio() {
         return tiempoPrepEnvio;
-    }
-
-    public void setTiempoPrepEnvio(int tiempoPrepEnvio) {
-        this.tiempoPrepEnvio = tiempoPrepEnvio;
     }
 
     @Override

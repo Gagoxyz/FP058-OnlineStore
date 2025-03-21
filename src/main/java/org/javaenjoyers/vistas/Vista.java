@@ -8,9 +8,13 @@ public class Vista {
 
     Scanner teclado = new Scanner(System.in);
 
-    private final Controlador controlador;
+    private Controlador controlador;
 
     public Vista(Controlador controlador) {
+        this.controlador = controlador;
+    }
+
+    public void setControlador(Controlador controlador) {
         this.controlador = controlador;
     }
 
@@ -30,18 +34,18 @@ public class Vista {
 
         while(true) {
             System.out.println("\nSelecciona una opción:");
-            System.out.println("1. Gestión clientes");
-            System.out.println("2. Gestión artículos");
+            System.out.println("1. Gestión artículos");
+            System.out.println("2. Gestión clientes");
             System.out.println("3. Gestión pedidos");
             System.out.println("0. Salir");
             opcion = teclado.nextInt();
 
             switch (opcion){
                 case 1:
-                    menuClientes();
+                    menuArticulos();
                     break;
                 case 2:
-                    menuArticulos();
+                    menuClientes();
                     break;
                 case 3:
                     menuPedidos();
@@ -53,6 +57,19 @@ public class Vista {
                     break;
             }
         }
+    }
+
+    public void menuArticulos(){
+        int opcion;
+
+        System.out.println("\nMenú artículos:");
+        System.out.println("1. Añadir artículo");
+        System.out.println("2. Mostrar artículos");
+        System.out.println("0. Atrás");
+        opcion = teclado.nextInt();
+        teclado.nextLine();
+
+        controlador.opcionGestionArticulos(opcion);
     }
 
     public void menuClientes(){
@@ -68,19 +85,6 @@ public class Vista {
         teclado.nextLine();
 
         controlador.opcionGestionClientes(opcion);
-    }
-
-    public void menuArticulos(){
-        int opcion;
-
-        System.out.println("\nMenú artículos:");
-        System.out.println("1. Añadir artículo");
-        System.out.println("2. Mostrar artículos");
-        System.out.println("0. Atrás");
-        opcion = teclado.nextInt();
-        teclado.nextLine();
-
-        controlador.opcionGestionArticulos(opcion);
     }
 
     public void menuPedidos(){
