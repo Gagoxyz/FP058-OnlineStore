@@ -10,29 +10,35 @@ public class Main {
     public static void main(String[] args) {
 
         // nueva tienda para JavaEnjoyers
-        Modelo modelo = new Modelo ();
-        Controlador controlador = new Controlador(modelo);
-        Vista vista = new Vista(controlador);
+        OnlineStore tienda = new OnlineStore("63014520P");
+        Vista vista = new Vista();
+        Controlador controlador = new Controlador(tienda, vista);
 
         // clases de prueba
         Cliente cliente01 = new Estandar("manuela@estandar.com", "Manuela", "c/cliente estandar S/N", "123456789");
         Cliente cliente02 = new Premium("david@premium.com", "David", "c/cliente estandar S/N", "87654321X");
         Cliente cliente03 = new Premium("irene@premium.com", "Irene", "c/cliente de al lado S/N", "78420365F");
         Cliente cliente04 = new Estandar("sofia@estandar.com", "Sofía", "c/que maja soy S/N", "89624542S");
-        Articulo articulo01 = new Articulo("A001", "Artículo de prueba", 20.99f, 4.99f, 60);
-        Pedido pedido01 = new Pedido(1, cliente01, articulo01, 1, LocalDateTime.now());
-        Pedido pedido02 = new Pedido(2, cliente03, articulo01, 30);
+        Articulo articulo01 = new Articulo("A001", "Estante de madera de pino", 20.99f, 4.99f, 0);
+        Articulo articulo02 = new Articulo("A002", "Silla de despacho", 86.35f, 8.36f, 5);
+        Pedido pedido01 = new Pedido(1, cliente01, articulo01, 1);
+        Pedido pedido02 = new Pedido(2, cliente01, articulo02, 2);
+        Pedido pedido03 = new Pedido(3, cliente02, articulo01, 3);
+        Pedido pedido04 = new Pedido(4, cliente02, articulo02, 2);
+        Pedido pedido05 = new Pedido(5, cliente02, articulo02, 3);
 
-        // añadimos los clientes, articulos y pedidos a nuestra tienda
-        modelo.agregarCliente(cliente01);
-        modelo.agregarCliente(cliente02);
-        modelo.agregarCliente(cliente03);
-        modelo.agregarCliente(cliente04);
-        modelo.agregarArticulo(articulo01);
-        modelo.agregarPedido(pedido01);
+        tienda.getClientes().add(cliente01);
+        tienda.getClientes().add(cliente02);
+        tienda.getClientes().add(cliente03);
+        tienda.getClientes().add(cliente04);
+        tienda.getArticulos().add(articulo01);
+        tienda.getArticulos().add(articulo02);
+        tienda.getPedidos().add(pedido01);
+        tienda.getPedidos().add(pedido02);
+        tienda.getPedidos().add(pedido03);
+        tienda.getPedidos().add(pedido04);
+        tienda.getPedidos().add(pedido05);
 
-
-        vista.bienvenida();
-        vista.menuPrincipal();
+        controlador.inicio();
     }
 }

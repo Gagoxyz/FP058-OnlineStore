@@ -9,7 +9,7 @@ public class Estandar extends Cliente {
 
     @Override
     public String toString() {
-        return "Cliente ESTANDAR" +
+        return "\nCliente ESTANDAR" +
                 "\nNombre: " + getNombre() +
                 "\nNIF: " + getNif() +
                 "\nEmail: " + getEmail() +

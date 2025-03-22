@@ -3,7 +3,7 @@ package org.javaenjoyers.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Cliente {
+public class Cliente {
 
     private String email;
     private String nombre;
@@ -60,4 +60,5 @@ public abstract class Cliente {
                 ", nif='" + nif + '\'' +
                 '}';
     }
+
 }

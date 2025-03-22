@@ -1,48 +1,66 @@
 package org.javaenjoyers.modelo;
 
-public class OnlineStore {
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.TreeSet;
 
+public class OnlineStore {
     private String nif;
-    private Modelo modelo;
+    private ArrayList<Cliente> clientes = new ArrayList<>();
+    private ArrayList<Articulo> articulos = new ArrayList<>();
+    private ArrayList<Pedido> pedidos = new ArrayList<>();
+
+    public OnlineStore(ArrayList<Articulo> articulos, ArrayList<Cliente> clientes, String nif, ArrayList<Pedido> pedidos) {
+        this.articulos = articulos;
+        this.clientes = clientes;
+        this.nif = nif;
+        this.pedidos = pedidos;
+    }
 
     public OnlineStore(String nif) {
         this.nif = nif;
-        this.modelo = new Modelo();
     }
 
-//    public void agregarCliente(Cliente cliente){
-//        modelo.agregarCliente(cliente);
-//    }
-//
-//    public void mostrarClientes(){
-//        modelo.mostrarClientes().forEach(System.out::println);
-//    }
-//
-//    public void eliminarCliente(Cliente cliente){
-//        modelo.eliminarCliente(cliente);
-//    }
-//
-//    public void agregarArticulo(Articulo articulo){
-//        modelo.agregarArticulo(articulo);
-//    }
-//
-//    public void mostrarArticulos(){
-//        modelo.mostrarArticulos().forEach(System.out::println);
-//    }
-//
-//    public void eliminarArticulo(Articulo articulo){
-//        modelo.eliminarArticulo(articulo);
-//    }
-//
-//    public void agregarPedido(Pedido pedido){
-//        modelo.agregarPedido(pedido);
-//    }
-//
-//    public void mostrarPedidos(){
-//        modelo.mostrarPedidos().forEach(System.out::println);
-//    }
-//
-//    public void eliminarPedido(Pedido pedido){
-//        modelo.eliminarPedido(pedido);
-//    }
+    public ArrayList<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(ArrayList<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+
+    public String getNif() {
+        return nif;
+    }
+
+    public void setNif(String nif) {
+        this.nif = nif;
+    }
+
+    public ArrayList<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(ArrayList<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public ArrayList<Articulo> getArticulos() {
+        return articulos;
+    }
+
+    public void setArticulos(ArrayList<Articulo> articulos) {
+        this.articulos = articulos;
+    }
+
+    @Override
+    public String toString() {
+        return "OnlineStore{" +
+                "articulos=" + articulos +
+                ", nif='" + nif + '\'' +
+                ", clientes=" + clientes +
+                ", pedidos=" + pedidos +
+                '}';
+    }
 }

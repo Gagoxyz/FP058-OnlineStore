@@ -1,6 +1,7 @@
 package org.javaenjoyers.modelo;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Pedido {
 
@@ -54,14 +55,20 @@ public class Pedido {
         return fechaHoraPedido;
     }
 
+    //Metodo para convertir la fecha y hora en algo más legible
+    public String formatoFecha(LocalDateTime fechaOrginal){
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String fechaFinal = fechaOrginal.format(formato);
+        return fechaFinal;
+    }
+
     @Override
     public String toString() {
-        return "Pedido{" +
-                "numPedido=" + numPedido +
-                ", cliente=" + cliente +
-                ", articulo=" + articulo +
-                ", cantidad=" + cantidad +
-                ", fechaHoraPedido=" + fechaHoraPedido +
-                '}';
+        return "\nPEDIDO: " +
+                "\nNúmero de pedido: " + numPedido +
+                "\nCliente: " + cliente.getEmail() +
+                "\nArtículo: " + articulo.getCodigoProducto() +
+                "\nCantidad: " + cantidad +
+                "\nFecha y hora del pedido: " + formatoFecha(fechaHoraPedido) + "\n";
     }
 }
