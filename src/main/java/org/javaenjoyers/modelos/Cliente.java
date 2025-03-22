@@ -9,7 +9,7 @@ public abstract class Cliente {
     private final String nombre;
     private final String domicilio;
     private final String nif;
-    private List<Pedido> pedidos;
+    private final List<Pedido> pedidos;
 
     public Cliente(String email, String nombre, String domicilio, String nif) {
         this.email = email;
@@ -33,6 +33,10 @@ public abstract class Cliente {
 
     public String getNif() {
         return nif;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
     }
 
     @Override

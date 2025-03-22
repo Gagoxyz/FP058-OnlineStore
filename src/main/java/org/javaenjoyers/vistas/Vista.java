@@ -95,6 +95,7 @@ public class Vista {
         System.out.println("2. Eliminar pedido");
         System.out.println("3. Mostrar pedidos pendientes");
         System.out.println("4. Mostrar pedidos enviados");
+        System.out.println("5. Resumen de pedidos");
         System.out.println("0. Atrás");
         opcion = teclado.nextInt();
         teclado.nextLine();

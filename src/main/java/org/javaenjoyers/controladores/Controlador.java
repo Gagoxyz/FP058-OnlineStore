@@ -102,14 +102,39 @@ public class Controlador {
 
     public void nuevoArticulo(){
         String codigoProducto = vista.solicitarDato("\nCódigo del artículo:");
+        codigoProducto = codigoProducto.toUpperCase();
+        for (Articulo articulo : modelo.getArticulos().getLista()){
+            if(Objects.equals(articulo.getCodigoProducto(), codigoProducto)){
+                vista.mostrarMensaje("\nCódigo de producto ya registrado");
+                return;
+            }
+        }
         String descripcion = vista.solicitarDato("Descripción del artículo:");
         String precioVenta = vista.solicitarDato("Precio de venta:");
-        float floatPV = Float.parseFloat(precioVenta);
+        precioVenta = precioVenta.replace(',', '.');
+        float floatPV;
+        try {
+            floatPV = Float.parseFloat(precioVenta);
+        } catch (Exception e){
+            vista.mostrarMensaje("\nDato introducido no válido. Ejemplo correcto '4.99', '4,99' o '4'");
+            return;
+        }
         String gastosEnvio = vista.solicitarDato("Gastos de envío:");
-        float floatGE = Float.parseFloat(gastosEnvio);
+        gastosEnvio = gastosEnvio.replace(',', '.');
+        float floatGE;
+        try {
+            floatGE = Float.parseFloat(gastosEnvio);
+        } catch (Exception e){
+            vista.mostrarMensaje("\nDato introducido no válido. Ejemplo correcto '4.99', '4,99' o '4'");
+            return;
+        }
         String tiempoPrepEnvio = vista.solicitarDato("Tiempo preparación envío:");
-        int intTPE = Integer.parseInt(tiempoPrepEnvio);
-
+        int intTPE = 0;
+        try {
+            intTPE = Integer.parseInt(tiempoPrepEnvio);
+        } catch (Exception e){
+            vista.mostrarMensaje("\nDato introducido no válido.\nDebe ser el tiempo en segundos (número entero, ej: '120'");
+        }
         Articulo nuevoArticulo = new Articulo(codigoProducto, descripcion, floatPV, floatGE, intTPE);
         modelo.agregarArticulo(nuevoArticulo);
 
@@ -134,6 +159,9 @@ public class Controlador {
             case 4:
                 mostrarPedidosEnviados();
                 break;
+            case 5:
+                resumenPedidos();
+                break;
             case 0:
                 return;
             default:
@@ -153,9 +181,16 @@ public class Controlador {
         }
         modelo.mostrarArticulos();
         String codigoProducto = vista.solicitarDato("\nIndica el código del producto:");
+        codigoProducto = codigoProducto.toUpperCase();
         Articulo articulo = buscarArticuloPorCodigo(codigoProducto);
         String cantidad = vista.solicitarDato("\nIndica la cantidad:");
-        int intCantidad = Integer.parseInt(cantidad);
+        int intCantidad;
+        try {
+            intCantidad = Integer.parseInt(cantidad);
+        } catch (Exception e){
+            vista.mostrarMensaje("\nCantidad introducida no válida, debe ser un número entero.");
+            return;
+        }
 
         Pedido nuevoPedido = new Pedido(cliente, articulo, intCantidad);
         modelo.agregarPedido(nuevoPedido);
@@ -172,7 +207,10 @@ public class Controlador {
 
     public void eliminarPedido(){
         modelo.mostrarPedidos();
-        String numeroPedido = vista.solicitarDato("\nIndica el número del pedido:");
+        String numeroPedido = vista.solicitarDato("\nIndica el número del pedido (0 para salir):");
+        if(Objects.equals(numeroPedido, "0")){
+            return;
+        }
         int nPedido = (Integer.parseInt(numeroPedido));
         Pedido eliminarPedido = null;
         for (Pedido p : modelo.getPedidos().getLista()){
@@ -196,29 +234,43 @@ public class Controlador {
 
     public void mostrarPedidosPdteEnvio(){
         String emailCliente = vista.solicitarDato("\nIndica el email del cliente:");
-        boolean clienteEncontrado = false;
-        for (Pedido pedido : modelo.getPedidos().getLista()){
-            if(pedido.getCliente().getEmail().equals(emailCliente) && !modelo.verificarTiempoPedido(pedido)){
+        Cliente cliente = modelo.buscarClientePorEmail(emailCliente);
+        if(cliente == null){
+            vista.mostrarMensaje("\nNo hay ningún cliente registrado con el correo " + emailCliente + "\n");
+            return;
+        }
+        boolean pedidosPdteEnvio = false;
+        for (Pedido pedido : cliente.getPedidos()){
+            if(!modelo.verificarTiempoPedido(pedido)){
                 vista.mostrarMensaje(pedido.toString());
-                clienteEncontrado = true;
+                pedidosPdteEnvio = true;
             }
         }
-        if(!clienteEncontrado){
-            vista.mostrarMensaje("\nNo hay ningún cliente registrado con el correo " + emailCliente + "\n");
+        if(!pedidosPdteEnvio){
+            vista.mostrarMensaje("\nEl cliente no tiene pedidos pendientes de envío.\n");
         }
     }
 
-    public void mostrarPedidosEnviados(){
+    public void mostrarPedidosEnviados() {
         String emailCliente = vista.solicitarDato("\nIndica el email del cliente:");
-        boolean clienteEncontrado = false;
-        for (Pedido pedido : modelo.getPedidos().getLista()){
-            if(pedido.getCliente().getEmail().equals(emailCliente) && modelo.verificarTiempoPedido(pedido)){
+        Cliente cliente = modelo.buscarClientePorEmail(emailCliente);
+        if (cliente == null) {
+            vista.mostrarMensaje("\nNo hay ningún cliente registrado con el correo " + emailCliente + "\n");
+            return;
+        }
+        boolean pedidosPdteEnvio = false;
+        for (Pedido pedido : cliente.getPedidos()) {
+            if (modelo.verificarTiempoPedido(pedido)) {
                 vista.mostrarMensaje(pedido.toString());
-                clienteEncontrado = true;
+                pedidosPdteEnvio = true;
             }
         }
-        if(!clienteEncontrado){
-            vista.mostrarMensaje("\nNo hay ningún cliente registrado con el correo " + emailCliente + "\n");
+        if (!pedidosPdteEnvio) {
+            vista.mostrarMensaje("\nEl cliente no tiene pedidos enviados.\n");
         }
+    }
+
+    public void resumenPedidos(){
+        modelo.mostrarPedidos();
     }
 }

@@ -75,6 +75,11 @@ public class Modelo {
         int numPedido = gestorPedidos.listSize() + 1;
         pedido.setNumPedido(numPedido);
         gestorPedidos.agregar(pedido);
+
+        Cliente cliente = pedido.getCliente();
+        if(cliente != null){
+            cliente.getPedidos().add(pedido);
+        }
     }
 
     public void mostrarPedidos(){
