@@ -4,6 +4,10 @@ import org.javaenjoyers.controladores.Controlador;
 import org.javaenjoyers.modelos.*;
 import org.javaenjoyers.vistas.Vista;
 
+/**
+ * Aplicación para la gestión de pedidos
+ * @author JavaEnjoyers
+ */
 public class Main {
     public static void main(String[] args) {
 

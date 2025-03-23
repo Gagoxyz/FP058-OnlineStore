@@ -13,7 +13,7 @@ public class Pedido {
     private final int cantidad;
     private final LocalDateTime fechaHoraPedido;
 
-    // constructor para número de pedido autoincrementable (será el índice + 1)
+    // constructor para número de pedido autoincrementable
     public Pedido(Cliente cliente, Articulo articulo, int cantidad) {
         this.numPedido = contadorPedidos++;
         this.cliente = cliente;
@@ -24,6 +24,7 @@ public class Pedido {
 
     // constructor para crear objetos con diferentes fechas
     public Pedido(Cliente cliente, Articulo articulo, int cantidad, LocalDateTime fechaHoraPedido) {
+        this.numPedido = contadorPedidos++;
         this.cliente = cliente;
         this.articulo = articulo;
         this.cantidad = cantidad;
@@ -52,6 +53,7 @@ public class Pedido {
 
     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
+    // Calculará el precio del pedido aplicando los descuentos necesarios
     public float precioPedido(){
         float precioArtiuclos = articulo.getPrecioVenta() * cantidad;
         float gastosEnvio = articulo.getGastosEnvio();

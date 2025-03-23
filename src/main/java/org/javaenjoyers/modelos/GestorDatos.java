@@ -26,10 +26,18 @@ public class GestorDatos<T> {
         lista.add(elemento);
     }
 
+    /**
+     * Eliminará un elemento de la lista en función del Tipo de dato
+     * @param elemento Objeto que se eliminará
+     */
     public void eliminarObjeto(T elemento){
         lista.remove(elemento);
     }
 
+    /**
+     * Mostrará el tamaño de la lista
+     * @return Devuelve el tamaño de la lista
+     */
     public int listSize(){
         return lista.size();
     }

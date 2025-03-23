@@ -2,6 +2,10 @@ package org.javaenjoyers.modelos;
 
 import java.time.LocalDateTime;
 
+/**
+ * Objetos que se cargarán con el inicio de la aplicación
+ */
+
 public class CargaDatos {
 
   public static void cargarDatos(Modelo modelo){

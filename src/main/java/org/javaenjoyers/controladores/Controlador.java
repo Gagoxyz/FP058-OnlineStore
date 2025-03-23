@@ -5,6 +5,9 @@ import org.javaenjoyers.vistas.Vista;
 
 import java.util.Objects;
 
+/**
+ * Clase Controlador, se encargará de realizar la lógica e interactuar entre el Modelo y la Vista
+ */
 
 public class Controlador {
 
@@ -16,15 +19,32 @@ public class Controlador {
         this.vista = vista;
     }
 
+    /**
+     * Mostrará en la vista los prints de bienvenida
+     */
     public void bienvenida(){
         vista.bienvenida();
     }
 
+    /**
+     * Mostrará en la Vista el menú principal
+     */
     public void inicio(){
         vista.menuPrincipal();
     }
 
-    public void opcionGestionClientes(int opcion){
+    /**
+     * Menú para la gestión de clientes, recibirá la opción indicada por el usuario dede la vista
+     * @param opcionVista Opción indicada por el usuario
+     */
+    public void opcionGestionClientes(String opcionVista){
+        int opcion;
+        try {
+            opcion = Integer.parseInt(opcionVista);
+        } catch (Exception e){
+            vista.mostrarMensaje("\nOpción incorrecta.");
+            return;
+        }
         switch (opcion){
             case 1:
                 nuevoCliente();
@@ -46,6 +66,9 @@ public class Controlador {
         }
     }
 
+    /**
+     * Añadirá un nuevo cliente con los datos registrados por la entrada de usuario
+     */
     public void nuevoCliente(){
         String tipoCliente = vista.solicitarDato("\nIndica tiepo cliente (Estandar/Premium):");
         if(!Objects.equals(tipoCliente, "Estandar") && !Objects.equals(tipoCliente, "Premium")){
@@ -68,23 +91,43 @@ public class Controlador {
         if(modelo.getClientes().getLista().contains(nuevoCliente)){
             vista.mostrarMensaje("\nCliente registrado correctamente.\n");
         } else {
-            vista.mostrarMensaje("\nNo se registro nuevo cliente, ya existe.");
+            vista.mostrarMensaje("\nNo se registró nuevo cliente, ya existe en el sistema.");
         }
     }
 
+    /**
+     * Mostrará el listado de clientes (se llamará desde el Modelo)
+     */
     public void mostrarClientes(){
         modelo.mostrarClientes();
     }
 
+    /**
+     * Mostrará el listado de clientes "Estandar" (se llamará desde el Modelo)
+     */
     public void mostrarClientesEstandar(){
         modelo.mostrarClientesEstandar();
     }
 
+    /**
+     * Mostrará el listado de clientes "Premium" (se llamará desde el Modelo)
+     */
     public void mostrarClientesPremium(){
         modelo.mostrarClientesPremium();
     }
 
-    public void opcionGestionArticulos(int opcion){
+    /**
+     * Menú para la gestión de artículos, recibirá la opción indicada por el usuario dede la vista
+     * @param opcionVista Opción indicada por el usuario
+     */
+    public void opcionGestionArticulos(String opcionVista){
+        int opcion;
+        try {
+            opcion = Integer.parseInt(opcionVista);
+        } catch (Exception e){
+            vista.mostrarMensaje("\nOpción incorrecta.");
+            return;
+        }
         switch (opcion){
             case 1:
                 nuevoArticulo();
@@ -100,6 +143,9 @@ public class Controlador {
         }
     }
 
+    /**
+     * Añadirá un nuevo artículo con los datos registrados por la entrada de usuario
+     */
     public void nuevoArticulo(){
         String codigoProducto = vista.solicitarDato("\nCódigo del artículo:");
         codigoProducto = codigoProducto.toUpperCase();
@@ -129,11 +175,12 @@ public class Controlador {
             return;
         }
         String tiempoPrepEnvio = vista.solicitarDato("Tiempo preparación envío:");
-        int intTPE = 0;
+        int intTPE;
         try {
             intTPE = Integer.parseInt(tiempoPrepEnvio);
         } catch (Exception e){
             vista.mostrarMensaje("\nDato introducido no válido.\nDebe ser el tiempo en segundos (número entero, ej: '120'");
+            return;
         }
         Articulo nuevoArticulo = new Articulo(codigoProducto, descripcion, floatPV, floatGE, intTPE);
         modelo.agregarArticulo(nuevoArticulo);
@@ -141,11 +188,25 @@ public class Controlador {
         vista.mostrarMensaje("\nArtículo registado correctamente.\n");
     }
 
+    /**
+     * Mostrará el listado de artículos (se llamará desde el Modelo)
+     */
     public void mostrarArticulos(){
         modelo.mostrarArticulos();
     }
 
-    public void opcionGestionPedidos(int opcion){
+    /**
+     * Menú para la gestión de pedidos, recibirá la opción indicada por el usuario dede la vista
+     * @param opcionVista Opción indicada por el usuario
+     */
+    public void opcionGestionPedidos(String opcionVista){
+        int opcion;
+        try {
+            opcion = Integer.parseInt(opcionVista);
+        } catch (Exception e){
+            vista.mostrarMensaje("\nOpción incorrecta.");
+            return;
+        }
         switch (opcion){
             case 1:
                 nuevoPedido();
@@ -170,6 +231,9 @@ public class Controlador {
         }
     }
 
+    /**
+     * Añadirá un nuevo pedido con los datos registrados por la entrada de usuario
+     */
     public void nuevoPedido(){
         String emailCliente = vista.solicitarDato("\nIndica el email del cliente:");
         Cliente cliente = modelo.buscarClientePorEmail(emailCliente);
@@ -197,21 +261,40 @@ public class Controlador {
         vista.mostrarMensaje("\nSe ha registrado el pedido correctamente.\n");
     }
 
+    /**
+     * Obtendrá un cliente buscándolo por el email
+     * @param email Email del cliente por el que realizará la búsqueda
+     * @return Devuelve un objeto de tipo Cliente
+     */
     public Cliente buscarClientePorEmail(String email){
         return modelo.getClientesPorEmail().get(email);
     }
 
+    /**
+     * Obtendrá un artículo buscándolo por el código de producto
+     * @param codigo Código de producto por el que realizará la búsqueda
+     * @return Devuelve un objeto de tipo Articulo
+     */
     public Articulo buscarArticuloPorCodigo(String codigo){
         return modelo.getArticulosPorCodigo().get(codigo);
     }
 
+    /**
+     * Eliminará un pedido indicado por el usuario
+     */
     public void eliminarPedido(){
         modelo.mostrarPedidos();
         String numeroPedido = vista.solicitarDato("\nIndica el número del pedido (0 para salir):");
         if(Objects.equals(numeroPedido, "0")){
             return;
         }
-        int nPedido = (Integer.parseInt(numeroPedido));
+        int nPedido;
+        try {
+            nPedido = (Integer.parseInt(numeroPedido));
+        } catch (Exception e){
+            vista.mostrarMensaje("\nDato introducido no válido, debe ser un número entero.");
+            return;
+        }
         Pedido eliminarPedido = null;
         for (Pedido p : modelo.getPedidos().getLista()){
             if(p.getNumPedido() == nPedido){
@@ -232,6 +315,9 @@ public class Controlador {
         }
     }
 
+    /**
+     * Mostrará los pedidos que estén pendientes de enviar, se filtrará por el email del cliente
+     */
     public void mostrarPedidosPdteEnvio(){
         String emailCliente = vista.solicitarDato("\nIndica el email del cliente:");
         Cliente cliente = modelo.buscarClientePorEmail(emailCliente);
@@ -251,6 +337,9 @@ public class Controlador {
         }
     }
 
+    /**
+     * Mostrará los pedidos que estén enviados, se filtrará por el email del cliente
+     */
     public void mostrarPedidosEnviados() {
         String emailCliente = vista.solicitarDato("\nIndica el email del cliente:");
         Cliente cliente = modelo.buscarClientePorEmail(emailCliente);
@@ -270,6 +359,9 @@ public class Controlador {
         }
     }
 
+    /**
+     * Mostrará un resumen con todos los pedidos
+     */
     public void resumenPedidos(){
         modelo.mostrarPedidos();
     }
