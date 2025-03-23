@@ -1,9 +1,6 @@
 package org.javaenjoyers.modelo;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.TreeSet;
 
 public class OnlineStore {
     private String nif;
@@ -62,5 +59,74 @@ public class OnlineStore {
                 ", clientes=" + clientes +
                 ", pedidos=" + pedidos +
                 '}';
+    }
+
+    public void addCliente(Cliente cliente){
+        getClientes().add(cliente);
+    }
+
+    public void showClientes(){
+        System.out.println(getClientes());
+    }
+
+    public void showEstandar(){
+        for(Cliente i : getClientes()){
+            if(i instanceof Estandar){
+                System.out.println(i);
+            }
+        }
+    }
+
+    public void showPremium(){
+        for(Cliente i : getClientes()){
+            if(i instanceof Premium){
+                System.out.println(i);
+            }
+        }
+    }
+
+    public void addArticulo(Articulo articulo){
+        getArticulos().add(articulo);
+    }
+
+    public void showArticulos(){
+        System.out.println(getArticulos());
+    }
+
+    public void addPedido(Pedido pedido){
+        getPedidos().add(pedido);
+    }
+
+    public int buscarNumeroPedido(){
+        return getPedidos().getLast().getNumPedido() + 1;
+    }
+
+    public void removePedido(Pedido pedido){
+        getPedidos().removeIf(p -> p.getNumPedido() == pedido.getNumPedido());
+    }
+
+    public boolean showPedidos(boolean pendiente, Cliente cliente){
+        boolean estadoPedido;
+        boolean contador = false;
+        if(cliente == null){
+            for(Pedido i : getPedidos()){
+                estadoPedido = i.envioPendiente();
+                if(estadoPedido == pendiente){
+                    System.out.println(i);
+                    contador = true;
+                }
+            }
+        }else{
+            for(Pedido i : getPedidos()){
+                if(i.getCliente().equals(cliente)){
+                    estadoPedido = i.envioPendiente();
+                    if(estadoPedido == pendiente){
+                        System.out.println(i);
+                        contador = true;
+                    }
+                }
+            }
+        }
+        return contador;
     }
 }

@@ -2,8 +2,6 @@ package org.javaenjoyers.controlador;
 
 import org.javaenjoyers.modelo.*;
 import org.javaenjoyers.vista.*;
-import java.time.Duration;
-import java.time.LocalDateTime;
 
 public class Controlador {
     private OnlineStore tienda;
@@ -35,13 +33,13 @@ public class Controlador {
                                 addCliente();
                                 break;
                             case 2:
-                                showCliente();
+                                tienda.showClientes();
                                 break;
                             case 3:
-                                showEstandar();
+                                tienda.showEstandar();
                                 break;
                             case 4:
-                                showPremium();
+                                tienda.showPremium();
                                 break;
                             case 0:
                                 seguir = false;
@@ -59,8 +57,7 @@ public class Controlador {
                                 addArticulo();
                                 break;
                             case 2:
-                                showArticulos();
-                                break;
+                                tienda.showArticulos();                                break;
                             case 0:
                                 seguir = false;
                                 break;
@@ -80,10 +77,10 @@ public class Controlador {
                                 removePedido();
                                 break;
                             case 3:
-                                showPendientes();
+                                showPedidos(true);
                                 break;
                             case 4:
-                                showEnviados();
+                                showPedidos(false);
                                 break;
                             case 0:
                                 seguir = false;
@@ -117,34 +114,14 @@ public class Controlador {
         switch (tipoBueno){
             case 1:
                 Cliente clienteEstandar = new Estandar(clienteModelo.getEmail(), clienteModelo.getNombre(), clienteModelo.getDomicilio(), clienteModelo.getNif());
-                tienda.getClientes().add(clienteEstandar);
+                tienda.addCliente(clienteEstandar);
                 break;
             case 2:
                 Cliente clientePremium = new Premium(clienteModelo.getEmail(), clienteModelo.getNombre(), clienteModelo.getDomicilio(), clienteModelo.getNif());
-                tienda.getClientes().add(clientePremium);
+                tienda.addCliente(clientePremium);
                 break;
         }
         vista.ejecucionExitosa();
-    }
-
-    public void showCliente(){
-        System.out.println(tienda.getClientes());
-    }
-
-    public void showEstandar(){
-        for(Cliente i : tienda.getClientes()){
-            if(i instanceof Estandar){
-                System.out.println(i);
-            }
-        }
-    }
-
-    public void showPremium(){
-        for(Cliente i : tienda.getClientes()){
-            if(i instanceof Premium){
-                System.out.println(i);
-            }
-        }
     }
 
     public void addArticulo(){
@@ -161,12 +138,8 @@ public class Controlador {
             }
         }
         Articulo articuloNuevo = vista.infoArticulo(codigo);
-        tienda.getArticulos().add(articuloNuevo);
+        tienda.addArticulo(articuloNuevo);
         vista.ejecucionExitosa();
-    }
-
-    public void showArticulos(){
-        System.out.println(tienda.getArticulos());
     }
 
     public void addPedido(){
@@ -190,9 +163,9 @@ public class Controlador {
             String codigoArticulo = vista.indicarArticulo();
             Articulo articulo = buscarArticulo(codigoArticulo);
             if(articulo != null){
-                int numero = buscarNumeroPedido();
+                int numero = tienda.buscarNumeroPedido();
                 pedidoNuevo = vista.infoPedido(cliente, articulo, numero);
-                tienda.getPedidos().add(pedidoNuevo);
+                tienda.addPedido(pedidoNuevo);
                 vista.ejecucionExitosa();
             }
         }
@@ -232,17 +205,13 @@ public class Controlador {
         return articuloVacio;
     }
 
-    public int buscarNumeroPedido(){
-        return tienda.getPedidos().getLast().getNumPedido() + 1;
-    }
-
     public void removePedido(){
         int numero = vista.indicarNumero();
         Pedido pedidoBuscado = buscarPedido(numero);
         if(pedidoBuscado != null){
-            boolean estadoPedido = envioPendiente(pedidoBuscado);
+            boolean estadoPedido = pedidoBuscado.envioPendiente();
             if(estadoPedido){
-                tienda.getPedidos().removeIf(p -> p.getNumPedido() == pedidoBuscado.getNumPedido());
+                tienda.removePedido(pedidoBuscado);
                 vista.ejecucionExitosa();
             }else{
                 vista.noEliminar();
@@ -267,50 +236,37 @@ public class Controlador {
         return pedidoVacio;
     }
 
-    public boolean envioPendiente(Pedido pedido){
-        Duration duracion = Duration.between(pedido.getFechaHoraPedido(), LocalDateTime.now());
-        int tiempoPasado = (int)duracion.toMinutes();
-        int tiempoRequerido = pedido.getArticulo().getTiempoPrepEnvio() * pedido.getCantidad();
-        if(tiempoPasado < tiempoRequerido){
-            return true; //Está pendiente
-        }else{
-            return false; //Está enviado
-        }
-    }
-
-    public void showPendientes(){
-        showPedidos(true);
-    }
-
-    public void showEnviados(){
-        showPedidos(false);
-    }
-
     public void showPedidos(boolean pendiente){
         int eleccion = vista.mostrarPedidos();
         int opcion = comprobarOpcion(eleccion, 1, 2);
-        boolean estadoPedido;
-        boolean contador = false;
+        //boolean estadoPedido;
+        boolean contador;
         if(opcion == 1){
-            for(Pedido i : tienda.getPedidos()){
-                estadoPedido = envioPendiente(i);
+            /*for(Pedido i : tienda.getPedidos()){
+                estadoPedido = i.envioPendiente();
                 if(estadoPedido == pendiente){
                     System.out.println(i);
                     contador = true;
                 }
-            }
+            }*/
+
+            contador = tienda.showPedidos(pendiente, null);
+
         }else{
             String email = vista.indicarCliente();
             Cliente cliente = buscarCliente(email);
-            for(Pedido i : tienda.getPedidos()){
+            /*for(Pedido i : tienda.getPedidos()){
                 if(i.getCliente().equals(cliente)){
-                    estadoPedido = envioPendiente(i);
+                    estadoPedido = i.envioPendiente();
                     if(estadoPedido == pendiente){
                         System.out.println(i);
                         contador = true;
                     }
                 }
-            }
+            }*/
+
+            contador = tienda.showPedidos(pendiente, cliente);
+
         }
         if(!contador){
             vista.ceroPedidos();

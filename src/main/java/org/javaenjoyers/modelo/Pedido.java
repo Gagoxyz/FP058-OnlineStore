@@ -1,5 +1,6 @@
 package org.javaenjoyers.modelo;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -70,5 +71,16 @@ public class Pedido {
                 "\nArtículo: " + articulo.getCodigoProducto() +
                 "\nCantidad: " + cantidad +
                 "\nFecha y hora del pedido: " + formatoFecha(fechaHoraPedido) + "\n";
+    }
+
+    public boolean envioPendiente(){
+        Duration duracion = Duration.between(getFechaHoraPedido(), LocalDateTime.now());
+        int tiempoPasado = (int)duracion.toMinutes();
+        int tiempoRequerido = getArticulo().getTiempoPrepEnvio() * getCantidad();
+        if(tiempoPasado < tiempoRequerido){
+            return true; //Está pendiente
+        }else{
+            return false; //Está enviado
+        }
     }
 }
