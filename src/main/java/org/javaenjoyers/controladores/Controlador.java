@@ -71,7 +71,8 @@ public class Controlador {
      */
     public void nuevoCliente(){
         String tipoCliente = vista.solicitarDato("\nIndica tiepo cliente (Estandar/Premium):");
-        if(!Objects.equals(tipoCliente, "Estandar") && !Objects.equals(tipoCliente, "Premium")){
+        tipoCliente = tipoCliente.toUpperCase();
+        if(!Objects.equals(tipoCliente, "ESTANDAR") && !Objects.equals(tipoCliente, "PREMIUM")){
             System.out.println("\nTipo de cliente incorrecto.\n");
             return;
         }
@@ -179,7 +180,7 @@ public class Controlador {
         try {
             intTPE = Integer.parseInt(tiempoPrepEnvio);
         } catch (Exception e){
-            vista.mostrarMensaje("\nDato introducido no válido.\nDebe ser el tiempo en segundos (número entero, ej: '120'");
+            vista.mostrarMensaje("\nDato introducido no válido.\nDebe ser el tiempo en minutos (número entero, ej: '5'");
             return;
         }
         Articulo nuevoArticulo = new Articulo(codigoProducto, descripcion, floatPV, floatGE, intTPE);

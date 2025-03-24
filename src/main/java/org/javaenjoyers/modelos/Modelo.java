@@ -154,7 +154,7 @@ public class Modelo {
     public boolean verificarTiempoPedido(Pedido pedidoCliente){
         boolean excesoTiempo = false;
         LocalDateTime fechaHoraActual = LocalDateTime.now();
-        long tiempoPedido = pedidoCliente.getFechaHoraPedido().until(fechaHoraActual, ChronoUnit.SECONDS);
+        long tiempoPedido = pedidoCliente.getFechaHoraPedido().until(fechaHoraActual, ChronoUnit.MINUTES);
 
         if(tiempoPedido > pedidoCliente.getArticulo().getTiempoPrepEnvio()){
             excesoTiempo = true;

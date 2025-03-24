@@ -38,6 +38,6 @@ public class Articulo {
                 "\nDescripción: " + descripcion +
                 "\nPrecio de venta: " + precioVenta + "€" +
                 "\nGastos de envío: " + gastosEnvio + "€" +
-                "\nTiempo preparación envío (en segundos): " + tiempoPrepEnvio;
+                "\nTiempo preparación envío (en minutos): " + tiempoPrepEnvio;
     }
 }
