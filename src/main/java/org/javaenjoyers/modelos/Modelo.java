@@ -164,10 +164,16 @@ public class Modelo {
     }
 
     /**
-     * Eliminará un pedido indicado por el usuario
+     * Eliminará un pedido indicado por el usuario, también se eliminará del List de pedidos del cliente indicado
      * @param numPedido Número de pedido que se eliminará
      */
     public void eliminarPedido(int numPedido){
-        gestorPedidos.getLista().stream().filter(pedido -> pedido.getNumPedido() == numPedido).findFirst().ifPresent(gestorPedidos::eliminarObjeto);
+        gestorPedidos.getLista().stream().filter(pedido -> pedido.getNumPedido() == numPedido).findFirst().ifPresent(pedido -> {
+            gestorPedidos.eliminarObjeto(pedido);
+            Cliente cliente = pedido.getCliente();
+            if (cliente != null){
+                cliente.getPedidos().remove(pedido);
+            }
+        });
     }
 }
