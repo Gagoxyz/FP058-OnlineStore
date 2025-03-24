@@ -1,4 +1,4 @@
-# FP058 - PROGRAMACIÓN ORIENTADA A OBJETOS CON ACCESO A BASE DE DATOS
+# FP058 - Programación orientada a objetos con acceso a base de datos
 
 ## Producto 1 - Diseño UML
 
