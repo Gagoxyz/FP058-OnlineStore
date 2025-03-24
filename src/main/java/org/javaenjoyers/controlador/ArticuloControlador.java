@@ -8,6 +8,7 @@ import org.javaenjoyers.modelo.Articulo;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class ArticuloControlador {
     private RepositorioGenerico<Articulo> articulos;
 
