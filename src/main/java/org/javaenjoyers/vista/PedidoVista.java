@@ -32,7 +32,7 @@ public class PedidoVista {
         Scanner scanner = new Scanner(System.in);
 
         do {
-            System.out.println("\n📦 Gestión de Pedidos");
+            System.out.println("\nGestión de Pedidos");
             System.out.println("1. Añadir Pedido");
             System.out.println("2. Eliminar Pedido");
             System.out.println("3. Mostrar TODOS los Pedidos");
