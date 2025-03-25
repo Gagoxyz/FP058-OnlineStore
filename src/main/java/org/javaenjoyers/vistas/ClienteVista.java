@@ -1,9 +1,9 @@
-package org.javaenjoyers.vista;
+package org.javaenjoyers.vistas;
 
-import org.javaenjoyers.controlador.ClienteControlador;
-import org.javaenjoyers.modelo.Cliente;
-import org.javaenjoyers.modelo.Estandar;
-import org.javaenjoyers.modelo.Premium;
+import org.javaenjoyers.controladores.ClienteControlador;
+import org.javaenjoyers.modelos.Cliente;
+import org.javaenjoyers.modelos.Estandar;
+import org.javaenjoyers.modelos.Premium;
 
 import java.util.Scanner;
 

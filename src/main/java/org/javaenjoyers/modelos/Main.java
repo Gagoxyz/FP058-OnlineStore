@@ -1,11 +1,11 @@
-package org.javaenjoyers.modelo;
+package org.javaenjoyers.modelos;
 
-import org.javaenjoyers.controlador.ArticuloControlador;
-import org.javaenjoyers.controlador.ClienteControlador;
-import org.javaenjoyers.controlador.PedidoControlador;
-import org.javaenjoyers.vista.ArticuloVista;
-import org.javaenjoyers.vista.ClienteVista;
-import org.javaenjoyers.vista.PedidoVista;
+import org.javaenjoyers.controladores.ArticuloControlador;
+import org.javaenjoyers.controladores.ClienteControlador;
+import org.javaenjoyers.controladores.PedidoControlador;
+import org.javaenjoyers.vistas.ArticuloVista;
+import org.javaenjoyers.vistas.ClienteVista;
+import org.javaenjoyers.vistas.PedidoVista;
 
 import java.util.Scanner;
 

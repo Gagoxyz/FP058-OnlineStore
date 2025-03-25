@@ -1,13 +1,8 @@
-package org.javaenjoyers.controlador;
+package org.javaenjoyers.controladores;
 
 
 import org.javaenjoyers.RepositorioGenerico;
-import org.javaenjoyers.modelo.Cliente;
-import org.javaenjoyers.modelo.Estandar;
-import org.javaenjoyers.modelo.Premium;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.javaenjoyers.modelos.Cliente;
 
 public class ClienteControlador {
     private RepositorioGenerico<Cliente> clientes;

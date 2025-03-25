@@ -1,16 +1,12 @@
-package org.javaenjoyers.controlador;
+package org.javaenjoyers.controladores;
 
 
 import org.javaenjoyers.RepositorioGenerico;
 import org.javaenjoyers.excepciones.ElementoNoEncontradoException;
 import org.javaenjoyers.excepciones.PedidoNoEliminableException;
-import org.javaenjoyers.modelo.Articulo;
-import org.javaenjoyers.modelo.Cliente;
-import org.javaenjoyers.modelo.Pedido;
+import org.javaenjoyers.modelos.Pedido;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

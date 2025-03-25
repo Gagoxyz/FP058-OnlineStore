@@ -1,8 +1,8 @@
-import org.javaenjoyers.controlador.PedidoControlador;
-import org.javaenjoyers.modelo.Articulo;
-import org.javaenjoyers.modelo.Cliente;
-import org.javaenjoyers.modelo.Estandar;
-import org.javaenjoyers.modelo.Pedido;
+import org.javaenjoyers.controladores.PedidoControlador;
+import org.javaenjoyers.modelos.Articulo;
+import org.javaenjoyers.modelos.Cliente;
+import org.javaenjoyers.modelos.Estandar;
+import org.javaenjoyers.modelos.Pedido;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,13 +1,13 @@
-package org.javaenjoyers.vista;
+package org.javaenjoyers.vistas;
 
-import org.javaenjoyers.controlador.ArticuloControlador;
-import org.javaenjoyers.controlador.ClienteControlador;
-import org.javaenjoyers.controlador.PedidoControlador;
+import org.javaenjoyers.controladores.ArticuloControlador;
+import org.javaenjoyers.controladores.ClienteControlador;
+import org.javaenjoyers.controladores.PedidoControlador;
 import org.javaenjoyers.excepciones.ElementoNoEncontradoException;
 import org.javaenjoyers.excepciones.PedidoNoEliminableException;
-import org.javaenjoyers.modelo.Articulo;
-import org.javaenjoyers.modelo.Cliente;
-import org.javaenjoyers.modelo.Pedido;
+import org.javaenjoyers.modelos.Articulo;
+import org.javaenjoyers.modelos.Cliente;
+import org.javaenjoyers.modelos.Pedido;
 
 import java.time.LocalDateTime;
 import java.util.InputMismatchException;

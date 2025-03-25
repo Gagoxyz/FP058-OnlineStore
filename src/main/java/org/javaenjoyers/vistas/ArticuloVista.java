@@ -1,7 +1,7 @@
-package org.javaenjoyers.vista;
+package org.javaenjoyers.vistas;
 
-import org.javaenjoyers.controlador.ArticuloControlador;
-import org.javaenjoyers.modelo.Articulo;
+import org.javaenjoyers.controladores.ArticuloControlador;
+import org.javaenjoyers.modelos.Articulo;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package org.javaenjoyers.modelo;
+package org.javaenjoyers.modelos;
 
 public class Premium extends Cliente{
 

@@ -1,12 +1,9 @@
-package org.javaenjoyers.controlador;
+package org.javaenjoyers.controladores;
 
 
 import org.javaenjoyers.RepositorioGenerico;
 import org.javaenjoyers.excepciones.ElementoNoEncontradoException;
-import org.javaenjoyers.modelo.Articulo;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.javaenjoyers.modelos.Articulo;
 
 
 public class ArticuloControlador {

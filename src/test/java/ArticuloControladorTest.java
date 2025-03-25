@@ -1,5 +1,5 @@
-import org.javaenjoyers.controlador.ArticuloControlador;
-import org.javaenjoyers.modelo.Articulo;
+import org.javaenjoyers.controladores.ArticuloControlador;
+import org.javaenjoyers.modelos.Articulo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
