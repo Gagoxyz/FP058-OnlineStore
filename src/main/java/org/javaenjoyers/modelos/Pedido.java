@@ -47,6 +47,10 @@ public class Pedido {
         return articulo;
     }
 
+    public int getCantidad() {
+        return cantidad;
+    }
+
     public LocalDateTime getFechaHoraPedido() {
         return fechaHoraPedido;
     }
