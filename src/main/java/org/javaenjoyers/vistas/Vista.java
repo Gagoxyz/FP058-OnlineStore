@@ -13,9 +13,15 @@ public class Vista {
     Scanner teclado = new Scanner(System.in);
 
     private Controlador controlador;
+    private ClienteVista clienteVista;
+    private ArticuloVista articuloVista;
+    private PedidoVista pedidoVista;
 
-    public Vista(Controlador controlador) {
+    public Vista(Controlador controlador, ClienteVista clienteVista, ArticuloVista articuloVista, PedidoVista pedidoVista) {
         this.controlador = controlador;
+        this.clienteVista = clienteVista;
+        this.articuloVista = articuloVista;
+        this.pedidoVista = pedidoVista;
     }
 
     /**
@@ -24,6 +30,18 @@ public class Vista {
      */
     public void setControlador(Controlador controlador) {
         this.controlador = controlador;
+    }
+
+    public void setClienteVista(ClienteVista clienteVista) {
+        this.clienteVista = clienteVista;
+    }
+
+    public void setArticuloVista(ArticuloVista articuloVista) {
+        this.articuloVista = articuloVista;
+    }
+
+    public void setPedidoVista(PedidoVista pedidoVista) {
+        this.pedidoVista = pedidoVista;
     }
 
     /**
@@ -56,13 +74,13 @@ public class Vista {
 
             switch (opcion){
                 case "1":
-                    menuArticulos();
+                    articuloVista.menuArticulos();
                     break;
                 case "2":
-                    menuClientes();
+                    clienteVista.menuClientes();
                     break;
                 case "3":
-                    menuPedidos();
+                    pedidoVista.menuPedidos();
                     break;
                 case "0":
                     return;
@@ -71,56 +89,6 @@ public class Vista {
                     break;
             }
         }
-    }
-
-    /**
-     * Submenú para la gestión de artículos, la opción indicada por el usuario se le pasará al controlador
-     */
-    public void menuArticulos(){
-        String opcion;
-
-        System.out.println("\nMenú artículos:");
-        System.out.println("1. Añadir artículo");
-        System.out.println("2. Mostrar artículos");
-        System.out.println("0. Atrás");
-        opcion = teclado.nextLine();
-
-        controlador.opcionGestionArticulos(opcion);
-    }
-
-    /**
-     * Submenú para la gestión de clientes, la opción indicada por el usuario se le pasará al controlador
-     */
-    public void menuClientes(){
-        String opcion;
-
-        System.out.println("\nMenú clientes:");
-        System.out.println("1. Añadir cliente");
-        System.out.println("2. Mostrar clientes");
-        System.out.println("3. Mostrar clientes Estandar");
-        System.out.println("4. Mostrar clientes Premium");
-        System.out.println("0. Atrás");
-        opcion = teclado.nextLine();
-
-        controlador.opcionGestionClientes(opcion);
-    }
-
-    /**
-     * Submenú para la gestión de pedidos, la opción indicada por el usuario se le pasará al controlador
-     */
-    public void menuPedidos(){
-        String opcion;
-
-        System.out.println("\nMenú pedidos:");
-        System.out.println("1. Añadir pedido");
-        System.out.println("2. Eliminar pedido");
-        System.out.println("3. Mostrar pedidos pendientes");
-        System.out.println("4. Mostrar pedidos enviados");
-        System.out.println("5. Resumen de pedidos");
-        System.out.println("0. Atrás");
-        opcion = teclado.nextLine();
-
-        controlador.opcionGestionPedidos(opcion);
     }
 
     /**

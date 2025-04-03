@@ -3,6 +3,7 @@ package org.javaenjoyers.modelos;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -55,24 +56,29 @@ public class Modelo {
     }
 
     /**
-     * Muestra los clientes registrados en el gestor de clientes
+     * Muestra los clientes registrados en el gesto de clientes
+     * @return Devuelve una lista de clientes
      */
-    public void mostrarClientes(){
-        gestorClientes.getLista().forEach(System.out::println);
+    public List<Cliente> obtenerClientes(){
+        return gestorClientes.getLista();
     }
 
     /**
-     * Muestra los clientes "Estandar" registrados en el gestor de clientes
+     * Muestra los clientes estandar registrados en el gesto de clientes
+     * @return Devuelve una lista de clientes estandar
      */
-    public void mostrarClientesEstandar(){
-        gestorClientes.getLista().stream().filter(cliente -> cliente instanceof Estandar).forEach(System.out::println);
+    public List<Estandar> obtenerClientesEstandar(){
+        return gestorClientes.getLista().stream().filter(cliente -> cliente instanceof Estandar)
+                .map(cliente -> (Estandar) cliente).toList();
     }
 
     /**
-     * Muestra los clientes "Premium" registrados en el gestor de clientes
+     * Muestra los clientes premium registrados en el gesto de clientes
+     * @return Devuelve una lista de clientes premium
      */
-    public void mostrarClientesPremium(){
-        gestorClientes.getLista().stream().filter(cliente -> cliente instanceof Premium).forEach(System.out::println);
+    public List<Premium> obtenerClientesPremium(){
+        return gestorClientes.getLista().stream().filter(cliente -> cliente instanceof Premium)
+                .map(cliente -> (Premium) cliente).toList();
     }
 
     /**
@@ -112,8 +118,12 @@ public class Modelo {
     /**
      * Muestra los artículos registrados en el gestor de artículos
      */
-    public void mostrarArticulos(){
-        gestorArticulos.getLista().forEach(System.out::println);
+//    public void mostrarArticulos(){
+//        gestorArticulos.getLista().forEach(System.out::println);
+//    }
+
+    public List<Articulo> obtenerArticulos(){
+        return gestorArticulos.getLista();
     }
 
     /**
@@ -131,11 +141,15 @@ public class Modelo {
         }
     }
 
-    /**
-     * Mostrará los pedidos registrados en el gestor de pedidos
-     */
-    public void mostrarPedidos(){
-        gestorPedidos.getLista().forEach(System.out::println);
+//    /**
+//     * Mostrará los pedidos registrados en el gestor de pedidos
+//     */
+//    public void mostrarPedidos(){
+//        gestorPedidos.getLista().forEach(System.out::println);
+//    }
+
+    public List<Pedido> obtenerPedidos(){
+        return gestorPedidos.getLista();
     }
 
     /**

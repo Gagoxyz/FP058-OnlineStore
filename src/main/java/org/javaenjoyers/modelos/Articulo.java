@@ -34,7 +34,7 @@ public class Articulo {
 
     @Override
     public String toString() {
-        return "\nCódigo del producto: " + codigoProducto +
+        return "\n\nCódigo del producto: " + codigoProducto +
                 "\nDescripción: " + descripcion +
                 "\nPrecio de venta: " + precioVenta + "€" +
                 "\nGastos de envío: " + gastosEnvio + "€" +
