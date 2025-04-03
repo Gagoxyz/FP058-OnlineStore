@@ -32,6 +32,10 @@ public class Articulo {
         return tiempoPrepEnvio;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
     @Override
     public String toString() {
         return "\n\nCódigo del producto: " + codigoProducto +
