@@ -6,8 +6,16 @@ import org.javaenjoyers.vista.*;
 public class Controlador {
     private OnlineStore tienda;
     private Vista vista;
+    private Herramientas herramientas;
+    private ControladorCliente contrCliente;
+    private ControladorArticulo contrArticulo;
+    private ControladorPedido contrPedido;
 
-    public Controlador(OnlineStore tienda, Vista vista) {
+    public Controlador(ControladorArticulo contrArticulo, ControladorCliente contrCliente, ControladorPedido contrPedido, Herramientas herramientas, OnlineStore tienda, Vista vista) {
+        this.contrArticulo = contrArticulo;
+        this.contrCliente = contrCliente;
+        this.contrPedido = contrPedido;
+        this.herramientas = herramientas;
         this.tienda = tienda;
         this.vista = vista;
     }
@@ -16,15 +24,15 @@ public class Controlador {
         vista.bienvenida();
         int opcion;
         int opcionMenu;
-        int opcionSegunda;
+        //int opcionSegunda;
         boolean continuar = true;
-        boolean seguir;
+        //boolean seguir;
         while(continuar){
             opcion = vista.menuPrincipal();
-            opcionMenu = comprobarOpcion(opcion, 0, 3);
+            opcionMenu = herramientas.comprobarOpcion(opcion, 0, 3);
             switch(opcionMenu){
                 case 1:
-                    seguir = true;
+                    /*seguir = true;
                     while(seguir){
                         opcion = vista.menuClientes();
                         opcionSegunda = comprobarOpcion(opcion, 0, 4);
@@ -45,10 +53,11 @@ public class Controlador {
                                 seguir = false;
                                 break;
                         }
-                    }
+                    }*/
+                    contrCliente.menuClientes();
                     break;
                 case 2:
-                    seguir = true;
+                    /*seguir = true;
                     while(seguir){
                         opcion = vista.menuArticulos();
                         opcionSegunda = comprobarOpcion(opcion, 0, 2);
@@ -62,10 +71,11 @@ public class Controlador {
                                 seguir = false;
                                 break;
                         }
-                    }
+                    }*/
+                    contrArticulo.menuArticulos();
                     break;
                 case 3:
-                    seguir = true;
+                    /*seguir = true;
                     while(seguir){
                         opcion = vista.menuPedidos();
                         opcionSegunda = comprobarOpcion(opcion, 0, 4);
@@ -86,7 +96,8 @@ public class Controlador {
                                 seguir = false;
                                 break;
                         }
-                    }
+                    }*/
+                    contrPedido.menuPedidos();
                     break;
                 case 0:
                     continuar = false;
@@ -95,7 +106,7 @@ public class Controlador {
         }
     }
 
-    public void addCliente(){
+    /*public void addCliente(){
         String email = vista.emailCliente();
         boolean repetido = true;
         while(repetido){
@@ -122,9 +133,9 @@ public class Controlador {
                 break;
         }
         vista.ejecucionExitosa();
-    }
+    }*/
 
-    public void addArticulo(){
+    /*public void addArticulo(){
         String codigo = vista.codigoArticulo();
         boolean repetido = true;
         while(repetido){
@@ -140,9 +151,9 @@ public class Controlador {
         Articulo articuloNuevo = vista.infoArticulo(codigo);
         tienda.addArticulo(articuloNuevo);
         vista.ejecucionExitosa();
-    }
+    }*/
 
-    public void addPedido(){
+    /*public void addPedido(){
         int opcionCliente = vista.clientePedido();
         int registroCliente = comprobarOpcion(opcionCliente, 1, 2);
         Pedido pedidoNuevo;
@@ -169,9 +180,9 @@ public class Controlador {
                 vista.ejecucionExitosa();
             }
         }
-    }
+    }*/
 
-    public Cliente buscarCliente(String email){
+    /*public Cliente buscarCliente(String email){
         Cliente clienteVacio = null;
         boolean vuelta = true;
         while(vuelta){
@@ -186,9 +197,9 @@ public class Controlador {
             }
         }
         return clienteVacio;
-    }
+    }*/
 
-    public Articulo buscarArticulo(String codigo){
+    /*public Articulo buscarArticulo(String codigo){
         Articulo articuloVacio = null;
         boolean vuelta = true;
         while(vuelta){
@@ -203,9 +214,9 @@ public class Controlador {
             }
         }
         return articuloVacio;
-    }
+    }*/
 
-    public void removePedido(){
+    /*public void removePedido(){
         int numero = vista.indicarNumero();
         Pedido pedidoBuscado = buscarPedido(numero);
         if(pedidoBuscado != null){
@@ -217,9 +228,9 @@ public class Controlador {
                 vista.noEliminar();
             }
         }
-    }
+    }*/
 
-    public Pedido buscarPedido(int numero){
+    /*public Pedido buscarPedido(int numero){
         Pedido pedidoVacio = null;
         boolean vuelta = true;
         while(vuelta){
@@ -234,49 +245,28 @@ public class Controlador {
             }
         }
         return pedidoVacio;
-    }
+    }*/
 
-    public void showPedidos(boolean pendiente){
+    /*public void showPedidos(boolean pendiente){
         int eleccion = vista.mostrarPedidos();
         int opcion = comprobarOpcion(eleccion, 1, 2);
-        //boolean estadoPedido;
         boolean contador;
         if(opcion == 1){
-            /*for(Pedido i : tienda.getPedidos()){
-                estadoPedido = i.envioPendiente();
-                if(estadoPedido == pendiente){
-                    System.out.println(i);
-                    contador = true;
-                }
-            }*/
-
             contador = tienda.showPedidos(pendiente, null);
-
         }else{
             String email = vista.indicarCliente();
             Cliente cliente = buscarCliente(email);
-            /*for(Pedido i : tienda.getPedidos()){
-                if(i.getCliente().equals(cliente)){
-                    estadoPedido = i.envioPendiente();
-                    if(estadoPedido == pendiente){
-                        System.out.println(i);
-                        contador = true;
-                    }
-                }
-            }*/
-
             contador = tienda.showPedidos(pendiente, cliente);
-
         }
         if(!contador){
             vista.ceroPedidos();
         }
-    }
+    }*/
 
-    public int comprobarOpcion(int eleccion, int inicio, int fin){
+    /*public int comprobarOpcion(int eleccion, int inicio, int fin){
         while(eleccion < inicio || eleccion > fin){
             eleccion = vista.intInvalido();
         }
         return eleccion;
-    }
+    }*/
 }

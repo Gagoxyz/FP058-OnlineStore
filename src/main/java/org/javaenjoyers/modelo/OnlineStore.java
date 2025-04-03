@@ -65,11 +65,11 @@ public class OnlineStore {
         getClientes().add(cliente);
     }
 
-    public void showClientes(){
+    /*public void showClientes(){
         System.out.println(getClientes());
-    }
+    }*/
 
-    public void showEstandar(){
+    /*public void showEstandar(){
         for(Cliente i : getClientes()){
             if(i instanceof Estandar){
                 System.out.println(i);
@@ -83,15 +83,15 @@ public class OnlineStore {
                 System.out.println(i);
             }
         }
-    }
+    }*/
 
     public void addArticulo(Articulo articulo){
         getArticulos().add(articulo);
     }
 
-    public void showArticulos(){
+    /*public void showArticulos(){
         System.out.println(getArticulos());
-    }
+    }*/
 
     public void addPedido(Pedido pedido){
         getPedidos().add(pedido);
@@ -105,7 +105,7 @@ public class OnlineStore {
         getPedidos().removeIf(p -> p.getNumPedido() == pedido.getNumPedido());
     }
 
-    public boolean showPedidos(boolean pendiente, Cliente cliente){
+    /*public boolean showPedidos(boolean pendiente, Cliente cliente){
         boolean estadoPedido;
         boolean contador = false;
         if(cliente == null){
@@ -128,5 +128,5 @@ public class OnlineStore {
             }
         }
         return contador;
-    }
+    }*/
 }

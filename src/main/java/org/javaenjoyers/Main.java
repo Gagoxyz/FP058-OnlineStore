@@ -1,8 +1,11 @@
 package org.javaenjoyers;
 
-import org.javaenjoyers.controlador.Controlador;
+import org.javaenjoyers.controlador.*;
 import org.javaenjoyers.modelo.*;
 import org.javaenjoyers.vista.Vista;
+import org.javaenjoyers.vista.VistaArticulos;
+import org.javaenjoyers.vista.VistaClientes;
+import org.javaenjoyers.vista.VistaPedidos;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +15,14 @@ public class Main {
         // nueva tienda para JavaEnjoyers
         OnlineStore tienda = new OnlineStore("63014520P");
         Vista vista = new Vista();
-        Controlador controlador = new Controlador(tienda, vista);
+        Herramientas herramientas = new Herramientas(vista);
+        VistaClientes vistaCli = new VistaClientes(herramientas);
+        VistaArticulos vistaArt = new VistaArticulos(herramientas);
+        VistaPedidos vistaPed = new VistaPedidos(herramientas);
+        ControladorCliente contrCli = new ControladorCliente(herramientas, tienda, vistaCli);
+        ControladorArticulo contrArt = new ControladorArticulo(herramientas, tienda, vistaArt);
+        ControladorPedido contrPed = new ControladorPedido(contrCli, herramientas, tienda, vistaPed);
+        Controlador controlador = new Controlador(contrArt, contrCli, contrPed, herramientas, tienda, vista);
 
         // clases de prueba
         Cliente cliente01 = new Estandar("manuela@estandar.com", "Manuela", "c/cliente estandar S/N", "123456789");
