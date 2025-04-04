@@ -1,7 +1,6 @@
 package org.javaenjoyers.vistas;
 
 import org.javaenjoyers.controladores.PedidoControlador;
-
 import java.util.Scanner;
 
 public class PedidoVista {

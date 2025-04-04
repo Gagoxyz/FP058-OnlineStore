@@ -39,6 +39,8 @@ public abstract class Cliente {
         return pedidos;
     }
 
+    public abstract String getTipoCliente();
+
     @Override
     public String toString() {
         return "Cliente{" +

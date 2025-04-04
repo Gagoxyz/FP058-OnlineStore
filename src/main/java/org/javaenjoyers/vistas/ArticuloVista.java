@@ -1,7 +1,6 @@
 package org.javaenjoyers.vistas;
 
 import org.javaenjoyers.controladores.ArticuloControlador;
-
 import java.util.Scanner;
 
 public class ArticuloVista {

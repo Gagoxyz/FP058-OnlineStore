@@ -18,15 +18,17 @@ public class Main {
     public static void main(String[] args) {
 
         // Creamos MVC (Modelo Vista Controlador)
-        Modelo modelo = new Modelo ();
+        ClienteModelo clienteModelo = new ClienteModelo();
+        ArticuloModelo articuloModelo = new ArticuloModelo();
+        PedidoModelo pedidoModelo = new PedidoModelo();
         Vista vista = new Vista(null, null, null, null);
         ClienteVista clienteVista = new ClienteVista(null);
         ArticuloVista articuloVista = new ArticuloVista(null);
         PedidoVista pedidoVista = new PedidoVista(null);
         Controlador controlador = new Controlador(vista);
-        ClienteControlador clienteControlador = new ClienteControlador(modelo, vista);
-        ArticuloControlador articuloControlador = new ArticuloControlador(modelo, vista);
-        PedidoControlador pedidoControlador = new PedidoControlador(modelo, vista, clienteControlador);
+        ClienteControlador clienteControlador = new ClienteControlador(clienteModelo, vista);
+        ArticuloControlador articuloControlador = new ArticuloControlador(articuloModelo, vista);
+        PedidoControlador pedidoControlador = new PedidoControlador(pedidoModelo, articuloModelo, vista, clienteControlador);
         vista.setControlador(controlador);
         vista.setClienteVista(clienteVista);
         vista.setArticuloVista(articuloVista);
@@ -36,7 +38,7 @@ public class Main {
         pedidoVista.setPedidoControlador(pedidoControlador);
 
         // Realizamos la carga de datos (varios objetos de prueba)
-        CargaDatos.cargarDatos(modelo);
+        //CargaDatos.cargarDatos(clienteModelo, articuloModelo, pedidoModelo);
 
         // Iniciamos el controlador
         controlador.bienvenida();

@@ -9,6 +9,11 @@ public class Premium extends Cliente{
         super(email, nombre, domicilio, nif);
     }
 
+    @Override
+    public String getTipoCliente() {
+        return "PREMIUM";
+    }
+
 
     @Override
     public String toString() {

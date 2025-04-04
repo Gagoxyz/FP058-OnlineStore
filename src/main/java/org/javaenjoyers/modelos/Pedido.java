@@ -81,6 +81,6 @@ public class Pedido {
                 "\nArtículo: " + articulo.getCodigoProducto() +
                 "\nCantidad: " + cantidad +
                 "\nPrecio pedido: " + precioPedido() + "€" +
-                "\nFehca/hora del pedido: " + fechaHoraPedido.format(formato);
+                "\nFehca/hora del pedido: " + fechaHoraPedido.format(formato) + "\n";
     }
 }

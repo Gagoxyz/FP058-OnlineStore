@@ -8,6 +8,11 @@ public class Estandar extends Cliente {
     }
 
     @Override
+    public String getTipoCliente() {
+        return "ESTANDAR";
+    }
+
+    @Override
     public String toString() {
         return "\nCliente ESTANDAR" +
                 "\nNombre: " + getNombre() +

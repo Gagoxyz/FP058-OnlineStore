@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public class CargaDatos {
 
-  public static void cargarDatos(Modelo modelo){
+  public static void cargarDatos(ClienteModelo clienteModelo, ArticuloModelo articuloModelo, PedidoModelo pedidoModelo){
       // objetos de prueba
       Cliente cliente01 = new Premium("david@premium.com", "David", "Calle A 1", "12345678A");
       Cliente cliente02 = new Premium("maria@premium.com", "Maria", "Calle B 2", "12345678B");
@@ -24,17 +24,18 @@ public class CargaDatos {
       Pedido pedido05 = new Pedido(cliente01, articulo03, 1);
 
       // añadimos los elementos a sus respectivas listas
-      modelo.agregarCliente(cliente01);
-      modelo.agregarCliente(cliente02);
-      modelo.agregarCliente(cliente03);
-      modelo.agregarCliente(cliente04);
-      modelo.agregarArticulo(articulo01);
-      modelo.agregarArticulo(articulo02);
-      modelo.agregarArticulo(articulo03);
-      modelo.agregarPedido(pedido01);
-      modelo.agregarPedido(pedido02);
-      modelo.agregarPedido(pedido03);
-      modelo.agregarPedido(pedido04);
-      modelo.agregarPedido(pedido05);
+
+      clienteModelo.agregarCliente(cliente01);
+      clienteModelo.agregarCliente(cliente02);
+      clienteModelo.agregarCliente(cliente03);
+      clienteModelo.agregarCliente(cliente04);
+      articuloModelo.agregarArticulo(articulo01);
+      articuloModelo.agregarArticulo(articulo02);
+      articuloModelo.agregarArticulo(articulo03);
+      pedidoModelo.agregarPedido(pedido01);
+      pedidoModelo.agregarPedido(pedido02);
+      pedidoModelo.agregarPedido(pedido03);
+      pedidoModelo.agregarPedido(pedido04);
+      pedidoModelo.agregarPedido(pedido05);
   }
 }

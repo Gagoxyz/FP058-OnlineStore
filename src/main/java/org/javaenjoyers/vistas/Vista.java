@@ -1,7 +1,6 @@
 package org.javaenjoyers.vistas;
 
 import org.javaenjoyers.controladores.Controlador;
-
 import java.util.Scanner;
 
 /**

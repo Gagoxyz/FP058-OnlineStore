@@ -1,7 +1,6 @@
 package org.javaenjoyers.vistas;
 
 import org.javaenjoyers.controladores.ClienteControlador;
-
 import java.util.Scanner;
 
 public class ClienteVista {

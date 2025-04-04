@@ -1,20 +1,16 @@
 package org.javaenjoyers.controladores;
 
-import org.javaenjoyers.modelos.Cliente;
-import org.javaenjoyers.modelos.Estandar;
-import org.javaenjoyers.modelos.Modelo;
-import org.javaenjoyers.modelos.Premium;
+import org.javaenjoyers.modelos.*;
 import org.javaenjoyers.vistas.Vista;
-
 import java.util.Objects;
 
 public class ClienteControlador {
 
-    private Modelo modelo;
-    private Vista vista;
+    private final ClienteModelo clienteModelo;
+    private final Vista vista;
 
-    public ClienteControlador(Modelo modelo, Vista vista) {
-        this.modelo = modelo;
+    public ClienteControlador(ClienteModelo clienteModelo, Vista vista) {
+        this.clienteModelo = clienteModelo;
         this.vista = vista;
     }
 
@@ -67,17 +63,17 @@ public class ClienteControlador {
         String domicilio = vista.solicitarDato("Indica el Domicilio:");
 
         Cliente nuevoCliente;
-        if (Objects.equals(tipoCliente, "Estandar")){
+        if (Objects.equals(tipoCliente, "ESTANDAR")){
             nuevoCliente = new Estandar(email, nombre, domicilio, nif);
         } else {
             nuevoCliente = new Premium(email,nombre, domicilio, nif);
         }
-        modelo.agregarCliente(nuevoCliente);
+        clienteModelo.agregarCliente(nuevoCliente);
 
-        if(modelo.getClientes().getLista().contains(nuevoCliente)){
+        if(clienteModelo.obtenerClientes().stream().anyMatch(c -> c.getEmail().equals(email))){
             vista.mostrarMensaje("\nCliente registrado correctamente.\n");
         } else {
-            vista.mostrarMensaje("\nNo se registró nuevo cliente, ya existe en el sistema.");
+            vista.mostrarMensaje("\nNo se registró nuevo cliente, ya existe en la BBDD.");
         }
     }
 
@@ -85,20 +81,20 @@ public class ClienteControlador {
      * Mostrará el listado de clientes (se llamará desde el Modelo)
      */
     public void mostrarClientes(){
-        vista.mostrarMensaje(modelo.obtenerClientes().toString());
+        vista.mostrarMensaje((clienteModelo.obtenerClientes().toString()));
     }
 
     /**
      * Mostrará el listado de clientes "Estandar" (se llamará desde el Modelo)
      */
     public void mostrarClientesEstandar(){
-        vista.mostrarMensaje(modelo.obtenerClientesEstandar().toString());
+        vista.mostrarMensaje(clienteModelo.obtenerClientesEstandar().toString());
     }
 
     /**
      * Mostrará el listado de clientes "Premium" (se llamará desde el Modelo)
      */
     public void mostrarClientesPremium(){
-        vista.mostrarMensaje(modelo.obtenerClientesPremium().toString());
+        vista.mostrarMensaje(clienteModelo.obtenerClientesPremium().toString());
     }
 }

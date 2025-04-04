@@ -1,18 +1,16 @@
 package org.javaenjoyers.controladores;
 
 import org.javaenjoyers.modelos.Articulo;
-import org.javaenjoyers.modelos.Modelo;
+import org.javaenjoyers.modelos.ArticuloModelo;
 import org.javaenjoyers.vistas.Vista;
-
-import java.util.Objects;
 
 public class ArticuloControlador {
 
-    private Modelo modelo;
-    private Vista vista;
+    private final ArticuloModelo articuloModelo;
+    private final Vista vista;
 
-    public ArticuloControlador(Modelo modelo, Vista vista) {
-        this.modelo = modelo;
+    public ArticuloControlador(ArticuloModelo articuloModelo, Vista vista) {
+        this.articuloModelo = articuloModelo;
         this.vista = vista;
     }
 
@@ -49,12 +47,13 @@ public class ArticuloControlador {
     public void nuevoArticulo(){
         String codigoProducto = vista.solicitarDato("\nCódigo del artículo:");
         codigoProducto = codigoProducto.toUpperCase();
-        for (Articulo articulo : modelo.getArticulos().getLista()){
-            if(Objects.equals(articulo.getCodigoProducto(), codigoProducto)){
-                vista.mostrarMensaje("\nCódigo de producto ya registrado");
-                return;
-            }
+
+        Articulo articuloExistente = articuloModelo.obtenerArticuloPorCodigo(codigoProducto);
+        if (articuloExistente != null){
+            vista.mostrarMensaje("\nCódigo de producto ya registrado en la BBDD.\n");
+            return;
         }
+
         String descripcion = vista.solicitarDato("Descripción del artículo:");
         String precioVenta = vista.solicitarDato("Precio de venta:");
         precioVenta = precioVenta.replace(',', '.');
@@ -83,7 +82,7 @@ public class ArticuloControlador {
             return;
         }
         Articulo nuevoArticulo = new Articulo(codigoProducto, descripcion, floatPV, floatGE, intTPE);
-        modelo.agregarArticulo(nuevoArticulo);
+        articuloModelo.agregarArticulo(nuevoArticulo);
 
         vista.mostrarMensaje("\nArtículo registado correctamente.\n");
     }
@@ -92,6 +91,6 @@ public class ArticuloControlador {
      * Mostrará el listado de artículos (se llamará desde el Modelo)
      */
     public void mostrarArticulos(){
-        vista.mostrarMensaje(modelo.obtenerArticulos().toString());
+        vista.mostrarMensaje(articuloModelo.obtenerArticulos().toString());
     }
 }
