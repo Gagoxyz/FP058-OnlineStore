@@ -2,6 +2,7 @@ package org.javaenjoyers.vista;
 
 import org.javaenjoyers.controlador.Herramientas;
 import org.javaenjoyers.modelo.Cliente;
+import org.javaenjoyers.modelo.GestorDatos;
 
 import java.util.Scanner;
 import java.util.ArrayList;
@@ -51,5 +52,9 @@ public class VistaClientes {
 
     public void showClientes(ArrayList<Cliente> clientes){
         System.out.println(clientes);
+    }
+    //NUEVO
+    public void listarCli(GestorDatos<Cliente> cli){
+        System.out.println(cli);
     }
 }

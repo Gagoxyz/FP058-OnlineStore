@@ -75,6 +75,11 @@ public class ControladorCliente {
     public void showTodos(){
         ArrayList<Cliente> clientes = tienda.getClientes();
         vistaClientes.showClientes(clientes);
+
+        System.out.println("-------------------------------------------"); //BORRAR
+        //NUEVO
+        GestorDatos<Cliente> cli = tienda.getCli();
+        vistaClientes.listarCli(cli);
     }
 
     public void showEstandar(){
