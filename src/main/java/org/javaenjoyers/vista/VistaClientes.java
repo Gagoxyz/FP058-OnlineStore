@@ -6,6 +6,7 @@ import org.javaenjoyers.modelo.GestorDatos;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.List;
 
 public class VistaClientes {
 
@@ -50,11 +51,7 @@ public class VistaClientes {
         System.out.print("¿Qué tipo de cliente es? ");
     }
 
-    public void showClientes(ArrayList<Cliente> clientes){
+    public void showClientes(List<Cliente> clientes){
         System.out.println(clientes);
-    }
-    //NUEVO
-    public void listarCli(GestorDatos<Cliente> cli){
-        System.out.println(cli);
     }
 }

@@ -14,6 +14,10 @@ public class GestorDatos<T> {
      */
     private List<T> lista = new ArrayList<>();
 
+    public List<T> getLista() {
+        return lista;
+    }
+
     /**
      * Método para agregar objetos a la lista
      * @param elemento objeto del tipo indicado

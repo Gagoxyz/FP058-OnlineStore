@@ -1,31 +1,36 @@
 package org.javaenjoyers.modelo;
 
-import java.util.ArrayList;
-
 public class OnlineStore {
     private String nif;
     private GestorDatos<Cliente> cli = new GestorDatos<>();
-    private ArrayList<Cliente> clientes = new ArrayList<>();
-    private ArrayList<Articulo> articulos = new ArrayList<>();
-    private ArrayList<Pedido> pedidos = new ArrayList<>();
+    private GestorDatos<Articulo> art = new GestorDatos<>();
+    private GestorDatos<Pedido> ped = new GestorDatos<>();
 
-    public OnlineStore(ArrayList<Articulo> articulos, ArrayList<Cliente> clientes, String nif, ArrayList<Pedido> pedidos) {
-        this.articulos = articulos;
-        this.clientes = clientes;
+    public OnlineStore(GestorDatos<Articulo> art, GestorDatos<Cliente> cli, String nif, GestorDatos<Pedido> ped) {
+        this.art = art;
+        this.cli = cli;
         this.nif = nif;
-        this.pedidos = pedidos;
+        this.ped = ped;
     }
 
     public OnlineStore(String nif) {
         this.nif = nif;
     }
 
-    public ArrayList<Pedido> getPedidos() {
-        return pedidos;
+    public GestorDatos<Articulo> getArt() {
+        return art;
     }
 
-    public void setPedidos(ArrayList<Pedido> pedidos) {
-        this.pedidos = pedidos;
+    public void setArt(GestorDatos<Articulo> art) {
+        this.art = art;
+    }
+
+    public GestorDatos<Cliente> getCli() {
+        return cli;
+    }
+
+    public void setCli(GestorDatos<Cliente> cli) {
+        this.cli = cli;
     }
 
     public String getNif() {
@@ -36,56 +41,41 @@ public class OnlineStore {
         this.nif = nif;
     }
 
-    public ArrayList<Cliente> getClientes() {
-        return clientes;
+    public GestorDatos<Pedido> getPed() {
+        return ped;
     }
 
-    public void setClientes(ArrayList<Cliente> clientes) {
-        this.clientes = clientes;
-    }
-
-    public ArrayList<Articulo> getArticulos() {
-        return articulos;
-    }
-
-    public void setArticulos(ArrayList<Articulo> articulos) {
-        this.articulos = articulos;
-    }
-
-    public GestorDatos<Cliente> getCli() {
-        return cli;
+    public void setPed(GestorDatos<Pedido> ped) {
+        this.ped = ped;
     }
 
     @Override
     public String toString() {
         return "OnlineStore{" +
-                "articulos=" + articulos +
+                "art=" + art +
                 ", nif='" + nif + '\'' +
-                ", clientes=" + clientes +
-                ", pedidos=" + pedidos +
+                ", cli=" + cli +
+                ", ped=" + ped +
                 '}';
     }
 
     public void addCliente(Cliente cliente){
-        getClientes().add(cliente);
-
-        //NUEVO
         cli.agregar(cliente);
     }
 
     public void addArticulo(Articulo articulo){
-        getArticulos().add(articulo);
+        art.agregar(articulo);
     }
 
     public void addPedido(Pedido pedido){
-        getPedidos().add(pedido);
+        ped.agregar(pedido);
     }
 
     public int buscarNumeroPedido(){
-        return getPedidos().getLast().getNumPedido() + 1;
+        return getPed().getLista().getLast().getNumPedido() + 1;
     }
 
     public void removePedido(Pedido pedido){
-        getPedidos().removeIf(p -> p.getNumPedido() == pedido.getNumPedido());
+        getPed().getLista().removeIf(p -> p.getNumPedido() == pedido.getNumPedido());
     }
 }

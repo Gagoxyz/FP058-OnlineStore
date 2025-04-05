@@ -62,7 +62,7 @@ public class ControladorPedido {
                 break;
         }
         if(registroCliente == 2){
-            cliente = tienda.getClientes().getLast();
+            cliente = tienda.getCli().getLista().getLast();
         }
         if(cliente != null){
             String codigoArticulo = herramientas.pedirString("Indica el código del artículo: ");
@@ -80,7 +80,7 @@ public class ControladorPedido {
         Cliente clienteVacio = null;
         boolean vuelta = true;
         while(vuelta){
-            for(Cliente i : tienda.getClientes()){
+            for(Cliente i : tienda.getCli().getLista()){
                 if(i.getEmail().equals(email)){
                     return i;
                 }
@@ -97,7 +97,7 @@ public class ControladorPedido {
         Articulo articuloVacio = null;
         boolean vuelta = true;
         while(vuelta){
-            for(Articulo i : tienda.getArticulos()){
+            for(Articulo i : tienda.getArt().getLista()){
                 if(i.getCodigoProducto().equals(codigo)){
                     return i;
                 }
@@ -128,7 +128,7 @@ public class ControladorPedido {
         Pedido pedidoVacio = null;
         boolean vuelta = true;
         while(vuelta){
-            for(Pedido i : tienda.getPedidos()){
+            for(Pedido i : tienda.getPed().getLista()){
                 if(i.getNumPedido() == numero){
                     return i;
                 }
@@ -148,7 +148,7 @@ public class ControladorPedido {
         eleccion = herramientas.comprobarOpcion(eleccion, 1, 2);
         boolean listaVacia = true;
         if(eleccion == 1){
-            for(Pedido i : tienda.getPedidos()){
+            for(Pedido i : tienda.getPed().getLista()){
                 estadoPedido = i.envioPendiente();
                 if(estadoPedido == pendiente){
                     listaPedidos.add(i);
@@ -158,8 +158,8 @@ public class ControladorPedido {
         }else{
             String email = herramientas.pedirString("\nIndica el email del cliente: ");
             Cliente cliente = buscarCliente(email);
-            for(Pedido i : tienda.getPedidos()){
-                if(i.getCliente().equals(cliente)){
+            for(Pedido i : tienda.getPed().getLista()){
+                if(i.getCliente().getEmail().equals(cliente.getEmail())){
                     estadoPedido = i.envioPendiente();
                     if(estadoPedido == pendiente){
                         listaPedidos.add(i);

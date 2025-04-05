@@ -4,6 +4,7 @@ import org.javaenjoyers.modelo.*;
 import org.javaenjoyers.vista.VistaClientes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ControladorCliente {
     private VistaClientes vistaClientes;
@@ -46,7 +47,7 @@ public class ControladorCliente {
         String email = vistaClientes.emailCliente();
         boolean repetido = true;
         while(repetido){
-            for(Cliente i : tienda.getClientes()){
+            for(Cliente i : tienda.getCli().getLista()){
                 if(i.getEmail().equals(email)){
                     email = herramientas.repetirString(1);
                     repetido = true;
@@ -73,32 +74,27 @@ public class ControladorCliente {
     }
 
     public void showTodos(){
-        ArrayList<Cliente> clientes = tienda.getClientes();
-        vistaClientes.showClientes(clientes);
-
-        System.out.println("-------------------------------------------"); //BORRAR
-        //NUEVO
-        GestorDatos<Cliente> cli = tienda.getCli();
-        vistaClientes.listarCli(cli);
+        List<Cliente> cli = tienda.getCli().getLista();
+        vistaClientes.showClientes(cli);
     }
 
     public void showEstandar(){
-        ArrayList<Cliente> clientes = new ArrayList<>();
-        for(Cliente i : tienda.getClientes()){
+        ArrayList<Cliente> cli = new ArrayList<>();
+        for(Cliente i : tienda.getCli().getLista()){
             if(i instanceof Estandar){
-                clientes.add(i);
+                cli.add(i);
             }
         }
-        vistaClientes.showClientes(clientes);
+        vistaClientes.showClientes(cli);
     }
 
     public void showPremium(){
-        ArrayList<Cliente> clientes = new ArrayList<>();
-        for(Cliente i : tienda.getClientes()){
+        ArrayList<Cliente> cli = new ArrayList<>();
+        for(Cliente i : tienda.getCli().getLista()){
             if(i instanceof Premium){
-                clientes.add(i);
+                cli.add(i);
             }
         }
-        vistaClientes.showClientes(clientes);
+        vistaClientes.showClientes(cli);
     }
 }

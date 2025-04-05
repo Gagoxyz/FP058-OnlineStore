@@ -3,7 +3,7 @@ package org.javaenjoyers.vista;
 import org.javaenjoyers.controlador.Herramientas;
 import org.javaenjoyers.modelo.Articulo;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class VistaArticulos {
@@ -42,7 +42,7 @@ public class VistaArticulos {
         return new Articulo(codigo, descripcion, precio, gastos, tiempo);
     }
 
-    public void showArticulos(ArrayList<Articulo> articulos){
+    public void showArticulos(List<Articulo> articulos){
         System.out.println(articulos);
     }
 }

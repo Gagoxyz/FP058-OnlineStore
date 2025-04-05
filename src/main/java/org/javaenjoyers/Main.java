@@ -35,17 +35,17 @@ public class Main {
         Pedido pedido04 = new Pedido(4, cliente02, articulo02, 2);
         Pedido pedido05 = new Pedido(5, cliente02, articulo02, 3);
 
-        tienda.getClientes().add(cliente01);
-        tienda.getClientes().add(cliente02);
-        tienda.getClientes().add(cliente03);
-        tienda.getClientes().add(cliente04);
-        tienda.getArticulos().add(articulo01);
-        tienda.getArticulos().add(articulo02);
-        tienda.getPedidos().add(pedido01);
-        tienda.getPedidos().add(pedido02);
-        tienda.getPedidos().add(pedido03);
-        tienda.getPedidos().add(pedido04);
-        tienda.getPedidos().add(pedido05);
+        tienda.getCli().agregar(cliente01);
+        tienda.getCli().agregar(cliente02);
+        tienda.getCli().agregar(cliente03);
+        tienda.getCli().agregar(cliente04);
+        tienda.getArt().agregar(articulo01);
+        tienda.getArt().agregar(articulo02);
+        tienda.getPed().agregar(pedido01);
+        tienda.getPed().agregar(pedido02);
+        tienda.getPed().agregar(pedido03);
+        tienda.getPed().agregar(pedido04);
+        tienda.getPed().agregar(pedido05);
 
         controlador.inicio();
     }

@@ -6,7 +6,7 @@ import org.javaenjoyers.modelo.Cliente;
 import org.javaenjoyers.modelo.Pedido;
 
 import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.List;
 
 public class VistaPedidos {
     Scanner teclado = new Scanner(System.in);
@@ -37,7 +37,7 @@ public class VistaPedidos {
     }
 
     public Pedido infoPedido(Cliente cliente, Articulo articulo, int numero){
-        System.out.print("\nIndica la cantidad del artículo: ");
+        System.out.print("Indica la cantidad del artículo: ");
         int cantidad = herramientas.errorIntEntrada();
         return new Pedido(numero, cliente, articulo, cantidad);
     }
@@ -54,7 +54,7 @@ public class VistaPedidos {
         return herramientas.errorIntEntrada();
     }
 
-    public void showPedidos(ArrayList<Pedido>pedidos){
+    public void showPedidos(List<Pedido>pedidos){
         System.out.println(pedidos);
     }
 }
