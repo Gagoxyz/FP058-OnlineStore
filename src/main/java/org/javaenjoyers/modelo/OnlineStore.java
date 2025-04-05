@@ -76,6 +76,6 @@ public class OnlineStore {
     }
 
     public void removePedido(Pedido pedido){
-        getPed().getLista().removeIf(p -> p.getNumPedido() == pedido.getNumPedido());
+        ped.eliminar(pedido);
     }
 }

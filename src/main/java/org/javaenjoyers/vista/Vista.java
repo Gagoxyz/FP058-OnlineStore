@@ -1,5 +1,6 @@
 package org.javaenjoyers.vista;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Vista {
@@ -84,4 +85,5 @@ public class Vista {
         }
         return valor;
     }
+
 }
