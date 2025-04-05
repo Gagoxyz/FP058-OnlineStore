@@ -48,10 +48,6 @@ public class Herramientas {
         return vista.pedirString(mensaje);
     }
 
-    /*public int pedirInt(String mensaje){
-        return vista.pedirInt(mensaje);
-    }*/
-
     public int repetirInt(){
         return vista.repetirInt();
     }

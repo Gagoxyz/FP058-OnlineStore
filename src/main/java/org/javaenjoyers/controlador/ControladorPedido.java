@@ -112,7 +112,6 @@ public class ControladorPedido {
 
     public void removePedido(){
         int numero = vistaPedidos.pedirNum();
-        //int numero = herramientas.pedirInt("Indica el número del pedido que deseas eliminar: ");
         Pedido pedidoBuscado = buscarPedido(numero);
         if(pedidoBuscado != null){
             boolean estadoPedido = pedidoBuscado.envioPendiente();
