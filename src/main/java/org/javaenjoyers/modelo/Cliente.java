@@ -9,7 +9,6 @@ public class Cliente {
     private String nombre;
     private String domicilio;
     private String nif;
-    //private List<Pedido> pedidos;
     private GestorDatos<Pedido> pedidos = new GestorDatos<>();
 
     public Cliente(String email, String nombre, String domicilio, String nif) {
