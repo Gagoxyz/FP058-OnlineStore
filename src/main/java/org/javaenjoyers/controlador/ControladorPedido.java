@@ -84,7 +84,7 @@ public class ControladorPedido {
             while(vuelta){
                 email = herramientas.repetirString(2);
                 if(email.equals("0")){
-                    vuelta = false;
+                    break;
                 }
                 cliente = tienda.getClientePorEmail().get(email);
                 if(cliente != null){
@@ -102,7 +102,7 @@ public class ControladorPedido {
             while(vuelta){
                 codigo = herramientas.repetirString(2);
                 if(codigo.equals("0")){
-                    vuelta = false;
+                    break;
                 }
                 articulo = tienda.getArticuloPorCodigo().get(codigo);
                 if(articulo != null){
