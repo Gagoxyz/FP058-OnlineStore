@@ -9,14 +9,15 @@ public class Cliente {
     private String nombre;
     private String domicilio;
     private String nif;
-    private List<Pedido> pedidos;
+    //private List<Pedido> pedidos;
+    private GestorDatos<Pedido> pedidos = new GestorDatos<>();
 
     public Cliente(String email, String nombre, String domicilio, String nif) {
         this.email = email;
         this.nombre = nombre;
         this.domicilio = domicilio;
         this.nif = nif;
-        this.pedidos = new ArrayList<>();
+        this.pedidos = new GestorDatos<>();
     }
 
     public String getEmail() {
@@ -49,6 +50,14 @@ public class Cliente {
 
     public void setNif(String nif) {
         this.nif = nif;
+    }
+
+    public GestorDatos<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(GestorDatos<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 
     @Override

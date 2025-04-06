@@ -4,7 +4,6 @@ import org.javaenjoyers.modelo.Articulo;
 import org.javaenjoyers.modelo.OnlineStore;
 import org.javaenjoyers.vista.VistaArticulos;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ControladorArticulo {
@@ -42,7 +41,7 @@ public class ControladorArticulo {
         String codigo = vistaArticulos.codigoArticulo();
         boolean repetido = true;
         while(repetido){
-            for(Articulo i : tienda.getArt().getLista()){
+            for(Articulo i : tienda.getArticulos().getLista()){
                 if(i.getCodigoProducto().equals(codigo)){
                     codigo = herramientas.repetirString(1);
                     repetido = true;
@@ -57,7 +56,7 @@ public class ControladorArticulo {
     }
 
     public void showArticulos(){
-        List<Articulo> art = tienda.getArt().getLista();
+        List<Articulo> art = tienda.getArticulos().getLista();
         vistaArticulos.showArticulos(art);
     }
 }

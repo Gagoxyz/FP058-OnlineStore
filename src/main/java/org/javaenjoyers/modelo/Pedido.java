@@ -59,8 +59,7 @@ public class Pedido {
     //Metodo para convertir la fecha y hora en algo más legible
     public String formatoFecha(LocalDateTime fechaOrginal){
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        String fechaFinal = fechaOrginal.format(formato);
-        return fechaFinal;
+        return fechaOrginal.format(formato);
     }
 
     @Override

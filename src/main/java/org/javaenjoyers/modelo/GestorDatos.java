@@ -15,10 +15,6 @@ public class GestorDatos<T> {
         lista.add(elemento);
     }
 
-    public List<T> listar(){
-        return new ArrayList<>(lista);
-    }
-
     public void eliminar(T elemento){
         lista.remove(elemento);
     }

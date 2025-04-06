@@ -62,7 +62,7 @@ public class ControladorPedido {
                 break;
         }
         if(registroCliente == 2){
-            cliente = tienda.getCli().getLista().getLast();
+            cliente = tienda.getClientes().getLista().getLast();
         }
         if(cliente != null){
             String codigoArticulo = herramientas.pedirString("Indica el código del artículo: ");
@@ -71,6 +71,7 @@ public class ControladorPedido {
                 int numero = tienda.buscarNumeroPedido();
                 pedidoNuevo = vistaPedidos.infoPedido(cliente, articulo, numero);
                 tienda.addPedido(pedidoNuevo);
+                cliente.getPedidos().agregar(pedidoNuevo);
                 herramientas.enviarMensaje(1, null);
             }
         }
@@ -80,7 +81,7 @@ public class ControladorPedido {
         Cliente clienteVacio = null;
         boolean vuelta = true;
         while(vuelta){
-            for(Cliente i : tienda.getCli().getLista()){
+            for(Cliente i : tienda.getClientes().getLista()){
                 if(i.getEmail().equals(email)){
                     return i;
                 }
@@ -97,7 +98,7 @@ public class ControladorPedido {
         Articulo articuloVacio = null;
         boolean vuelta = true;
         while(vuelta){
-            for(Articulo i : tienda.getArt().getLista()){
+            for(Articulo i : tienda.getArticulos().getLista()){
                 if(i.getCodigoProducto().equals(codigo)){
                     return i;
                 }
@@ -128,7 +129,7 @@ public class ControladorPedido {
         Pedido pedidoVacio = null;
         boolean vuelta = true;
         while(vuelta){
-            for(Pedido i : tienda.getPed().getLista()){
+            for(Pedido i : tienda.getPedidos().getLista()){
                 if(i.getNumPedido() == numero){
                     return i;
                 }
@@ -148,7 +149,7 @@ public class ControladorPedido {
         eleccion = herramientas.comprobarOpcion(eleccion, 1, 2);
         boolean listaVacia = true;
         if(eleccion == 1){
-            for(Pedido i : tienda.getPed().getLista()){
+            for(Pedido i : tienda.getPedidos().getLista()){
                 estadoPedido = i.envioPendiente();
                 if(estadoPedido == pendiente){
                     listaPedidos.add(i);
@@ -158,13 +159,11 @@ public class ControladorPedido {
         }else{
             String email = herramientas.pedirString("\nIndica el email del cliente: ");
             Cliente cliente = buscarCliente(email);
-            for(Pedido i : tienda.getPed().getLista()){
-                if(i.getCliente().getEmail().equals(cliente.getEmail())){
-                    estadoPedido = i.envioPendiente();
-                    if(estadoPedido == pendiente){
-                        listaPedidos.add(i);
-                        listaVacia = false;
-                    }
+            for(Pedido i : cliente.getPedidos().getLista()){
+                estadoPedido = i.envioPendiente();
+                if(estadoPedido == pendiente){
+                    listaPedidos.add(i);
+                    listaVacia = false;
                 }
             }
         }

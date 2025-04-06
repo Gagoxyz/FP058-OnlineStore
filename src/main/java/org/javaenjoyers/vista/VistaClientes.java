@@ -2,10 +2,8 @@ package org.javaenjoyers.vista;
 
 import org.javaenjoyers.controlador.Herramientas;
 import org.javaenjoyers.modelo.Cliente;
-import org.javaenjoyers.modelo.GestorDatos;
 
 import java.util.Scanner;
-import java.util.ArrayList;
 import java.util.List;
 
 public class VistaClientes {

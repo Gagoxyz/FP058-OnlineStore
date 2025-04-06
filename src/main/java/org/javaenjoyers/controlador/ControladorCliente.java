@@ -47,7 +47,7 @@ public class ControladorCliente {
         String email = vistaClientes.emailCliente();
         boolean repetido = true;
         while(repetido){
-            for(Cliente i : tienda.getCli().getLista()){
+            for(Cliente i : tienda.getClientes().getLista()){
                 if(i.getEmail().equals(email)){
                     email = herramientas.repetirString(1);
                     repetido = true;
@@ -74,13 +74,13 @@ public class ControladorCliente {
     }
 
     public void showTodos(){
-        List<Cliente> cli = tienda.getCli().getLista();
+        List<Cliente> cli = tienda.getClientes().getLista();
         vistaClientes.showClientes(cli);
     }
 
     public void showEstandar(){
         ArrayList<Cliente> cli = new ArrayList<>();
-        for(Cliente i : tienda.getCli().getLista()){
+        for(Cliente i : tienda.getClientes().getLista()){
             if(i instanceof Estandar){
                 cli.add(i);
             }
@@ -90,7 +90,7 @@ public class ControladorCliente {
 
     public void showPremium(){
         ArrayList<Cliente> cli = new ArrayList<>();
-        for(Cliente i : tienda.getCli().getLista()){
+        for(Cliente i : tienda.getClientes().getLista()){
             if(i instanceof Premium){
                 cli.add(i);
             }

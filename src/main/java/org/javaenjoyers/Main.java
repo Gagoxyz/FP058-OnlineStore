@@ -20,7 +20,7 @@ public class Main {
         ControladorCliente contrCli = new ControladorCliente(herramientas, tienda, vistaCli);
         ControladorArticulo contrArt = new ControladorArticulo(herramientas, tienda, vistaArt);
         ControladorPedido contrPed = new ControladorPedido(contrCli, herramientas, tienda, vistaPed);
-        Controlador controlador = new Controlador(contrArt, contrCli, contrPed, herramientas, tienda, vista);
+        Controlador controlador = new Controlador(contrArt, contrCli, contrPed, herramientas, vista);
 
         // clases de prueba
         Cliente cliente01 = new Estandar("manuela@estandar.com", "Manuela", "c/cliente estandar S/N", "123456789");
@@ -35,17 +35,22 @@ public class Main {
         Pedido pedido04 = new Pedido(4, cliente02, articulo02, 2);
         Pedido pedido05 = new Pedido(5, cliente02, articulo02, 3);
 
-        tienda.getCli().agregar(cliente01);
-        tienda.getCli().agregar(cliente02);
-        tienda.getCli().agregar(cliente03);
-        tienda.getCli().agregar(cliente04);
-        tienda.getArt().agregar(articulo01);
-        tienda.getArt().agregar(articulo02);
-        tienda.getPed().agregar(pedido01);
-        tienda.getPed().agregar(pedido02);
-        tienda.getPed().agregar(pedido03);
-        tienda.getPed().agregar(pedido04);
-        tienda.getPed().agregar(pedido05);
+        tienda.getClientes().agregar(cliente01);
+        tienda.getClientes().agregar(cliente02);
+        tienda.getClientes().agregar(cliente03);
+        tienda.getClientes().agregar(cliente04);
+        tienda.getArticulos().agregar(articulo01);
+        tienda.getArticulos().agregar(articulo02);
+        tienda.getPedidos().agregar(pedido01);
+        tienda.getPedidos().agregar(pedido02);
+        tienda.getPedidos().agregar(pedido03);
+        tienda.getPedidos().agregar(pedido04);
+        tienda.getPedidos().agregar(pedido05);
+        cliente01.getPedidos().agregar(pedido01);
+        cliente01.getPedidos().agregar(pedido02);
+        cliente02.getPedidos().agregar(pedido03);
+        cliente02.getPedidos().agregar(pedido04);
+        cliente02.getPedidos().agregar(pedido05);
 
         controlador.inicio();
     }
