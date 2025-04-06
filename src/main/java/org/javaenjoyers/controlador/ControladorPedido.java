@@ -78,37 +78,39 @@ public class ControladorPedido {
     }
 
     public Cliente buscarCliente(String email){
-        Cliente clienteVacio = null;
-        boolean vuelta = true;
-        while(vuelta){
-            for(Cliente i : tienda.getClientes().getLista()){
-                if(i.getEmail().equals(email)){
-                    return i;
+        Cliente cliente = tienda.getClientePorEmail().get(email);
+        if(cliente == null){
+            boolean vuelta = true;
+            while(vuelta){
+                email = herramientas.repetirString(2);
+                if(email.equals("0")){
+                    vuelta = false;
+                }
+                cliente = tienda.getClientePorEmail().get(email);
+                if(cliente != null){
+                    vuelta = false;
                 }
             }
-            email = herramientas.repetirString(2);
-            if(email.equals("0")){
-                vuelta = false;
-            }
         }
-        return clienteVacio;
+        return cliente;
     }
 
     public Articulo buscarArticulo(String codigo){
-        Articulo articuloVacio = null;
-        boolean vuelta = true;
-        while(vuelta){
-            for(Articulo i : tienda.getArticulos().getLista()){
-                if(i.getCodigoProducto().equals(codigo)){
-                    return i;
+        Articulo articulo = tienda.getArticuloPorCodigo().get(codigo);
+        if(articulo == null){
+            boolean vuelta = true;
+            while(vuelta){
+                codigo = herramientas.repetirString(2);
+                if(codigo.equals("0")){
+                    vuelta = false;
+                }
+                articulo = tienda.getArticuloPorCodigo().get(codigo);
+                if(articulo != null){
+                    vuelta = false;
                 }
             }
-            codigo = herramientas.repetirString(2);
-            if(codigo.equals("0")){
-                vuelta = false;
-            }
         }
-        return articuloVacio;
+        return articulo;
     }
 
     public void removePedido(){
@@ -144,6 +146,7 @@ public class ControladorPedido {
 
     public void showPedidos(boolean pendiente){
         ArrayList<Pedido> listaPedidos = new ArrayList<>();
+        Cliente cliente = null;
         boolean estadoPedido;
         int eleccion = vistaPedidos.mostrarPedidos();
         eleccion = herramientas.comprobarOpcion(eleccion, 1, 2);
@@ -158,16 +161,18 @@ public class ControladorPedido {
             }
         }else{
             String email = herramientas.pedirString("\nIndica el email del cliente: ");
-            Cliente cliente = buscarCliente(email);
-            for(Pedido i : cliente.getPedidos().getLista()){
-                estadoPedido = i.envioPendiente();
-                if(estadoPedido == pendiente){
-                    listaPedidos.add(i);
-                    listaVacia = false;
+            cliente = buscarCliente(email);
+            if(cliente != null){
+                for(Pedido i : cliente.getPedidos().getLista()){
+                    estadoPedido = i.envioPendiente();
+                    if(estadoPedido == pendiente){
+                        listaPedidos.add(i);
+                        listaVacia = false;
+                    }
                 }
             }
         }
-        if(listaVacia){
+        if(listaVacia && cliente != null){
             herramientas.enviarMensaje(0, "\nNo hay pedidos que mostrar.");
         }else{
             vistaPedidos.showPedidos(listaPedidos);

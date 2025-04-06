@@ -1,16 +1,23 @@
 package org.javaenjoyers.modelo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class OnlineStore {
     private String nif;
     private GestorDatos<Cliente> clientes = new GestorDatos<>();
     private GestorDatos<Articulo> articulos = new GestorDatos<>();
     private GestorDatos<Pedido> pedidos = new GestorDatos<>();
+    private Map<String, Cliente> clientePorEmail = new HashMap<>();
+    private Map<String, Articulo> articuloPorCodigo = new HashMap<>();
 
-    public OnlineStore(GestorDatos<Articulo> art, GestorDatos<Cliente> cli, String nif, GestorDatos<Pedido> ped) {
-        this.articulos = art;
-        this.clientes = cli;
+    public OnlineStore(Map<String, Articulo> articuloPorCodigo, GestorDatos<Articulo> articulos, Map<String, Cliente> clientePorEmail, GestorDatos<Cliente> clientes, String nif, GestorDatos<Pedido> pedidos) {
+        this.articuloPorCodigo = articuloPorCodigo;
+        this.articulos = articulos;
+        this.clientePorEmail = clientePorEmail;
+        this.clientes = clientes;
         this.nif = nif;
-        this.pedidos = ped;
+        this.pedidos = pedidos;
     }
 
     public OnlineStore(String nif) {
@@ -49,22 +56,42 @@ public class OnlineStore {
         this.pedidos = pedidos;
     }
 
+    public Map<String, Articulo> getArticuloPorCodigo() {
+        return articuloPorCodigo;
+    }
+
+    public void setArticuloPorCodigo(Map<String, Articulo> articuloPorCodigo) {
+        this.articuloPorCodigo = articuloPorCodigo;
+    }
+
+    public Map<String, Cliente> getClientePorEmail() {
+        return clientePorEmail;
+    }
+
+    public void setClientePorEmail(Map<String, Cliente> clientePorEmail) {
+        this.clientePorEmail = clientePorEmail;
+    }
+
     @Override
     public String toString() {
         return "OnlineStore{" +
-                "articulos=" + articulos +
+                "articuloPorCodigo=" + articuloPorCodigo +
                 ", nif='" + nif + '\'' +
                 ", clientes=" + clientes +
+                ", articulos=" + articulos +
                 ", pedidos=" + pedidos +
+                ", clientePorEmail=" + clientePorEmail +
                 '}';
     }
 
     public void addCliente(Cliente cliente){
         clientes.agregar(cliente);
+        clientePorEmail.put(cliente.getEmail(), cliente);
     }
 
     public void addArticulo(Articulo articulo){
         articulos.agregar(articulo);
+        articuloPorCodigo.put(articulo.getCodigoProducto(), articulo);
     }
 
     public void addPedido(Pedido pedido){

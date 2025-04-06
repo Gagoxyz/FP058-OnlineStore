@@ -32,11 +32,17 @@ public class Controlador {
         Pedido pedido05 = new Pedido(5, cliente02, articulo02, 3);
 
         tienda.getClientes().agregar(cliente01);
+        tienda.getClientePorEmail().put(cliente01.getEmail(), cliente01);
         tienda.getClientes().agregar(cliente02);
+        tienda.getClientePorEmail().put(cliente02.getEmail(), cliente02);
         tienda.getClientes().agregar(cliente03);
+        tienda.getClientePorEmail().put(cliente03.getEmail(), cliente03);
         tienda.getClientes().agregar(cliente04);
+        tienda.getClientePorEmail().put(cliente04.getEmail(), cliente04);
         tienda.getArticulos().agregar(articulo01);
+        tienda.getArticuloPorCodigo().put(articulo01.getCodigoProducto(), articulo01);
         tienda.getArticulos().agregar(articulo02);
+        tienda.getArticuloPorCodigo().put(articulo02.getCodigoProducto(), articulo02);
         tienda.getPedidos().agregar(pedido01);
         tienda.getPedidos().agregar(pedido02);
         tienda.getPedidos().agregar(pedido03);

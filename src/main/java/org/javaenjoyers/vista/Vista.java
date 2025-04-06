@@ -30,7 +30,7 @@ public class Vista {
     }
 
     public String repeticionString(String mensaje){
-        System.out.print(mensaje + ": ");
+        System.out.print(mensaje);
         return teclado.nextLine();
     }
 
@@ -84,5 +84,4 @@ public class Vista {
         }
         return valor;
     }
-
 }

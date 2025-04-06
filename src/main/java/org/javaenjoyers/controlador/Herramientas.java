@@ -20,10 +20,10 @@ public class Herramientas {
         String mensaje = "";
         switch (opcion){
             case 1:
-                mensaje = vista.repeticionString("Ya existe, introduce uno distinto");
+                mensaje = vista.repeticionString("Ya existe, introduce uno distinto: ");
                 break;
             case 2:
-                mensaje = vista.repeticionString("No se ha encontrado, vuelve a introducirlo (o 0 para volver atrás)");
+                mensaje = vista.repeticionString("No se ha encontrado, vuelve a introducirlo (o 0 para volver atrás): ");
                 break;
         }
         return mensaje;
