@@ -19,6 +19,9 @@ public class Cliente {
         this.pedidos = new GestorDatos<>();
     }
 
+    public Cliente() {
+    }
+
     public String getEmail() {
         return email;
     }

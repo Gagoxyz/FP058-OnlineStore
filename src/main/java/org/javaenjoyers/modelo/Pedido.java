@@ -20,6 +20,15 @@ public class Pedido {
         this.fechaHoraPedido = LocalDateTime.now();
     }
 
+    public Pedido() {
+    }
+
+    public Pedido(Articulo articulo, int cantidad, Cliente cliente) {
+        this.articulo = articulo;
+        this.cantidad = cantidad;
+        this.cliente = cliente;
+    }
+
     public int getNumPedido() {
         return numPedido;
     }
@@ -56,9 +65,13 @@ public class Pedido {
         return fechaHoraPedido;
     }
 
+    public void setFechaHoraPedido(LocalDateTime fechaHoraPedido) {
+        this.fechaHoraPedido = fechaHoraPedido;
+    }
+
     //Metodo para convertir la fecha y hora en algo más legible
     public String formatoFecha(LocalDateTime fechaOrginal){
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return fechaOrginal.format(formato);
     }
 

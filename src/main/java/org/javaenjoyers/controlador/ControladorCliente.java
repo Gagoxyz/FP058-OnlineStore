@@ -3,6 +3,7 @@ package org.javaenjoyers.controlador;
 import org.javaenjoyers.modelo.*;
 import org.javaenjoyers.vista.VistaClientes;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +11,10 @@ public class ControladorCliente {
     private VistaClientes vistaClientes;
     private Herramientas herramientas;
     private OnlineStore tienda;
+    private ClienteDAO cliDAO;
 
-    public ControladorCliente(Herramientas herramientas, OnlineStore tienda, VistaClientes vistaClientes) {
+    public ControladorCliente(ClienteDAO cliDAO, Herramientas herramientas, OnlineStore tienda, VistaClientes vistaClientes) {
+        this.cliDAO = cliDAO;
         this.herramientas = herramientas;
         this.tienda = tienda;
         this.vistaClientes = vistaClientes;
@@ -43,18 +46,24 @@ public class ControladorCliente {
         }
     }
 
-    public void addCliente(){
+    public Cliente addCliente(){
         String email = vistaClientes.emailCliente();
         boolean repetido = true;
+        Cliente cliente;
         while(repetido){
-            for(Cliente i : tienda.getClientes().getLista()){
+            /*for(Cliente i : tienda.getClientes().getLista()){
                 if(i.getEmail().equals(email)){
                     email = herramientas.repetirString(1);
                     repetido = true;
                     break;
                 }
                 repetido = false;
+            }*/
+            cliente = cliDAO.buscarCliente(email);
+            if(cliente == null){
+                break;
             }
+            email = herramientas.repetirString(1);
         }
         Cliente clienteModelo = vistaClientes.infoCliente(email);
         vistaClientes.tipoCliente();
@@ -63,38 +72,27 @@ public class ControladorCliente {
         switch (tipoBueno){
             case 1:
                 Cliente clienteEstandar = new Estandar(clienteModelo.getEmail(), clienteModelo.getNombre(), clienteModelo.getDomicilio(), clienteModelo.getNif());
-                tienda.addCliente(clienteEstandar);
-                break;
+                cliDAO.insertarCliente(clienteEstandar);
+                return clienteEstandar;
             case 2:
                 Cliente clientePremium = new Premium(clienteModelo.getEmail(), clienteModelo.getNombre(), clienteModelo.getDomicilio(), clienteModelo.getNif());
-                tienda.addCliente(clientePremium);
-                break;
+                cliDAO.insertarCliente(clientePremium);
+                return clientePremium;
         }
         herramientas.enviarMensaje(1, null);
+        clienteModelo = null;
+        return clienteModelo; //SISTEMA POCO ELEGANTE
     }
 
     public void showTodos(){
-        List<Cliente> cli = tienda.getClientes().getLista();
-        vistaClientes.showClientes(cli);
+        cliDAO.mostrarClientes(1);
     }
 
     public void showEstandar(){
-        ArrayList<Cliente> cli = new ArrayList<>();
-        for(Cliente i : tienda.getClientes().getLista()){
-            if(i instanceof Estandar){
-                cli.add(i);
-            }
-        }
-        vistaClientes.showClientes(cli);
+        cliDAO.mostrarClientes(2);
     }
 
     public void showPremium(){
-        ArrayList<Cliente> cli = new ArrayList<>();
-        for(Cliente i : tienda.getClientes().getLista()){
-            if(i instanceof Premium){
-                cli.add(i);
-            }
-        }
-        vistaClientes.showClientes(cli);
+        cliDAO.mostrarClientes(3);
     }
 }

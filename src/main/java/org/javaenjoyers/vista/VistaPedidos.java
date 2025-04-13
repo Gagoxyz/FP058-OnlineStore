@@ -36,10 +36,10 @@ public class VistaPedidos {
         return herramientas.errorIntEntrada();
     }
 
-    public Pedido infoPedido(Cliente cliente, Articulo articulo, int numero){
+    public Pedido infoPedido(Cliente cliente, Articulo articulo){
         System.out.print("Indica la cantidad del artículo: ");
         int cantidad = herramientas.errorIntEntrada();
-        return new Pedido(numero, cliente, articulo, cantidad);
+        return new Pedido(articulo, cantidad, cliente);
     }
 
     public int mostrarPedidos(){

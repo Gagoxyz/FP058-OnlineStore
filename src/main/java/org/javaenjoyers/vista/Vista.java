@@ -69,12 +69,12 @@ public class Vista {
         return valor;
     }
 
-    public float errorFloatEntrada(){
-        float valor = 0f;
+    public double errorDoubleEntrada(){
+        double valor = 0.0;
         boolean valido = false;
         while(!valido){
             try{
-                valor = teclado.nextFloat();
+                valor = teclado.nextDouble();
                 teclado.nextLine();
                 valido = true;
             }catch(java.util.InputMismatchException e){

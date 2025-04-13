@@ -1,7 +1,8 @@
 package org.javaenjoyers.controlador;
 
-import org.javaenjoyers.modelo.*;
 import org.javaenjoyers.vista.*;
+
+import java.sql.SQLException;
 
 public class Controlador {
     private Vista vista;
@@ -18,7 +19,7 @@ public class Controlador {
         this.vista = vista;
     }
 
-    public void datosIniciales(OnlineStore tienda){
+    /*public void datosIniciales(OnlineStore tienda){
         Cliente cliente01 = new Estandar("manuela@estandar.com", "Manuela", "c/cliente estandar S/N", "123456789");
         Cliente cliente02 = new Premium("david@premium.com", "David", "c/cliente estandar S/N", "87654321X");
         Cliente cliente03 = new Premium("irene@premium.com", "Irene", "c/cliente de al lado S/N", "78420365F");
@@ -53,8 +54,8 @@ public class Controlador {
         cliente02.getPedidos().agregar(pedido03);
         cliente02.getPedidos().agregar(pedido04);
         cliente02.getPedidos().agregar(pedido05);
-    }
-    public void inicio(){
+    }*/
+    public void inicio() throws SQLException {
         vista.bienvenida();
         int opcion;
         int opcionMenu;

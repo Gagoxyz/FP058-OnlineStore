@@ -1,19 +1,17 @@
 package org.javaenjoyers.controlador;
 
 import org.javaenjoyers.modelo.Articulo;
-import org.javaenjoyers.modelo.OnlineStore;
+import org.javaenjoyers.modelo.ArticuloDAO;
 import org.javaenjoyers.vista.VistaArticulos;
-
-import java.util.List;
 
 public class ControladorArticulo {
     private VistaArticulos vistaArticulos;
     private Herramientas herramientas;
-    private OnlineStore tienda;
+    private ArticuloDAO artDAO;
 
-    public ControladorArticulo(Herramientas herramientas, OnlineStore tienda, VistaArticulos vistaArticulos) {
+    public ControladorArticulo(ArticuloDAO artDAO, Herramientas herramientas, VistaArticulos vistaArticulos) {
+        this.artDAO = artDAO;
         this.herramientas = herramientas;
-        this.tienda = tienda;
         this.vistaArticulos = vistaArticulos;
     }
 
@@ -40,23 +38,20 @@ public class ControladorArticulo {
     public void addArticulo(){
         String codigo = vistaArticulos.codigoArticulo();
         boolean repetido = true;
+        Articulo articulo;
         while(repetido){
-            for(Articulo i : tienda.getArticulos().getLista()){
-                if(i.getCodigoProducto().equals(codigo)){
-                    codigo = herramientas.repetirString(1);
-                    repetido = true;
-                    break;
-                }
-                repetido = false;
+            articulo = artDAO.buscarArticulo(codigo);
+            if(articulo == null){
+                break;
             }
+            codigo = herramientas.repetirString(1);
         }
-        Articulo articuloNuevo = vistaArticulos.infoArticulo(codigo);
-        tienda.addArticulo(articuloNuevo);
+        articulo = vistaArticulos.infoArticulo(codigo);
+        artDAO.insertarArticulo(articulo);
         herramientas.enviarMensaje(1, null);
     }
 
     public void showArticulos(){
-        List<Articulo> art = tienda.getArticulos().getLista();
-        vistaArticulos.showArticulos(art);
+        artDAO.mostrarArticulos();
     }
 }

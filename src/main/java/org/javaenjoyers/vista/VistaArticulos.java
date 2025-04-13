@@ -34,15 +34,11 @@ public class VistaArticulos {
         System.out.print("Indica la descripción del artículo: ");
         String descripcion = teclado.nextLine();
         System.out.print("Indica el precio del artículo: ");
-        float precio = herramientas.errorFloatEntrada();
+        double precio = herramientas.errorDoubleEntrada();
         System.out.print("Indica los gastos de envío del artículo: ");
-        float gastos = herramientas.errorFloatEntrada();
+        double gastos = herramientas.errorDoubleEntrada();
         System.out.print("Indica el tiempo de preparación del artículo: ");
         int tiempo = herramientas.errorIntEntrada();
         return new Articulo(codigo, descripcion, precio, gastos, tiempo);
-    }
-
-    public void showArticulos(List<Articulo> articulos){
-        System.out.println(articulos);
     }
 }

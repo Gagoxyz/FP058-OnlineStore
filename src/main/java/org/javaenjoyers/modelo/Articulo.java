@@ -4,16 +4,19 @@ public class Articulo {
 
     private String codigoProducto;
     private String descripcion;
-    private float precioVenta;
-    private float gastosEnvio;
+    private double precioVenta;
+    private double gastosEnvio;
     private int tiempoPrepEnvio;
 
-    public Articulo(String codigoProducto, String descripcion, float precioVenta, float gastosEnvio, int tiempoPrepEnvio) {
+    public Articulo(String codigoProducto, String descripcion, double precioVenta, double gastosEnvio, int tiempoPrepEnvio) {
         this.codigoProducto = codigoProducto;
         this.descripcion = descripcion;
         this.precioVenta = precioVenta;
         this.gastosEnvio = gastosEnvio;
         this.tiempoPrepEnvio = tiempoPrepEnvio;
+    }
+
+    public Articulo() {
     }
 
     public String getCodigoProducto() {
@@ -32,19 +35,19 @@ public class Articulo {
         this.descripcion = descripcion;
     }
 
-    public float getPrecioVenta() {
+    public double getPrecioVenta() {
         return precioVenta;
     }
 
-    public void setPrecioVenta(float precioVenta) {
+    public void setPrecioVenta(double precioVenta) {
         this.precioVenta = precioVenta;
     }
 
-    public float getGastosEnvio() {
+    public double getGastosEnvio() {
         return gastosEnvio;
     }
 
-    public void setGastosEnvio(float gastosEnvio) {
+    public void setGastosEnvio(double gastosEnvio) {
         this.gastosEnvio = gastosEnvio;
     }
 

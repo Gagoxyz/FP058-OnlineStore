@@ -33,13 +33,20 @@ public class Herramientas {
         return vista.errorIntEntrada();
     }
 
-    public float errorFloatEntrada(){
-        return vista.errorFloatEntrada();
+    public double errorDoubleEntrada(){
+        return vista.errorDoubleEntrada();
     }
 
     public void enviarMensaje(int opcion, String mensaje){
-        if(opcion == 1){
-            mensaje = "\n*** La acción se ha llevado a cabo con éxito.***\n";
+        switch(opcion){
+            case 0:
+                break;
+            case 1:
+                mensaje = "\n*** La acción se ha llevado a cabo con éxito.***\n";
+                break;
+            case 2:
+                mensaje = "\nError de conexión con la base de datos.";
+                break;
         }
         vista.enviarMensaje(mensaje);
     }
