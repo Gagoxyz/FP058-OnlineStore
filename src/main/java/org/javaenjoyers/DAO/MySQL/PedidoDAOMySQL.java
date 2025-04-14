@@ -39,8 +39,15 @@ public class PedidoDAOMySQL implements PedidoDAO {
                 sentencia.executeUpdate(sql2);
                 conexion.commit();
                 conexion.setAutoCommit(true);
+                herramientas.enviarMensaje(1, null);
             }catch(SQLException e){
-                herramientas.enviarMensaje(2, null);
+                try{
+                    if(conexion != null){
+                        conexion.rollback();
+                    }
+                }catch (SQLException rollbackEx){
+                    rollbackEx.printStackTrace();
+                }
             }
         }else{
             String sql = "INSERT INTO pedidos (email_cliente, cod_articulo, cantidad, fecha_hora)\n" +
@@ -53,7 +60,6 @@ public class PedidoDAOMySQL implements PedidoDAO {
                 herramientas.enviarMensaje(2, null);
             }
         }
-
     }
 
     public Cliente buscarCliente(String email){
@@ -183,13 +189,9 @@ public class PedidoDAOMySQL implements PedidoDAO {
                 }
             }else{
                 if(pendiente){
-                    sql = "SELECT p.* FROM pedidos p JOIN articulos a ON p.cod_articulo = a.cod_articulo\n" +
-                            "WHERE email_cliente = \"" + cliente.getEmail() + "\" AND DATE_ADD(fecha_hora," +
-                            "INTERVAL tiempo_preparacion*cantidad MINUTE) > NOW();";
+                    sql = "CALL obtener_pedidos_pendientes (\"" + cliente.getEmail() + "\");";
                 }else{
-                    sql = "SELECT p.* FROM pedidos p JOIN articulos a ON p.cod_articulo = a.cod_articulo\n" +
-                            "WHERE email_cliente = \"" + cliente.getEmail() + "\" AND DATE_ADD(fecha_hora," +
-                            "INTERVAL tiempo_preparacion*cantidad MINUTE) < NOW();";
+                    sql = "CALL obtener_pedidos_enviados (\"" + cliente.getEmail() + "\");";
                 }
             }
             sentencia = conexion.createStatement();

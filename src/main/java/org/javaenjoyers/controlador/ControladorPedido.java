@@ -71,7 +71,6 @@ public class ControladorPedido {
             Articulo articulo = pedDAO.buscarArticulo(codigoArticulo);
             pedido = vistaPedidos.infoPedido(cliente, articulo);
             pedDAO.insertarPedido(pedido, clienteNuevo);
-            herramientas.enviarMensaje(1, null);
         }
     }
 
