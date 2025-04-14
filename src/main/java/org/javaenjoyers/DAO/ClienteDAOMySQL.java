@@ -1,17 +1,20 @@
-package org.javaenjoyers.modelo;
+package org.javaenjoyers.DAO;
 
 import org.javaenjoyers.controlador.Herramientas;
+import org.javaenjoyers.modelo.Cliente;
+import org.javaenjoyers.modelo.Estandar;
+import org.javaenjoyers.modelo.Premium;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ClienteDAO {
+public class ClienteDAOMySQL {
     Connection conexion;
     Herramientas herramientas;
 
-    public ClienteDAO(Connection conexion, Herramientas herramientas) {
+    public ClienteDAOMySQL(Connection conexion, Herramientas herramientas) {
         this.conexion = conexion;
         this.herramientas = herramientas;
     }

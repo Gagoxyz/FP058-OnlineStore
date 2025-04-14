@@ -1,22 +1,17 @@
 package org.javaenjoyers.controlador;
 
+import org.javaenjoyers.DAO.ClienteDAO;
 import org.javaenjoyers.modelo.*;
 import org.javaenjoyers.vista.VistaClientes;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ControladorCliente {
     private VistaClientes vistaClientes;
     private Herramientas herramientas;
-    private OnlineStore tienda;
     private ClienteDAO cliDAO;
 
-    public ControladorCliente(ClienteDAO cliDAO, Herramientas herramientas, OnlineStore tienda, VistaClientes vistaClientes) {
+    public ControladorCliente(ClienteDAO cliDAO, Herramientas herramientas, VistaClientes vistaClientes) {
         this.cliDAO = cliDAO;
         this.herramientas = herramientas;
-        this.tienda = tienda;
         this.vistaClientes = vistaClientes;
     }
 

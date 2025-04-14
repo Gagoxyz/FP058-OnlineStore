@@ -1,7 +1,7 @@
 package org.javaenjoyers.controlador;
 
 import org.javaenjoyers.modelo.Articulo;
-import org.javaenjoyers.modelo.ArticuloDAO;
+import org.javaenjoyers.DAO.ArticuloDAO;
 import org.javaenjoyers.vista.VistaArticulos;
 
 public class ControladorArticulo {

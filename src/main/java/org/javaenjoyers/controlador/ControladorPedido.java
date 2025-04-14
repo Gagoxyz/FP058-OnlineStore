@@ -1,20 +1,19 @@
 package org.javaenjoyers.controlador;
 
+import org.javaenjoyers.DAO.PedidoDAO;
 import org.javaenjoyers.modelo.*;
 import org.javaenjoyers.vista.VistaPedidos;
 
 public class ControladorPedido {
     private VistaPedidos vistaPedidos;
     private Herramientas herramientas;
-    private OnlineStore tienda;
     private ControladorCliente contrCliente;
     private PedidoDAO pedDAO;
 
-    public ControladorPedido(ControladorCliente contrCliente, Herramientas herramientas, PedidoDAO pedDAO, OnlineStore tienda, VistaPedidos vistaPedidos) {
+    public ControladorPedido(ControladorCliente contrCliente, Herramientas herramientas, PedidoDAO pedDAO, VistaPedidos vistaPedidos) {
         this.contrCliente = contrCliente;
         this.herramientas = herramientas;
         this.pedDAO = pedDAO;
-        this.tienda = tienda;
         this.vistaPedidos = vistaPedidos;
     }
 

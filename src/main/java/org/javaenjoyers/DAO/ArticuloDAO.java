@@ -1,5 +1,6 @@
-package org.javaenjoyers.modelo;
+package org.javaenjoyers.DAO;
 import org.javaenjoyers.controlador.Herramientas;
+import org.javaenjoyers.modelo.Articulo;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

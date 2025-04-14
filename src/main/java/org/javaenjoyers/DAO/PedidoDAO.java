@@ -1,5 +1,8 @@
-package org.javaenjoyers.modelo;
+package org.javaenjoyers.DAO;
 import org.javaenjoyers.controlador.Herramientas;
+import org.javaenjoyers.modelo.Articulo;
+import org.javaenjoyers.modelo.Cliente;
+import org.javaenjoyers.modelo.Pedido;
 
 import java.sql.*;
 import java.time.LocalDateTime;
