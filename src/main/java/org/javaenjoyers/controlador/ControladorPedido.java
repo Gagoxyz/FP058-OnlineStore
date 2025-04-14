@@ -1,7 +1,9 @@
 package org.javaenjoyers.controlador;
 
+import org.javaenjoyers.DAO.ClienteDAO;
 import org.javaenjoyers.DAO.PedidoDAO;
 import org.javaenjoyers.modelo.*;
+import org.javaenjoyers.vista.VistaClientes;
 import org.javaenjoyers.vista.VistaPedidos;
 
 public class ControladorPedido {
@@ -9,11 +11,15 @@ public class ControladorPedido {
     private Herramientas herramientas;
     private ControladorCliente contrCliente;
     private PedidoDAO pedDAO;
+    private VistaClientes vistaClientes;
+    private ClienteDAO cliDAO;
 
-    public ControladorPedido(ControladorCliente contrCliente, Herramientas herramientas, PedidoDAO pedDAO, VistaPedidos vistaPedidos) {
+    public ControladorPedido(ClienteDAO cliDAO, ControladorCliente contrCliente, Herramientas herramientas, PedidoDAO pedDAO, VistaClientes vistaClientes, VistaPedidos vistaPedidos) {
+        this.cliDAO = cliDAO;
         this.contrCliente = contrCliente;
         this.herramientas = herramientas;
         this.pedDAO = pedDAO;
+        this.vistaClientes = vistaClientes;
         this.vistaPedidos = vistaPedidos;
     }
 
@@ -48,22 +54,51 @@ public class ControladorPedido {
         int registroCliente = herramientas.comprobarOpcion(opcionCliente, 1, 2);
         Pedido pedido;
         Cliente cliente = null;
+        boolean clienteNuevo = true;
         switch (registroCliente){
             case 1:
                 String email = herramientas.pedirString("Indica el email del cliente: ");
                 cliente = pedDAO.buscarCliente(email);
+                clienteNuevo = false;
                 break;
             case 2:
-                cliente = contrCliente.addCliente();
+                cliente = crearCliente();
+                clienteNuevo = true;
                 break;
         }
         if(cliente != null){
             String codigoArticulo = herramientas.pedirString("Indica el código del artículo: ");
             Articulo articulo = pedDAO.buscarArticulo(codigoArticulo);
             pedido = vistaPedidos.infoPedido(cliente, articulo);
-            pedDAO.insertarPedido(pedido);
+            pedDAO.insertarPedido(pedido, clienteNuevo);
             herramientas.enviarMensaje(1, null);
         }
+    }
+
+    public Cliente crearCliente(){
+        String email = vistaClientes.emailCliente();
+        Cliente cliente = null;
+        boolean vuelta = true;
+        while(vuelta){
+            Cliente cliExistente = cliDAO.buscarCliente(email);
+            if(cliExistente == null){
+                vuelta = false;
+                cliente = vistaClientes.infoCliente(email);
+                vistaClientes.tipoCliente();
+                int tipo = herramientas.errorIntEntrada();
+                tipo = herramientas.comprobarOpcion(tipo, 1, 2);
+                switch (tipo){
+                    case 1:
+                        cliente = new Estandar(cliente.getEmail(), cliente.getNombre(), cliente.getDomicilio(), cliente.getNif());
+                        break;
+                    case 2:
+                        cliente = new Premium(cliente.getEmail(), cliente.getNombre(), cliente.getDomicilio(), cliente.getNif());
+                }
+            }else{
+                email = herramientas.repetirString(1);
+            }
+        }
+        return cliente;
     }
 
     public void removePedido(){

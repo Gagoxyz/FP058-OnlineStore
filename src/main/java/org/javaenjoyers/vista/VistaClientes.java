@@ -48,8 +48,4 @@ public class VistaClientes {
         System.out.println("2. Premium");
         System.out.print("¿Qué tipo de cliente es? ");
     }
-
-    public void showClientes(List<Cliente> clientes){
-        System.out.println(clientes);
-    }
 }

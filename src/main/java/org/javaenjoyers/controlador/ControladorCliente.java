@@ -55,8 +55,8 @@ public class ControladorCliente {
         Cliente clienteModelo = vistaClientes.infoCliente(email);
         vistaClientes.tipoCliente();
         int tipo = herramientas.errorIntEntrada();
-        int tipoBueno = herramientas.comprobarOpcion(tipo, 1, 2);
-        switch (tipoBueno){
+        tipo = herramientas.comprobarOpcion(tipo, 1, 2);
+        switch (tipo){
             case 1:
                 Cliente clienteEstandar = new Estandar(clienteModelo.getEmail(), clienteModelo.getNombre(), clienteModelo.getDomicilio(), clienteModelo.getNif());
                 cliDAO.insertarCliente(clienteEstandar);

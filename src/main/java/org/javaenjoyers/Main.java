@@ -35,7 +35,7 @@ public class Main {
             VistaPedidos vistaPed = new VistaPedidos(herramientas);
             ControladorCliente contrCli = new ControladorCliente(cliDAO, herramientas, vistaCli);
             ControladorArticulo contrArt = new ControladorArticulo(artDAO, herramientas, vistaArt);
-            ControladorPedido contrPed = new ControladorPedido(contrCli, herramientas, pedDAO, vistaPed);
+            ControladorPedido contrPed = new ControladorPedido(cliDAO, contrCli, herramientas, pedDAO, vistaCli, vistaPed);
             Controlador controlador = new Controlador(contrArt, contrCli, contrPed, herramientas, vista);
 
             herramientas.enviarMensaje(0, "\n\nConectado a la BD con éxito");

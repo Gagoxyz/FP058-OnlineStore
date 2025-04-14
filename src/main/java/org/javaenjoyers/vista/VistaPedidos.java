@@ -53,8 +53,4 @@ public class VistaPedidos {
         System.out.print("\nIndica el número del pedido que deseas eliminar: ");
         return herramientas.errorIntEntrada();
     }
-
-    public void showPedidos(List<Pedido>pedidos){
-        System.out.println(pedidos);
-    }
 }
