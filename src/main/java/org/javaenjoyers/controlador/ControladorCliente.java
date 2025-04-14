@@ -46,14 +46,6 @@ public class ControladorCliente {
         boolean repetido = true;
         Cliente cliente;
         while(repetido){
-            /*for(Cliente i : tienda.getClientes().getLista()){
-                if(i.getEmail().equals(email)){
-                    email = herramientas.repetirString(1);
-                    repetido = true;
-                    break;
-                }
-                repetido = false;
-            }*/
             cliente = cliDAO.buscarCliente(email);
             if(cliente == null){
                 break;
@@ -76,7 +68,7 @@ public class ControladorCliente {
         }
         herramientas.enviarMensaje(1, null);
         clienteModelo = null;
-        return clienteModelo; //SISTEMA POCO ELEGANTE
+        return clienteModelo;
     }
 
     public void showTodos(){

@@ -15,7 +15,7 @@ public class Utilidad {
         try{
             conexion = DriverManager.getConnection(url, usuario, contrasena);
         }catch(SQLException e){
-            herramientas.enviarMensaje(2, null);
+            herramientas.enviarMensaje(0, "Error al conectar: "+e.getMessage());
         }
         return conexion;
     }

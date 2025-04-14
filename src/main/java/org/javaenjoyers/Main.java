@@ -2,8 +2,13 @@ package org.javaenjoyers;
 
 import org.javaenjoyers.DAO.ArticuloDAO;
 import org.javaenjoyers.DAO.ClienteDAO;
+import org.javaenjoyers.DAO.DAOFactory;
+import org.javaenjoyers.DAO.MySQL.ArticuloDAOMySQL;
+import org.javaenjoyers.DAO.MySQL.ClienteDAOMySQL;
+import org.javaenjoyers.DAO.MySQL.PedidoDAOMySQL;
 import org.javaenjoyers.DAO.PedidoDAO;
 import org.javaenjoyers.controlador.*;
+import org.javaenjoyers.modelo.Pedido;
 import org.javaenjoyers.vista.Vista;
 import org.javaenjoyers.vista.VistaArticulos;
 import org.javaenjoyers.vista.VistaClientes;
@@ -18,30 +23,30 @@ public class Main {
         Vista vista = new Vista();
         Herramientas herramientas = new Herramientas(vista);
         try{
-            conexion = Utilidad.establecerConexion(herramientas);
-            //OnlineStore tienda = new OnlineStore("63014520P");
+            conexion = Utilidad.establecerConexion(herramientas); //Establece la conexión con la BD
+
+            DAOFactory factory = DAOFactory.getDAOFactory("mysql", conexion, herramientas); //Se le indica al Factory qué tipo de base de datos va a usarse
+            ClienteDAO cliDAO = factory.getClienteDAO();
+            ArticuloDAO artDAO = factory.getArticuloDAO();
+            PedidoDAO pedDAO = factory.getPedidoDAO(); //Crea las clases DAO para la base de datos que se le indica
 
             VistaClientes vistaCli = new VistaClientes(herramientas);
             VistaArticulos vistaArt = new VistaArticulos(herramientas);
             VistaPedidos vistaPed = new VistaPedidos(herramientas);
-            ClienteDAO cliDAO = new ClienteDAO(conexion, herramientas);
             ControladorCliente contrCli = new ControladorCliente(cliDAO, herramientas, vistaCli);
-            ArticuloDAO artDAO = new ArticuloDAO(conexion, herramientas);
             ControladorArticulo contrArt = new ControladorArticulo(artDAO, herramientas, vistaArt);
-            PedidoDAO pedDAO = new PedidoDAO(conexion, herramientas);
             ControladorPedido contrPed = new ControladorPedido(contrCli, herramientas, pedDAO, vistaPed);
             Controlador controlador = new Controlador(contrArt, contrCli, contrPed, herramientas, vista);
 
-            herramientas.enviarMensaje(0, "Conectado a la BD con éxito");
+            herramientas.enviarMensaje(0, "\n\nConectado a la BD con éxito");
 
-            //controlador.datosIniciales(tienda);
             controlador.inicio();
         }catch(SQLException e){
             herramientas.enviarMensaje(2, null);
         }finally{
             if(conexion != null){
                 conexion.close();
-                herramientas.enviarMensaje(0, "\n\nConexión cerrada. Ciao!\n\n");
+                herramientas.enviarMensaje(0, "\n\nConexión cerrada. ¡Ciao!\n\n");
             }
         }
     }

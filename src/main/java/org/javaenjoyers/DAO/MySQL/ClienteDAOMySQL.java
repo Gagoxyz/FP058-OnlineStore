@@ -1,5 +1,6 @@
-package org.javaenjoyers.DAO;
+package org.javaenjoyers.DAO.MySQL;
 
+import org.javaenjoyers.DAO.ClienteDAO;
 import org.javaenjoyers.controlador.Herramientas;
 import org.javaenjoyers.modelo.Cliente;
 import org.javaenjoyers.modelo.Estandar;
@@ -10,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ClienteDAOMySQL {
+public class ClienteDAOMySQL implements ClienteDAO {
     Connection conexion;
     Herramientas herramientas;
 
