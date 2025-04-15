@@ -16,27 +16,33 @@ public class PedidoDAOMySQL implements PedidoDAO {
     }
 
     public void insertarPedido(Pedido pedido, boolean clienteNuevo){
-        Statement sentencia;
         Cliente cli = pedido.getCliente();
+        String tipo = "";
         if(clienteNuevo){
             try{
                 conexion.setAutoCommit(false);
-                String sql1 = "";
+                String sql1 = "INSERT INTO clientes (email, nombre, domicilio, nif, tipo)\n" +
+                        "VALUES (?, ?, ?, ?, ?);";
                 if(pedido.getCliente() instanceof Estandar){
-                    sql1 = "INSERT INTO clientes (email, nombre, domicilio, nif, tipo)\n" +
-                            "VALUES (\"" + cli.getEmail() + "\", \"" + cli.getNombre() + "\", \"" + cli.getDomicilio() +
-                            "\", \"" + cli.getNif() + "\", \"E\");";
+                    tipo = "E";
                 }else if(pedido.getCliente() instanceof Premium){
-                    sql1 = "INSERT INTO clientes (email, nombre, domicilio, nif, tipo)\n" +
-                            "VALUES (\"" + cli.getEmail() + "\", \"" + cli.getNombre() + "\", \"" + cli.getDomicilio() +
-                            "\", \"" + cli.getNif() + "\", \"P\");";
+                    tipo = "P";
                 }
+                PreparedStatement stmt1 = conexion.prepareStatement(sql1);
+                stmt1.setString(1, cli.getEmail());
+                stmt1.setString(2, cli.getNombre());
+                stmt1.setString(3, cli.getDomicilio());
+                stmt1.setString(4, cli.getNif());
+                stmt1.setString(5, tipo);
                 String sql2 = "INSERT INTO pedidos (email_cliente, cod_articulo, cantidad, fecha_hora)\n" +
-                        "VALUES (\"" + cli.getEmail() + "\", \"" + pedido.getArticulo().getCodigoProducto() +
-                        "\", " + pedido.getCantidad() + ", \"" + LocalDateTime.now() + "\");";
-                sentencia = conexion.createStatement();
-                sentencia.executeUpdate(sql1);
-                sentencia.executeUpdate(sql2);
+                        "VALUES (?, ?, ?, ?);";
+                PreparedStatement stmt2 = conexion.prepareStatement(sql2);
+                stmt2.setString(1, cli.getEmail());
+                stmt2.setString(2, pedido.getArticulo().getCodigoProducto());
+                stmt2.setInt(3, pedido.getCantidad());
+                stmt2.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+                stmt1.execute();
+                stmt2.execute();
                 conexion.commit();
                 conexion.setAutoCommit(true);
                 herramientas.enviarMensaje(1, null);
@@ -51,27 +57,32 @@ public class PedidoDAOMySQL implements PedidoDAO {
             }
         }else{
             String sql = "INSERT INTO pedidos (email_cliente, cod_articulo, cantidad, fecha_hora)\n" +
-                    "VALUES (\"" + pedido.getCliente().getEmail() + "\", \"" + pedido.getArticulo().getCodigoProducto() +
-                    "\", " + pedido.getCantidad() + ", \"" + LocalDateTime.now() + "\");";
+                    "VALUES (?, ?, ?, ?);";
             try{
-                sentencia = conexion.createStatement();
-                sentencia.execute(sql);
+                PreparedStatement stmt = conexion.prepareStatement(sql);
+                stmt.setString(1, pedido.getCliente().getEmail());
+                stmt.setString(2, pedido.getArticulo().getCodigoProducto());
+                stmt.setInt(3, pedido.getCantidad());
+                stmt.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+                stmt.execute();
             }catch(SQLException e){
                 herramientas.enviarMensaje(2, null);
             }
+            herramientas.enviarMensaje(1, null);
         }
     }
 
     public Cliente buscarCliente(String email){
         String sql;
-        Statement sentencia;
+        PreparedStatement stmt;
         Cliente cliente = new Cliente();
         boolean vuelta = true;
         try{
-            sentencia = conexion.createStatement();
             while(vuelta){
-                sql = "SELECT * FROM clientes WHERE email = \"" + email + "\";";
-                ResultSet resultado = sentencia.executeQuery(sql);
+                sql = "SELECT * FROM clientes WHERE email = ?;";
+                stmt = conexion.prepareStatement(sql);
+                stmt.setString(1, email);
+                ResultSet resultado = stmt.executeQuery();
                 if(resultado.next()){
                     cliente.setEmail(resultado.getString("email"));
                     vuelta = false;
@@ -91,20 +102,22 @@ public class PedidoDAOMySQL implements PedidoDAO {
 
     public Articulo buscarArticulo(String codigo){
         String sql;
-        Statement sentencia;
+        PreparedStatement stmt;
         Articulo articulo = new Articulo();
         boolean vuelta = true;
         try{
-            sentencia = conexion.createStatement();
             while(vuelta){
-                sql = "SELECT * FROM articulos WHERE cod_articulo = \"" + codigo + "\";";
-                ResultSet resultado = sentencia.executeQuery(sql);
+                sql = "SELECT * FROM articulos WHERE cod_articulo = ?;";
+                stmt = conexion.prepareStatement(sql);
+                stmt.setString(1, codigo);
+                ResultSet resultado = stmt.executeQuery();
                 if(resultado.next()){
                     articulo.setCodigoProducto(resultado.getString("cod_articulo"));
                     vuelta = false;
                 }else{
                     codigo = herramientas.repetirString(2);
                     if(codigo.equals("0")){
+                        articulo = null;
                         vuelta = false;
                     }
                 }
@@ -117,14 +130,15 @@ public class PedidoDAOMySQL implements PedidoDAO {
 
     public Pedido buscarPedido (int numPedido){
         String sql;
-        Statement sentencia;
+        PreparedStatement stmt;
         Pedido pedido = new Pedido();
         boolean vuelta = true;
         try{
-            sentencia = conexion.createStatement();;
             while(vuelta){
-                sql = "SELECT * FROM pedidos WHERE num_pedido = " + numPedido + ";";
-                ResultSet resultado = sentencia.executeQuery(sql);
+                sql = "SELECT * FROM pedidos WHERE num_pedido = ?;";
+                stmt = conexion.prepareStatement(sql);
+                stmt.setInt(1, numPedido);
+                ResultSet resultado = stmt.executeQuery();
                 if(resultado.next()){
                     pedido.setNumPedido(resultado.getInt("num_pedido"));
                     vuelta = false;
@@ -144,13 +158,13 @@ public class PedidoDAOMySQL implements PedidoDAO {
 
     public boolean estadoPedido (int numero){
         String sql;
-        Statement sentencia;
         boolean pendiente = true;
         sql = "SELECT p.* FROM pedidos p JOIN articulos a ON p.cod_articulo = a.cod_articulo\n" +
-                "WHERE num_pedido = " + numero + " && DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) > NOW();";
+                "WHERE num_pedido = ? && DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) > NOW();";
         try{
-            sentencia = conexion.createStatement();
-            ResultSet resultado = sentencia.executeQuery(sql);
+            PreparedStatement stmt = conexion.prepareStatement(sql);
+            stmt.setInt(1, numero);
+            ResultSet resultado = stmt.executeQuery();
             if(!resultado.next()){
                 pendiente = false;
             }
@@ -162,11 +176,11 @@ public class PedidoDAOMySQL implements PedidoDAO {
 
     public void eliminarPedido (Pedido pedido){
         String sql;
-        Statement sentencia;
         try{
-            sentencia = conexion.createStatement();
-            sql = "DELETE FROM pedidos\n" + "WHERE num_pedido = " + pedido.getNumPedido() + ";";
-            int resultado = sentencia.executeUpdate(sql);
+            sql = "DELETE FROM pedidos WHERE num_pedido = ?;";
+            PreparedStatement stmt = conexion.prepareStatement(sql);
+            stmt.setInt(1, pedido.getNumPedido());
+            int resultado = stmt.executeUpdate();
             if(resultado > 0){
                 herramientas.enviarMensaje(1, null);
             }
@@ -176,26 +190,30 @@ public class PedidoDAOMySQL implements PedidoDAO {
     }
 
     public void mostrarPedidos(boolean pendiente, Cliente cliente){
-        String sql;
-        Statement sentencia;
+        String sql1;
+        String sql2;
+        ResultSet resultado;
         try{
             if(cliente == null){
                 if(pendiente){
-                    sql = "SELECT p.* FROM pedidos p JOIN articulos a ON p.cod_articulo = a.cod_articulo\n" +
+                    sql1 = "SELECT p.* FROM pedidos p JOIN articulos a ON p.cod_articulo = a.cod_articulo\n" +
                             "WHERE DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) > NOW();";
                 }else{
-                    sql = "SELECT p.* FROM pedidos p JOIN articulos a ON p.cod_articulo = a.cod_articulo\n" +
+                    sql1 = "SELECT p.* FROM pedidos p JOIN articulos a ON p.cod_articulo = a.cod_articulo\n" +
                             "WHERE DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) < NOW();";
                 }
+                Statement stmt = conexion.createStatement();
+                resultado = stmt.executeQuery(sql1);
             }else{
                 if(pendiente){
-                    sql = "CALL obtener_pedidos_pendientes (\"" + cliente.getEmail() + "\");";
+                    sql2 = "CALL obtener_pedidos_pendientes (?);";
                 }else{
-                    sql = "CALL obtener_pedidos_enviados (\"" + cliente.getEmail() + "\");";
+                    sql2 = "CALL obtener_pedidos_enviados (?);";
                 }
+                PreparedStatement stmt = conexion.prepareStatement(sql2);
+                stmt.setString(1, cliente.getEmail());
+                resultado = stmt.executeQuery();
             }
-            sentencia = conexion.createStatement();
-            ResultSet resultado = sentencia.executeQuery(sql);
             if(resultado.next()){
                 do{
                     int numPedido = resultado.getInt("num_pedido");

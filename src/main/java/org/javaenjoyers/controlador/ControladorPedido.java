@@ -9,14 +9,12 @@ import org.javaenjoyers.vista.VistaPedidos;
 public class ControladorPedido {
     private VistaPedidos vistaPedidos;
     private Herramientas herramientas;
-    private ControladorCliente contrCliente;
     private PedidoDAO pedDAO;
     private VistaClientes vistaClientes;
     private ClienteDAO cliDAO;
 
-    public ControladorPedido(ClienteDAO cliDAO, ControladorCliente contrCliente, Herramientas herramientas, PedidoDAO pedDAO, VistaClientes vistaClientes, VistaPedidos vistaPedidos) {
+    public ControladorPedido(ClienteDAO cliDAO, Herramientas herramientas, PedidoDAO pedDAO, VistaClientes vistaClientes, VistaPedidos vistaPedidos) {
         this.cliDAO = cliDAO;
-        this.contrCliente = contrCliente;
         this.herramientas = herramientas;
         this.pedDAO = pedDAO;
         this.vistaClientes = vistaClientes;
@@ -69,8 +67,10 @@ public class ControladorPedido {
         if(cliente != null){
             String codigoArticulo = herramientas.pedirString("Indica el código del artículo: ");
             Articulo articulo = pedDAO.buscarArticulo(codigoArticulo);
-            pedido = vistaPedidos.infoPedido(cliente, articulo);
-            pedDAO.insertarPedido(pedido, clienteNuevo);
+            if(articulo != null){
+                pedido = vistaPedidos.infoPedido(cliente, articulo);
+                pedDAO.insertarPedido(pedido, clienteNuevo);
+            }
         }
     }
 

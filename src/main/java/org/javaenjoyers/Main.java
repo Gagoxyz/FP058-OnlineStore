@@ -3,12 +3,8 @@ package org.javaenjoyers;
 import org.javaenjoyers.DAO.ArticuloDAO;
 import org.javaenjoyers.DAO.ClienteDAO;
 import org.javaenjoyers.DAO.DAOFactory;
-import org.javaenjoyers.DAO.MySQL.ArticuloDAOMySQL;
-import org.javaenjoyers.DAO.MySQL.ClienteDAOMySQL;
-import org.javaenjoyers.DAO.MySQL.PedidoDAOMySQL;
 import org.javaenjoyers.DAO.PedidoDAO;
 import org.javaenjoyers.controlador.*;
-import org.javaenjoyers.modelo.Pedido;
 import org.javaenjoyers.vista.Vista;
 import org.javaenjoyers.vista.VistaArticulos;
 import org.javaenjoyers.vista.VistaClientes;
@@ -35,7 +31,7 @@ public class Main {
             VistaPedidos vistaPed = new VistaPedidos(herramientas);
             ControladorCliente contrCli = new ControladorCliente(cliDAO, herramientas, vistaCli);
             ControladorArticulo contrArt = new ControladorArticulo(artDAO, herramientas, vistaArt);
-            ControladorPedido contrPed = new ControladorPedido(cliDAO, contrCli, herramientas, pedDAO, vistaCli, vistaPed);
+            ControladorPedido contrPed = new ControladorPedido(cliDAO, herramientas, pedDAO, vistaCli, vistaPed);
             Controlador controlador = new Controlador(contrArt, contrCli, contrPed, herramientas, vista);
 
             herramientas.enviarMensaje(0, "\n\nConectado a la BD con éxito");

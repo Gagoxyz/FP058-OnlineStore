@@ -60,14 +60,15 @@ public class ControladorCliente {
             case 1:
                 Cliente clienteEstandar = new Estandar(clienteModelo.getEmail(), clienteModelo.getNombre(), clienteModelo.getDomicilio(), clienteModelo.getNif());
                 cliDAO.insertarCliente(clienteEstandar);
+                herramientas.enviarMensaje(1, null);
                 return clienteEstandar;
             case 2:
                 Cliente clientePremium = new Premium(clienteModelo.getEmail(), clienteModelo.getNombre(), clienteModelo.getDomicilio(), clienteModelo.getNif());
                 cliDAO.insertarCliente(clientePremium);
+                herramientas.enviarMensaje(1, null);
                 return clientePremium;
         }
         herramientas.enviarMensaje(1, null);
-        clienteModelo = null;
         return clienteModelo;
     }
 

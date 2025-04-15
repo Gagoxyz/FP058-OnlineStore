@@ -6,7 +6,6 @@ import org.javaenjoyers.modelo.Cliente;
 import org.javaenjoyers.modelo.Pedido;
 
 import java.util.Scanner;
-import java.util.List;
 
 public class VistaPedidos {
     Scanner teclado = new Scanner(System.in);

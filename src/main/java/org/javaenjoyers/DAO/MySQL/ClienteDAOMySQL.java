@@ -6,10 +6,7 @@ import org.javaenjoyers.modelo.Cliente;
 import org.javaenjoyers.modelo.Estandar;
 import org.javaenjoyers.modelo.Premium;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class ClienteDAOMySQL implements ClienteDAO {
     Connection conexion;
@@ -21,20 +18,23 @@ public class ClienteDAOMySQL implements ClienteDAO {
     }
 
     public void insertarCliente(Cliente cliente){
-        String sql = "";
-        Statement sentencia;
-        if(cliente instanceof Estandar){
-            sql = "INSERT INTO clientes (email, nombre, domicilio, nif, tipo)\n" +
-                    "VALUES (\"" + cliente.getEmail()+"\", \"" + cliente.getNombre() + "\", \"" +
-                    cliente.getDomicilio() + "\", \"" + cliente.getNif() + "\", \"E\");";
-        }else if(cliente instanceof Premium){
-            sql = "INSERT INTO clientes (email, nombre, domicilio, nif, tipo)\n" +
-                    "VALUES (\"" + cliente.getEmail()+"\", \"" + cliente.getNombre() + "\", \"" +
-                    cliente.getDomicilio() + "\", \"" + cliente.getNif() + "\", \"P\");";
-        }
+        String sql;
+        String tipo = "";
         try{
-            sentencia = conexion.createStatement();
-            sentencia.execute(sql);
+            sql = "INSERT INTO clientes (email, nombre, domicilio, nif, tipo)\n" +
+                    "VALUES (?, ?, ?, ?, ?);";
+            if(cliente instanceof Estandar){
+                tipo = "E";
+            }else if(cliente instanceof Premium){
+                tipo = "P";
+            }
+            PreparedStatement stmt = conexion.prepareStatement(sql);
+            stmt.setString(1, cliente.getEmail());
+            stmt.setString(2, cliente.getNombre());
+            stmt.setString(3, cliente.getDomicilio());
+            stmt.setString(4, cliente.getNif());
+            stmt.setString(5, tipo);
+            stmt.execute();
         }catch(SQLException e){
             herramientas.enviarMensaje(2, null);
         }
@@ -42,12 +42,12 @@ public class ClienteDAOMySQL implements ClienteDAO {
 
     public Cliente buscarCliente(String email){
         String sql;
-        Statement sentencia;
         Cliente cliente = new Cliente();
         try{
-            sentencia = conexion.createStatement();
-            sql = "SELECT * FROM clientes WHERE email = \"" + email + "\";";
-            ResultSet resultado = sentencia.executeQuery(sql);
+            sql = "SELECT * FROM clientes WHERE email = ?;";
+            PreparedStatement stmt = conexion.prepareStatement(sql);
+            stmt.setString(1, email);
+            ResultSet resultado = stmt.executeQuery();
             if(resultado.next()){
                 cliente.setEmail(resultado.getString("email"));
             }else{
@@ -64,13 +64,13 @@ public class ClienteDAOMySQL implements ClienteDAO {
         Statement sentencia;
         switch (opcion){
             case 1:
-                sql = "SELECT *\n" + "FROM clientes;";
+                sql = "SELECT * FROM clientes;";
                 break;
             case 2:
-                sql = "SELECT *\n" + "FROM clientes\n" + "WHERE tipo = \"E\";";
+                sql = "SELECT * FROM clientes WHERE tipo = \"E\";";
                 break;
             case 3:
-                sql = "SELECT *\n" + "FROM clientes\n" + "WHERE tipo = \"P\";";
+                sql = "SELECT * FROM clientes WHERE tipo = \"P\";";
                 break;
         }
         try{
@@ -82,6 +82,11 @@ public class ClienteDAOMySQL implements ClienteDAO {
                 String domicilio = resultado.getString("domicilio");
                 String nif = resultado.getString("nif");
                 String tipo = resultado.getString("tipo");
+                if(tipo.equals("E")){
+                    tipo = "Estándar";
+                }else{
+                    tipo = "Premium";
+                }
                 herramientas.enviarMensaje(0, "\nEmail: "+ email + "\nNombre: " + nombre + "\nDomicilio: " +
                         domicilio + "\nNIF: " + nif + "\nTipo: " + tipo + "\n\n--------------");
             }

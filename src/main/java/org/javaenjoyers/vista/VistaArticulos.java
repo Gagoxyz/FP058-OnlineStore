@@ -3,7 +3,6 @@ package org.javaenjoyers.vista;
 import org.javaenjoyers.controlador.Herramientas;
 import org.javaenjoyers.modelo.Articulo;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class VistaArticulos {

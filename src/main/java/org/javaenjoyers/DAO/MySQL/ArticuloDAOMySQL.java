@@ -3,10 +3,7 @@ import org.javaenjoyers.DAO.ArticuloDAO;
 import org.javaenjoyers.controlador.Herramientas;
 import org.javaenjoyers.modelo.Articulo;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class ArticuloDAOMySQL implements ArticuloDAO {
     Connection conexion;
@@ -18,27 +15,29 @@ public class ArticuloDAOMySQL implements ArticuloDAO {
     }
     public void insertarArticulo(Articulo articulo){
         String sql;
-        Statement sentencia;
         sql = "INSERT INTO articulos (cod_articulo, descripcion, precio_venta, gasto_envio, tiempo_preparacion)\n" +
-                "VALUES (\"" + articulo.getCodigoProducto() + "\", \"" + articulo.getDescripcion() + "\", " +
-                articulo.getPrecioVenta() + ", " + articulo.getGastosEnvio() + ", " + articulo.getTiempoPrepEnvio() + ");";
+                "VALUES (?, ?, ?, ?, ?);";
         try{
-            sentencia = conexion.createStatement();
-            sentencia.execute(sql);
+            PreparedStatement stmt = conexion.prepareStatement(sql);
+            stmt.setString(1, articulo.getCodigoProducto());
+            stmt.setString(2, articulo.getDescripcion());
+            stmt.setDouble(3, articulo.getPrecioVenta());
+            stmt.setDouble(4, articulo.getGastosEnvio());
+            stmt.setInt(5, articulo.getTiempoPrepEnvio());
+            stmt.execute();
         }catch(SQLException e){
             herramientas.enviarMensaje(2, null);
         }
-
     }
 
     public Articulo buscarArticulo(String codigo){
         String sql;
-        Statement sentencia;
         Articulo articulo = new Articulo();
         try{
-            sentencia = conexion.createStatement();
-            sql = "SELECT * FROM articulos WHERE cod_articulo = \"" + codigo + "\";";
-            ResultSet resultado = sentencia.executeQuery(sql);
+            sql = "SELECT * FROM articulos WHERE cod_articulo = ?;";
+            PreparedStatement stmt = conexion.prepareStatement(sql);
+            stmt.setString(1, codigo);
+            ResultSet resultado = stmt.executeQuery();
             if(resultado.next()){
                 articulo.setCodigoProducto(resultado.getString("cod_articulo"));
             }else{
@@ -53,7 +52,7 @@ public class ArticuloDAOMySQL implements ArticuloDAO {
     public void mostrarArticulos(){
         String sql;
         Statement sentencia;
-        sql = "SELECT *\n" + "FROM articulos;";
+        sql = "SELECT * FROM articulos;";
         try{
             sentencia = conexion.createStatement();
             ResultSet resultado = sentencia.executeQuery(sql);
@@ -70,6 +69,5 @@ public class ArticuloDAOMySQL implements ArticuloDAO {
         }catch(SQLException e){
             herramientas.enviarMensaje(2, null);
         }
-
     }
 }
