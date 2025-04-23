@@ -98,9 +98,7 @@ public class OnlineStore {
         pedidos.agregar(pedido);
     }
 
-    public int buscarNumeroPedido(){
-        return getPedidos().getLista().getLast().getNumPedido() + 1;
-    }
+
 
     public void removePedido(Pedido pedido){
         pedidos.eliminar(pedido);

@@ -1,98 +1,75 @@
 package org.javaenjoyers.modelo;
 
-import java.time.Duration;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
+@Entity
+@Table(name = "pedido")
 public class Pedido {
 
-    private int numPedido; //pendiente hacer autoincrementable
-    private Cliente cliente;
-    private Articulo articulo;
-    private int cantidad;
-    private LocalDateTime fechaHoraPedido;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int numPedido;
 
-    public Pedido(int numPedido, Cliente cliente, Articulo articulo, int cantidad) {
-        this.numPedido = numPedido;
+    @ManyToOne
+    @JoinColumn(name = "cliente_nif", nullable = false)
+    private Cliente cliente;
+
+    @ManyToOne
+    @JoinColumn(name = "articulo_codigo", nullable = false)
+    private Articulo articulo;
+
+    private int cantidad;
+
+    @Column(name = "fecha_hora")
+    private LocalDateTime fechaHora;
+
+    private boolean pendiente;
+
+    public Pedido() {}
+
+    public Pedido(Cliente cliente, Articulo articulo, int cantidad, LocalDateTime fechaHora, boolean pendiente) {
         this.cliente = cliente;
         this.articulo = articulo;
         this.cantidad = cantidad;
-        this.fechaHoraPedido = LocalDateTime.now();
-    }
-
-    public Pedido() {
+        this.fechaHora = fechaHora;
+        this.pendiente = pendiente;
     }
 
     public Pedido(Articulo articulo, int cantidad, Cliente cliente) {
         this.articulo = articulo;
         this.cantidad = cantidad;
         this.cliente = cliente;
+        this.fechaHora = LocalDateTime.now();
+        this.pendiente = true;
     }
 
-    public int getNumPedido() {
-        return numPedido;
-    }
+    public int getNumPedido() { return numPedido; }
+    public void setNumPedido(int numPedido) { this.numPedido = numPedido; }
 
-    public void setNumPedido(int numPedido) {
-        this.numPedido = numPedido;
-    }
+    public Cliente getCliente() { return cliente; }
+    public void setCliente(Cliente cliente) { this.cliente = cliente; }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
+    public Articulo getArticulo() { return articulo; }
+    public void setArticulo(Articulo articulo) { this.articulo = articulo; }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
+    public int getCantidad() { return cantidad; }
+    public void setCantidad(int cantidad) { this.cantidad = cantidad; }
 
-    public Articulo getArticulo() {
-        return articulo;
-    }
+    public LocalDateTime getFechaHora() { return fechaHora; }
+    public void setFechaHora(LocalDateTime fechaHora) { this.fechaHora = fechaHora; }
 
-    public void setArticulo(Articulo articulo) {
-        this.articulo = articulo;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public LocalDateTime getFechaHoraPedido() {
-        return fechaHoraPedido;
-    }
-
-    public void setFechaHoraPedido(LocalDateTime fechaHoraPedido) {
-        this.fechaHoraPedido = fechaHoraPedido;
-    }
-
-    //Metodo para convertir la fecha y hora en algo más legible
-    public String formatoFecha(LocalDateTime fechaOrginal){
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return fechaOrginal.format(formato);
-    }
+    public boolean isPendiente() { return pendiente; }
+    public void setPendiente(boolean pendiente) { this.pendiente = pendiente; }
 
     @Override
     public String toString() {
-        return "\nPEDIDO: " +
-                "\nNúmero de pedido: " + numPedido +
-                "\nCliente: " + cliente.getEmail() +
-                "\nArtículo: " + articulo.getCodigoProducto() +
+        return "\nPEDIDO #" + numPedido +
+                "\nCliente: " + cliente +
+                "\nArtículo: " + articulo +
                 "\nCantidad: " + cantidad +
-                "\nFecha y hora del pedido: " + formatoFecha(fechaHoraPedido) + "\n";
-    }
-
-    public boolean envioPendiente(){
-        Duration duracion = Duration.between(getFechaHoraPedido(), LocalDateTime.now());
-        int tiempoPasado = (int)duracion.toMinutes();
-        int tiempoRequerido = getArticulo().getTiempoPrepEnvio() * getCantidad();
-        if(tiempoPasado < tiempoRequerido){
-            return true; //Está pendiente
-        }else{
-            return false; //Está enviado
-        }
+                "\nFecha y hora: " + fechaHora +
+                "\nPendiente: " + pendiente + "\n";
     }
 }

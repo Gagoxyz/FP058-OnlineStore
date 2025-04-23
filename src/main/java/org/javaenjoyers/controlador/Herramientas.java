@@ -1,12 +1,21 @@
 package org.javaenjoyers.controlador;
 
+import jakarta.persistence.EntityManager;
 import org.javaenjoyers.vista.Vista;
 
 public class Herramientas {
     private Vista vista;
+    private EntityManager entityManager; // ✅ Nuevo atributo
 
-    public Herramientas(Vista vista) {
+    // ✅ Constructor actualizado
+    public Herramientas(Vista vista, EntityManager entityManager) {
         this.vista = vista;
+        this.entityManager = entityManager;
+    }
+
+    // ✅ Nuevo getter
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
 
     public int comprobarOpcion(int eleccion, int inicio, int fin){
@@ -58,4 +67,6 @@ public class Herramientas {
     public int repetirInt(){
         return vista.repetirInt();
     }
+
+    // en persistence.xml /<property name="jakarta.persistence.schema-generation.database.action" value="update"/> para que no salgan los datos en la tabla.
 }

@@ -1,5 +1,8 @@
 package org.javaenjoyers;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import org.javaenjoyers.DAO.ArticuloDAO;
 import org.javaenjoyers.DAO.ClienteDAO;
 import org.javaenjoyers.DAO.DAOFactory;
@@ -17,18 +20,30 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         Connection conexion = null;
         Vista vista = new Vista();
-        Herramientas herramientas = new Herramientas(vista);
-        try{
-            conexion = Utilidad.establecerConexion(herramientas); //Establece la conexión con la BD
 
-            DAOFactory factory = DAOFactory.getDAOFactory("mysql", conexion, herramientas); //Se le indica al Factory qué tipo de base de datos va a usarse
+        // ✅ Creamos EntityManagerFactory y EntityManager
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("eventPU"); // Usa el nombre de tu unidad de persistencia
+        EntityManager em = emf.createEntityManager();
+
+        // ✅ Pasamos el EntityManager al constructor de Herramientas
+        Herramientas herramientas = new Herramientas(vista, em);
+
+        try {
+            // ⚠️ Si aún usas JDBC para algo, conserva esta línea
+            conexion = Utilidad.establecerConexion(herramientas);
+
+            // ⚠️ Aquí puedes elegir la factory "jpa" si ya tienes una DAOFactoryJPA creada
+            DAOFactory factory = DAOFactory.getDAOFactory("jpa", conexion, herramientas);
             ClienteDAO cliDAO = factory.getClienteDAO();
             ArticuloDAO artDAO = factory.getArticuloDAO();
-            PedidoDAO pedDAO = factory.getPedidoDAO(); //Crea las clases DAO para la base de datos que se le indica
+            PedidoDAO pedDAO = factory.getPedidoDAO();
 
+            // Vistas
             VistaClientes vistaCli = new VistaClientes(herramientas);
             VistaArticulos vistaArt = new VistaArticulos(herramientas);
             VistaPedidos vistaPed = new VistaPedidos(herramientas);
+
+            // Controladores
             ControladorCliente contrCli = new ControladorCliente(cliDAO, herramientas, vistaCli);
             ControladorArticulo contrArt = new ControladorArticulo(artDAO, herramientas, vistaArt);
             ControladorPedido contrPed = new ControladorPedido(cliDAO, herramientas, pedDAO, vistaCli, vistaPed);
@@ -37,12 +52,21 @@ public class Main {
             herramientas.enviarMensaje(0, "\n\nConectado a la BD con éxito");
 
             controlador.inicio();
-        }catch(SQLException e){
+        } catch (SQLException e) {
             herramientas.enviarMensaje(2, null);
-        }finally{
-            if(conexion != null){
+        } finally {
+            // JDBC: cerrar conexión si se usó
+            if (conexion != null) {
                 conexion.close();
                 herramientas.enviarMensaje(0, "\n\nConexión cerrada. ¡Ciao!\n\n");
+            }
+
+            // JPA: cerrar el entity manager
+            if (em != null) {
+                em.close();
+            }
+            if (emf != null) {
+                emf.close();
             }
         }
     }
