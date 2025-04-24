@@ -13,6 +13,7 @@ public class ArticuloDAOMySQL implements ArticuloDAO {
         this.conexion = conexion;
         this.herramientas = herramientas;
     }
+
     public void insertarArticulo(Articulo articulo){
         String sql;
         sql = "INSERT INTO articulos (cod_articulo, descripcion, precio_venta, gasto_envio, tiempo_preparacion)\n" +
@@ -71,3 +72,5 @@ public class ArticuloDAOMySQL implements ArticuloDAO {
         }
     }
 }
+
+
