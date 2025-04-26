@@ -20,20 +20,27 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         Connection conexion = null;
         Vista vista = new Vista();
+        String tipoBD = "jpa";
+        EntityManagerFactory emf = null;
+        EntityManager em = null;
 
         // ✅ Creamos EntityManagerFactory y EntityManager
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EventJPA"); // Usa el nombre de tu unidad de persistencia
-        EntityManager em = emf.createEntityManager();
+        if(tipoBD.equals("jpa")){
+            emf = Persistence.createEntityManagerFactory("EventJPA"); // Usa el nombre de tu unidad de persistencia
+            em = emf.createEntityManager();
+        }
 
         // ✅ Pasamos el EntityManager al constructor de Herramientas
         Herramientas herramientas = new Herramientas(vista, em);
 
         try {
             // ⚠️ Si aún usas JDBC para algo, conserva esta línea
-            conexion = Utilidad.establecerConexion(herramientas);
+            if(tipoBD.equals("mysql")){
+                conexion = Utilidad.establecerConexion(herramientas);
+            }
 
             // ⚠️ Aquí puedes elegir la factory "jpa" si ya tienes una DAOFactoryJPA creada
-            DAOFactory factory = DAOFactory.getDAOFactory("jpa", conexion, herramientas);
+            DAOFactory factory = DAOFactory.getDAOFactory(tipoBD, conexion, herramientas);
             ClienteDAO cliDAO = factory.getClienteDAO();
             ArticuloDAO artDAO = factory.getArticuloDAO();
             PedidoDAO pedDAO = factory.getPedidoDAO();

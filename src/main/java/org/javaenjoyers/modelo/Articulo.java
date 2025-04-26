@@ -11,10 +11,12 @@ public class Articulo {
     @Id
     @Column(name = "codigo")
     private String codigoProducto;
-
     private String descripcion;
+    @Column(name = "precio_venta")
     private double precioVenta;
+    @Column(name = "gastos_envio")
     private double gastosEnvio;
+    @Column(name = "tiempo_preparacion")
     private int tiempoPrepEnvio;
 
     @OneToMany(mappedBy = "articulo", cascade = CascadeType.ALL, orphanRemoval = true)

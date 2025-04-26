@@ -9,15 +9,15 @@ public class Pedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "num_pedido")
     private int numPedido;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_nif", nullable = false)
+    @JoinColumn(name = "email_cliente", nullable = false)
     private Cliente cliente;
 
     @ManyToOne
-    @JoinColumn(name = "articulo_codigo", nullable = false)
+    @JoinColumn(name = "cod_articulo", nullable = false)
     private Articulo articulo;
 
     private int cantidad;
@@ -25,11 +25,11 @@ public class Pedido {
     @Column(name = "fecha_hora")
     private LocalDateTime fechaHora;
 
-    private boolean pendiente;
+    //private boolean pendiente;
 
     public Pedido() {}
 
-    public Pedido(Cliente cliente, Articulo articulo, int cantidad, LocalDateTime fechaHora, boolean pendiente) {
+    /*public Pedido(Cliente cliente, Articulo articulo, int cantidad, LocalDateTime fechaHora, boolean pendiente) {
         this.cliente = cliente;
         this.articulo = articulo;
         this.cantidad = cantidad;
@@ -43,6 +43,19 @@ public class Pedido {
         this.cliente = cliente;
         this.fechaHora = LocalDateTime.now();
         this.pendiente = true;
+    }*/
+
+    public Pedido(Articulo articulo, int cantidad, Cliente cliente) {
+        this.articulo = articulo;
+        this.cantidad = cantidad;
+        this.cliente = cliente;
+    }
+
+    public Pedido(Articulo articulo, int cantidad, Cliente cliente, LocalDateTime fechaHora) {
+        this.articulo = articulo;
+        this.cantidad = cantidad;
+        this.cliente = cliente;
+        this.fechaHora = fechaHora;
     }
 
     public int getNumPedido() { return numPedido; }
@@ -60,8 +73,8 @@ public class Pedido {
     public LocalDateTime getFechaHora() { return fechaHora; }
     public void setFechaHora(LocalDateTime fechaHora) { this.fechaHora = fechaHora; }
 
-    public boolean isPendiente() { return pendiente; }
-    public void setPendiente(boolean pendiente) { this.pendiente = pendiente; }
+    /*public boolean isPendiente() { return pendiente; }
+    public void setPendiente(boolean pendiente) { this.pendiente = pendiente; }*/
 
     @Override
     public String toString() {
@@ -69,7 +82,6 @@ public class Pedido {
                 "\nCliente: " + cliente +
                 "\nArtículo: " + articulo +
                 "\nCantidad: " + cantidad +
-                "\nFecha y hora: " + fechaHora +
-                "\nPendiente: " + pendiente + "\n";
+                "\nFecha y hora: " + fechaHora + "\n";
     }
 }

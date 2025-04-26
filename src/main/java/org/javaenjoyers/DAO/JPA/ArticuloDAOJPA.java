@@ -1,8 +1,6 @@
 package org.javaenjoyers.DAO.JPA;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.TypedQuery;
 import org.javaenjoyers.DAO.ArticuloDAO;
 import org.javaenjoyers.controlador.Herramientas;
 import org.javaenjoyers.modelo.Articulo;
@@ -12,7 +10,7 @@ import java.util.List;
 public class ArticuloDAOJPA implements ArticuloDAO {
 
     private final EntityManager em;
-    Herramientas herramientas;
+    public Herramientas herramientas;
 
     public ArticuloDAOJPA(EntityManager em, Herramientas herramientas) {
         this.em = em;
@@ -41,10 +39,10 @@ public class ArticuloDAOJPA implements ArticuloDAO {
     }
 
     //@Override
-    public List<Articulo> obtenerTodos() {
+    /*public List<Articulo> obtenerTodos() {
         TypedQuery<Articulo> query = em.createQuery("SELECT a FROM Articulo a", Articulo.class);
         return query.getResultList();
-    }
+    }*/
 
     public void mostrarArticulos() {
         /*List<Articulo> articulos = obtenerTodos();
@@ -59,6 +57,9 @@ public class ArticuloDAOJPA implements ArticuloDAO {
             double precio = i.getPrecioVenta();
             double gastos = i.getGastosEnvio();
             int tiempo = i.getTiempoPrepEnvio();
+            herramientas.enviarMensaje(0, "\nCódigo del artículo: " + codigo + "\nDescripción: " +
+                    descripcion + "\nPrecio de venta: " + precio + " €\nGastos de envio: " + gastos +
+                    " €\nTiempo de preparación: " + tiempo + " minutos\n\n--------------");
         }
     }
 

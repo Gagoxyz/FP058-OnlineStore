@@ -19,9 +19,9 @@ public class ClienteDAOJPA implements ClienteDAO {
         this.herramientas = herramientas;
     }
 
-    public ClienteDAOJPA(EntityManager em) {
+    /*public ClienteDAOJPA(EntityManager em) {
         this.em = em;
-    }
+    }*/
 
     //@Override
     public void insertarCliente(Cliente cliente) {

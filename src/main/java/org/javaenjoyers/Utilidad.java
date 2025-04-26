@@ -10,7 +10,7 @@ public class Utilidad {
     public static Connection establecerConexion(Herramientas herramientas){
         String url = "jdbc:mysql://localhost:3306/online_store";
         String usuario = "root";
-        String contrasena = "Admin1234";
+        String contrasena = "1234";
         Connection conexion = null;
         try{
             conexion = DriverManager.getConnection(url, usuario, contrasena);

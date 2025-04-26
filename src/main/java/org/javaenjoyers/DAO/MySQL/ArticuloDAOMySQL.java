@@ -61,7 +61,7 @@ public class ArticuloDAOMySQL implements ArticuloDAO {
                 String descripcion = resultado.getString("descripcion");
                 double precio = resultado.getDouble("precio_venta");
                 double gastos = resultado.getDouble("gasto_envio");
-                String tiempo = resultado.getString("tiempo_preparacion");
+                int tiempo = resultado.getInt("tiempo_preparacion");
                 herramientas.enviarMensaje(0, "\nCódigo del artículo: " + codigo + "\nDescripción: " +
                         descripcion + "\nPrecio de venta: " + precio + " €\nGastos de envio: " + gastos +
                         " €\nTiempo de preparación: " + tiempo + " minutos\n\n--------------");

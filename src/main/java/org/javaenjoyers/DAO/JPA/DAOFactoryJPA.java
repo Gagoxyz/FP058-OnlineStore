@@ -29,6 +29,6 @@ public class DAOFactoryJPA extends DAOFactory {
 
     @Override
     public PedidoDAO getPedidoDAO() {
-        return new PedidoDAOJPA(entityManager);
+        return new PedidoDAOJPA(entityManager, herramientas);
     }
 }
