@@ -22,7 +22,7 @@ public class Main {
         Vista vista = new Vista();
 
         // ✅ Creamos EntityManagerFactory y EntityManager
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("eventPU"); // Usa el nombre de tu unidad de persistencia
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("EventJPA"); // Usa el nombre de tu unidad de persistencia
         EntityManager em = emf.createEntityManager();
 
         // ✅ Pasamos el EntityManager al constructor de Herramientas

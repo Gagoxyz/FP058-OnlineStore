@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "cliente")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo", discriminatorType = DiscriminatorType.STRING)
+@Table(name = "clientes")
 public class Cliente {
-
-    @Id
-    @Column(name = "nif", nullable = false)
     private String nif;
-
+    @Id
+    @Column(nullable = false)
     private String email;
     private String nombre;
     private String domicilio;

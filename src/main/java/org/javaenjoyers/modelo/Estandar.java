@@ -1,10 +1,17 @@
 package org.javaenjoyers.modelo;
 
-public class Estandar extends Cliente {
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
+@Entity
+@DiscriminatorValue("E")
+public class Estandar extends Cliente {
 
     public Estandar(String email, String nombre, String domicilio, String nif) {
         super(email, nombre, domicilio, nif);
+    }
+
+    public Estandar() {
     }
 
     @Override

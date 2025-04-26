@@ -1,5 +1,10 @@
 package org.javaenjoyers.modelo;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("P")
 public class Premium extends Cliente{
 
     public static final double CUOTA = 30;
@@ -9,6 +14,8 @@ public class Premium extends Cliente{
         super(email, nombre, domicilio, nif);
     }
 
+    public Premium() {
+    }
 
     @Override
     public String toString() {

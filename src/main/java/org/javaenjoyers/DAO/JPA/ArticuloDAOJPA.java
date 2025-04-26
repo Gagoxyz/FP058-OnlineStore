@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 import org.javaenjoyers.DAO.ArticuloDAO;
+import org.javaenjoyers.controlador.Herramientas;
 import org.javaenjoyers.modelo.Articulo;
 
 import java.util.List;
@@ -11,14 +12,16 @@ import java.util.List;
 public class ArticuloDAOJPA implements ArticuloDAO {
 
     private final EntityManager em;
+    Herramientas herramientas;
 
-    public ArticuloDAOJPA(EntityManager em) {
+    public ArticuloDAOJPA(EntityManager em, Herramientas herramientas) {
         this.em = em;
+        this.herramientas = herramientas;
     }
 
     //@Override
     public void insertarArticulo(Articulo articulo) {
-        EntityTransaction tx = em.getTransaction();
+        /*EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
             em.persist(articulo);
@@ -26,12 +29,15 @@ public class ArticuloDAOJPA implements ArticuloDAO {
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
             throw new RuntimeException("Error al insertar artículo", e);
-        }
+        }*/
+        em.getTransaction().begin();
+        em.persist(articulo);
+        em.getTransaction().commit();
     }
 
     //@Override
-    public Articulo buscarArticulo(String codigoProducto) {
-        return em.find(Articulo.class, codigoProducto);
+    public Articulo buscarArticulo(String codigo) {
+        return em.find(Articulo.class, codigo);
     }
 
     //@Override
@@ -41,14 +47,23 @@ public class ArticuloDAOJPA implements ArticuloDAO {
     }
 
     public void mostrarArticulos() {
-        List<Articulo> articulos = obtenerTodos();
+        /*List<Articulo> articulos = obtenerTodos();
         for (Articulo articulo : articulos) {
             System.out.println(articulo); // o tu forma personalizada de mostrar
+        }*/
+        List<Articulo> articulos;
+        articulos = em.createQuery("SELECT a FROM Articulo a", Articulo.class).getResultList();
+        for(Articulo i : articulos){
+            String codigo = i.getCodigoProducto();
+            String descripcion = i.getDescripcion();
+            double precio = i.getPrecioVenta();
+            double gastos = i.getGastosEnvio();
+            int tiempo = i.getTiempoPrepEnvio();
         }
     }
 
     //@Override
-    public void actualizar(Articulo articulo) {
+    /*public void actualizar(Articulo articulo) {
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
@@ -74,5 +89,5 @@ public class ArticuloDAOJPA implements ArticuloDAO {
             if (tx.isActive()) tx.rollback();
             throw new RuntimeException("Error al eliminar artículo", e);
         }
-    }
+    }*/
 }

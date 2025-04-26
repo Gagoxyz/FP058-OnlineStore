@@ -9,21 +9,23 @@
 
         <!-- Entidades JPA -->
         <class>org.javaenjoyers.modelo.Cliente</class>
+        <class>org.javaenjoyers.modelo.Estandar</class>
+        <class>org.javaenjoyers.modelo.Premium</class>
         <class>org.javaenjoyers.modelo.Articulo</class>
         <class>org.javaenjoyers.modelo.Pedido</class>
 
         <properties>
             <!-- Configuración de conexión a la base de datos -->
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/eventdb?useSSL=false&amp;serverTimezone=UTC"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/online_store_jpa"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
-            <property name="jakarta.persistence.jdbc.password" value="Admin1234"/>
+            <property name="jakarta.persistence.jdbc.password" value="1234"/>
 
             <!-- Dialecto de Hibernate (opcional pero recomendado si quieres más control) -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
 
             <!-- Generación del esquema -->
-            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="jakarta.persistence.schema-generation.database.action" value="update"/>
 
             <!-- Mostrar consultas SQL en consola -->
             <property name="hibernate.show_sql" value="true"/>

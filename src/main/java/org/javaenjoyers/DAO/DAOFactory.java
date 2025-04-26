@@ -24,8 +24,8 @@ public abstract class DAOFactory {
                 return new DAOFactoryMySQL(conexion, herramientas);
             }
             case "jpa" -> {
-                EntityManager em = herramientas.getEntityManager(); // Asegúrate de tener este método
-                return new DAOFactoryJPA(em);
+                EntityManager em = herramientas.getEntityManager(); // Asegúrate de tener este metodo
+                return new DAOFactoryJPA(em, herramientas);
             }
             default -> throw new IllegalArgumentException("Tipo de base de datos no válido.");
         }

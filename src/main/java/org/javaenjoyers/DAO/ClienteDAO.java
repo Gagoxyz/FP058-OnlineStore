@@ -7,5 +7,5 @@ import java.util.List;
 public interface ClienteDAO {
     void insertarCliente(Cliente cliente);
     Cliente buscarCliente(String email);
-    void mostrarClientes(int opcion);  // 🔄 ahora devuelve una lista
+    void mostrarClientes(int opcion);
 }
