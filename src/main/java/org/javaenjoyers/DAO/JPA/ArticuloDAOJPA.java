@@ -17,38 +17,20 @@ public class ArticuloDAOJPA implements ArticuloDAO {
         this.herramientas = herramientas;
     }
 
-    //@Override
+    @Override
     public void insertarArticulo(Articulo articulo) {
-        /*EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            em.persist(articulo);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            throw new RuntimeException("Error al insertar artículo", e);
-        }*/
         em.getTransaction().begin();
         em.persist(articulo);
         em.getTransaction().commit();
     }
 
-    //@Override
+    @Override
     public Articulo buscarArticulo(String codigo) {
         return em.find(Articulo.class, codigo);
     }
 
-    //@Override
-    /*public List<Articulo> obtenerTodos() {
-        TypedQuery<Articulo> query = em.createQuery("SELECT a FROM Articulo a", Articulo.class);
-        return query.getResultList();
-    }*/
-
+    @Override
     public void mostrarArticulos() {
-        /*List<Articulo> articulos = obtenerTodos();
-        for (Articulo articulo : articulos) {
-            System.out.println(articulo); // o tu forma personalizada de mostrar
-        }*/
         List<Articulo> articulos;
         articulos = em.createQuery("SELECT a FROM Articulo a", Articulo.class).getResultList();
         for(Articulo i : articulos){
@@ -62,33 +44,4 @@ public class ArticuloDAOJPA implements ArticuloDAO {
                     " €\nTiempo de preparación: " + tiempo + " minutos\n\n--------------");
         }
     }
-
-    //@Override
-    /*public void actualizar(Articulo articulo) {
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            em.merge(articulo);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            throw new RuntimeException("Error al actualizar artículo", e);
-        }
-    }
-
-    //@Override
-    public void eliminar(String codigoProducto) {
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            Articulo articulo = em.find(Articulo.class, codigoProducto);
-            if (articulo != null) {
-                em.remove(articulo);
-            }
-            tx.commit();
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            throw new RuntimeException("Error al eliminar artículo", e);
-        }
-    }*/
 }

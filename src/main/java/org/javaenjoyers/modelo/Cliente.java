@@ -9,11 +9,11 @@ import java.util.List;
 @DiscriminatorColumn(name = "tipo", discriminatorType = DiscriminatorType.STRING)
 @Table(name = "clientes")
 public class Cliente {
-    private String nif;
     @Id
     @Column(nullable = false)
     private String email;
     private String nombre;
+    private String nif;
     private String domicilio;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)

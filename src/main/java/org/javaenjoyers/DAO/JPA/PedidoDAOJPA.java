@@ -1,7 +1,6 @@
 package org.javaenjoyers.DAO.JPA;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 import org.javaenjoyers.DAO.PedidoDAO;
 import org.javaenjoyers.controlador.Herramientas;
 import org.javaenjoyers.modelo.Articulo;
@@ -9,7 +8,6 @@ import org.javaenjoyers.modelo.Cliente;
 import org.javaenjoyers.modelo.Pedido;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class PedidoDAOJPA implements PedidoDAO {
@@ -24,20 +22,6 @@ public class PedidoDAOJPA implements PedidoDAO {
 
     @Override
     public void insertarPedido(Pedido pedido, boolean clienteNuevo) {
-        /*EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            em.persist(pedido);
-            if (confirmar) {
-                tx.commit();
-            } else {
-                tx.rollback();
-            }
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            System.err.println("Error insertando pedido: " + e.getMessage());
-        }*/
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy:MM:dd HH:mm:ss");
         pedido.setFechaHora(LocalDateTime.now());
         if(clienteNuevo){
             Cliente cli = pedido.getCliente();
@@ -53,14 +37,6 @@ public class PedidoDAOJPA implements PedidoDAO {
 
     @Override
     public Cliente buscarCliente(String email) {
-        /*try {
-            return em.createQuery("SELECT c FROM Cliente c WHERE c.correo = :email", Cliente.class)
-                    .setParameter("email", email)
-                    .getSingleResult();
-        } catch (Exception e) {
-            System.err.println("Error buscando cliente: " + e.getMessage());
-            return null;
-        }*/
         boolean vuelta = true;
         Cliente cliente = new Cliente();
         while(vuelta){
@@ -80,12 +56,6 @@ public class PedidoDAOJPA implements PedidoDAO {
 
     @Override
     public Articulo buscarArticulo(String codigo) {
-        /*try {
-            return em.find(Articulo.class, codigo);
-        } catch (Exception e) {
-            System.err.println("Error buscando artículo: " + e.getMessage());
-            return null;
-        }*/
         boolean vuelta = true;
         Articulo articulo = new Articulo();
         while(vuelta){
@@ -105,55 +75,51 @@ public class PedidoDAOJPA implements PedidoDAO {
 
     @Override
     public Pedido buscarPedido(int numPedido) {
-        /*return buscarPorId(numPedido);*/
-
-        //ARREGLAR
-        Pedido pedido = null;
+        Pedido pedido = new Pedido();
+        boolean vuelta = true;
+        while (vuelta){
+            pedido = em.find(Pedido.class, numPedido);
+            if(pedido == null){
+                numPedido = herramientas.repetirInt();
+                if(numPedido == 0){
+                    pedido = null;
+                    vuelta = false;
+                }
+            }else{
+                vuelta = false;
+            }
+        }
         return pedido;
     }
 
     @Override
     public boolean estadoPedido(int numero) {
-        //Pedido pedido = buscarPorId(numero);
-        //return pedido != null && pedido.isPendiente();
-
-        String consulta = "SELECT COUNT(p) FROM Pedido p JOIN p.articulo a WHERE p.numPedido = :numPedido" +
-                "AND FUNCTION('DATE_ADD', p.fechaHora, FUNCTION('INTERVAL', a.tiempoPreparacion * p.cantidad, 'MINUTE'))" +
-                "> CURRENT_TIMESTAMP";
-        Long cantidad = em.createQuery(consulta, Long.class).setParameter("numPedido", numero).getSingleResult();
-        boolean pendiente = cantidad > 0;
-        return pendiente;
+        String consulta = "SELECT COUNT(*) FROM pedidos p JOIN articulos a ON p.cod_articulo = a.codigo\n" +
+                "WHERE num_pedido = :numPedido AND DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) > NOW();";
+        Object resultado = em.createNativeQuery(consulta, Long.class).setParameter("numPedido", numero).getSingleResult();
+        Long cantidad = ((Number) resultado).longValue();
+        return cantidad > 0;
     }
 
     @Override
     public void eliminarPedido(Pedido pedido) {
-        /*eliminar(pedido.getNumPedido());
-        herramientas.enviarMensaje(1, null);*/
+        em.getTransaction().begin();
+        em.remove(pedido);
+        em.getTransaction().commit();
+        herramientas.enviarMensaje(1, null);
     }
 
     @Override
     public void mostrarPedidos(boolean pendiente, Cliente cliente) {
-        /*try {
-            List<Pedido> pedidos = em.createQuery(
-                            "SELECT p FROM Pedido p WHERE p.cliente = :cliente AND p.pendiente = :pendiente", Pedido.class)
-                    .setParameter("cliente", cliente)
-                    .setParameter("pendiente", pendiente)
-                    .getResultList();
-            for (Pedido p : pedidos) {
-                System.out.println(p);
-            }
-        } catch (Exception e) {
-            System.err.println("Error mostrando pedidos: " + e.getMessage());
-        }*/
         List<Pedido> pedidos;
         String consulta;
         if(cliente == null){
             if(pendiente){
                 consulta = "SELECT p.* FROM pedidos p JOIN articulos a ON p.cod_articulo = a.codigo\n" +
-                        "WHERE DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) > NOW();";;
+                        "WHERE DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) > NOW();";
             }else{
                 consulta = "SELECT p.* FROM pedidos p JOIN articulos a ON p.cod_articulo = a.codigo\n" +
-                        "WHERE DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) < NOW();";;
+                        "WHERE DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) < NOW();";
             }
             pedidos = em.createNativeQuery(consulta, Pedido.class).getResultList();
         }else{
@@ -183,61 +149,4 @@ public class PedidoDAOJPA implements PedidoDAO {
             herramientas.enviarMensaje(0, "No hay pedidos por mostrar.");
         }
     }
-
-    /*//Esto no sé para qué es
-    //@Override
-    public boolean eliminar(int numPedido) { // Cambiado 'id' por 'numPedido'
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            Pedido pedido = em.find(Pedido.class, numPedido); // Cambiado 'id' por 'numPedido'
-            if (pedido != null) {
-                em.remove(pedido);
-                tx.commit();
-                return true;
-            }
-            tx.rollback();
-            return false;
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            System.err.println("Error eliminando pedido: " + e.getMessage());
-            return false;
-        }
-    }
-
-    //@Override
-    public Pedido buscarPorId(int numPedido) { // Cambiado 'id' por 'numPedido'
-        try {
-            return em.find(Pedido.class, numPedido); // Cambiado 'id' por 'numPedido'
-        } catch (Exception e) {
-            System.err.println("Error buscando pedido: " + e.getMessage());
-            return null;
-        }
-    }
-
-    //@Override
-    public List<Pedido> obtenerTodos() {
-        try {
-            return em.createQuery("SELECT p FROM Pedido p", Pedido.class).getResultList();
-        } catch (Exception e) {
-            System.err.println("Error obteniendo pedidos: " + e.getMessage());
-            return List.of(); // lista vacía en lugar de null
-        }
-    }
-
-    //@Override
-    public boolean actualizar(Pedido pedido) {
-        EntityTransaction tx = em.getTransaction();
-        try {
-            tx.begin();
-            em.merge(pedido);
-            tx.commit();
-            return true;
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            System.err.println("Error actualizando pedido: " + e.getMessage());
-            return false;
-        }
-    }
-        */
 }
