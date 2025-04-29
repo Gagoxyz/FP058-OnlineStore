@@ -2,7 +2,6 @@ package org.javaenjoyers.dao.mysql;
 
 import org.javaenjoyers.dao.PedidoDAO;
 import org.javaenjoyers.modelos.*;
-
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -157,24 +156,17 @@ public class MySQLPedidoDAO implements PedidoDAO {
         PreparedStatement stat = null;
         ResultSet rs = null;
         Cliente cliente;
-
-        // Definimos la consulta para obtener un cliente por su email
-        final String GET_CLIENTE = "SELECT email, nombre, domicilio, nif, tipo_cliente FROM Clientes WHERE email = ?";
-
+        final String query = "SELECT email, nombre, domicilio, nif, tipo_cliente FROM Clientes WHERE email = ?";
         try {
-            // Ejecutamos la consulta
-            stat = conexion.prepareStatement(GET_CLIENTE);
-            stat.setString(1, email); // Establecemos el parámetro email
+            stat = conexion.prepareStatement(query);
+            stat.setString(1, email);
             rs = stat.executeQuery();
-
-            // Si el cliente existe en la base de datos, lo convertimos
             if (rs.next()) {
                 String nombre = rs.getString("nombre");
                 String domicilio = rs.getString("domicilio");
                 String nif = rs.getString("nif");
                 String tipoCliente = rs.getString("tipo_cliente");
 
-                // Dependiendo del tipo de cliente, creamos el objeto correspondiente
                 if (tipoCliente.equals("estandar")) {
                     cliente = new Estandar(email, nombre, domicilio, nif);
                 } else {
@@ -199,7 +191,6 @@ public class MySQLPedidoDAO implements PedidoDAO {
                 }
             }
         }
-
         return cliente;
     }
 
@@ -269,8 +260,8 @@ public class MySQLPedidoDAO implements PedidoDAO {
     }
 
     public List<Pedido> obtenerPedidosPorCliente(String email){
-        String query = "SELECT * FROM Pedidos WHERE cliente_email = ?";
-        try (PreparedStatement stat = conexion.prepareStatement(query)){
+        String sp = "SELECT * FROM Pedidos WHERE cliente_email = ?"; //StoredProcedure creado en la base de datos
+        try (PreparedStatement stat = conexion.prepareStatement(sp)){
             stat.setString(1, email);
             try (ResultSet rs = stat.executeQuery()){
                 List<Pedido> pedidos = new ArrayList<>();
@@ -284,43 +275,44 @@ public class MySQLPedidoDAO implements PedidoDAO {
         }
     }
 
-    public List<Pedido> obtenerPedidosPendientesEnvio(Cliente cliente){
-        String query = "SELECT p.* FROM Pedidos p " +
-                "JOIN Articulos a ON p.codigo_producto = a.codigo_producto " +
-                "WHERE p.cliente_email = ? " +
-                "AND p.fecha_hora_pedido > NOW() - INTERVAL a.tiempo_preparacion_envio MINUTE";
+    // Procedimiento almacenado para la obtención de pedidos pendientes de envío de un cliente
+    public List<Pedido> obtenerPedidosPendientesEnvio(Cliente cliente) {
+        String sp = "{CALL obtener_pedidos_pendientes_envio(?)}"; //StoredProcedure creado en la base de datos
         List<Pedido> pedidos = new ArrayList<>();
 
-        try (PreparedStatement stat = conexion.prepareStatement(query)){
-            stat.setString(1, cliente.getEmail());
-            try (ResultSet rs = stat.executeQuery()){
-                while(rs.next()){
-                    pedidos.add(convertir(rs));
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return pedidos;
-    }
+        try (CallableStatement stmt = conexion.prepareCall(sp)) {
+            stmt.setString(1, cliente.getEmail());
 
-    public List<Pedido> obtenerPedidosEnviados(Cliente cliente) {
-        String query = "SELECT p.* FROM Pedidos p " +
-                "JOIN Articulos a ON p.codigo_producto = a.codigo_producto " +
-                "WHERE p.cliente_email = ? " +
-                "AND p.fecha_hora_pedido <= NOW() - INTERVAL a.tiempo_preparacion_envio MINUTE";
-        List<Pedido> pedidos = new ArrayList<>();
-
-        try (PreparedStatement stat = conexion.prepareStatement(query)) {
-            stat.setString(1, cliente.getEmail());
-            try (ResultSet rs = stat.executeQuery()) {
+            try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     pedidos.add(convertir(rs));
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error al obtener los pedidos pendientes de envío", e);
         }
+
+        return pedidos;
+    }
+
+    // Procedimiento almacenado para la obtención de los pedidos enviados de un cliente
+    public List<Pedido> obtenerPedidosEnviados(Cliente cliente) {
+        String sql = "{CALL obtener_pedidos_enviados(?)}";
+        List<Pedido> pedidos = new ArrayList<>();
+
+        try (CallableStatement stmt = conexion.prepareCall(sql)) {
+            stmt.setString(1, cliente.getEmail());
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    pedidos.add(convertir(rs));
+                }
+            }
+        } catch (SQLException e) {
+
+            throw new RuntimeException("Error al obtener los pedidos enviados", e);
+        }
+
         return pedidos;
     }
 }
