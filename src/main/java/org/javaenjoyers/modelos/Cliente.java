@@ -1,22 +1,39 @@
 package org.javaenjoyers.modelos;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo_cliente", discriminatorType = DiscriminatorType.STRING)
+@Table(name = "clientes")
 public abstract class Cliente {
 
-    private final String email;
-    private final String nombre;
-    private final String domicilio;
-    private final String nif;
-    private final List<Pedido> pedidos;
+    @Id
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "nombre", nullable = false)
+    private String nombre;
+
+    @Column(name = "domicilio", nullable = false)
+    private String domicilio;
+
+    @Column(name = "nif", nullable = false, unique = true)
+    private String nif;
+
+    // Relación con Pedido (asumiendo que 'Pedido' tiene la propiedad 'cliente')
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pedido> pedidos = new ArrayList<>();
+
+    public Cliente() {} // Obligatorio para JPA
 
     public Cliente(String email, String nombre, String domicilio, String nif) {
         this.email = email;
         this.nombre = nombre;
         this.domicilio = domicilio;
         this.nif = nif;
-        this.pedidos = new ArrayList<>();
     }
 
     public String getEmail() {

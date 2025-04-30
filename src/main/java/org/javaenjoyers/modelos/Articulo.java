@@ -1,13 +1,31 @@
 package org.javaenjoyers.modelos;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "articulos")
 public class Articulo {
 
-    private final String codigoProducto;
-    private final String descripcion;
-    private final float precioVenta;
-    private final float gastosEnvio;
-    private final int tiempoPrepEnvio;
+    @Id
+    @Column(name = "codigo_producto")
+    private String codigoProducto;
 
+    @Column(name = "descripcion", nullable = false, columnDefinition = "TEXT")
+    private String descripcion;
+
+    @Column(name = "precio_venta", nullable = false)
+    private float precioVenta;
+
+    @Column(name = "gastos_envio", nullable = false)
+    private float gastosEnvio;
+
+    @Column(name = "tiempo_preparacion_envio", nullable = false)
+    private int tiempoPrepEnvio;
+
+    // Constructor vacío requerido por JPA
+    public Articulo() {}
+
+    // Constructor para creación de nuevos artículos
     public Articulo(String codigoProducto, String descripcion, float precioVenta, float gastosEnvio, int tiempoPrepEnvio) {
         this.codigoProducto = codigoProducto;
         this.descripcion = descripcion;
@@ -16,8 +34,17 @@ public class Articulo {
         this.tiempoPrepEnvio = tiempoPrepEnvio;
     }
 
+    // Getters y setters
     public String getCodigoProducto() {
         return codigoProducto;
+    }
+
+    public void setCodigoProducto(String codigoProducto) {
+        this.codigoProducto = codigoProducto;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
     }
 
     public float getPrecioVenta() {
@@ -30,10 +57,6 @@ public class Articulo {
 
     public int getTiempoPrepEnvio() {
         return tiempoPrepEnvio;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
     }
 
     @Override
