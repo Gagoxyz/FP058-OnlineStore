@@ -21,11 +21,11 @@
             <property name="jakarta.persistence.jdbc.password" value="1234"/>
 
             <!-- Dialecto de Hibernate para MySQL -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+
 
             <!-- Mostrar SQL por consola -->
-            <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.format_sql" value="false"/>
 
             <!-- Validar que las tablas existen (no las crea ni modifica) -->
             <property name="jakarta.persistence.schema-generation.database.action" value="validate"/>

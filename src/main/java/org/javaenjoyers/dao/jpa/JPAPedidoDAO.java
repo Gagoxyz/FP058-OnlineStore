@@ -89,7 +89,6 @@ public class JPAPedidoDAO implements PedidoDAO {
     }
 
     public List<Pedido> obtenerPedidosPorCliente(String email) {
-        // JPQL query to get all Pedido for a given Cliente
         Query query = entityManager.createQuery("SELECT p FROM Pedido p WHERE p.cliente.email = :email", Pedido.class);
         query.setParameter("email", email);
         return query.getResultList();
