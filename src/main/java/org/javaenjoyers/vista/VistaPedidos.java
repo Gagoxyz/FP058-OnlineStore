@@ -5,6 +5,8 @@ import org.javaenjoyers.modelo.Articulo;
 import org.javaenjoyers.modelo.Cliente;
 import org.javaenjoyers.modelo.Pedido;
 
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 
 public class VistaPedidos {
@@ -51,5 +53,19 @@ public class VistaPedidos {
     public int pedirNum(){
         System.out.print("\nIndica el número del pedido que deseas eliminar: ");
         return herramientas.errorIntEntrada();
+    }
+
+    public void showPedidos(List<Pedido> listaPed){
+        if(listaPed.isEmpty()){
+            System.out.println("No hay pedidos por mostrar");
+        }else{
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            for(Pedido i : listaPed){
+                String fechaForm = i.getFechaHora().format(formato);
+                System.out.println("\nNúmero de pedido: " + i.getNumPedido() + "\nEmail del cliente: " +
+                        i.getCliente().getEmail() + "\nCódigo del artículo: " + i.getArticulo().getCodigoProducto() +
+                        "\nCantidad: " + i.getCantidad() + "\nFecha y hora: " + fechaForm + "\n\n--------------");
+            }
+        }
     }
 }

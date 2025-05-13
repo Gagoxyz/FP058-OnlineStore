@@ -20,7 +20,7 @@ public class Main {
     public static void main(String[] args) throws SQLException {
         Connection conexion = null;
         Vista vista = new Vista();
-        String tipoBD = "jpa";
+        String tipoBD = "mysql";
         EntityManagerFactory emf = null;
         EntityManager em = null;
 
@@ -34,12 +34,10 @@ public class Main {
         Herramientas herramientas = new Herramientas(vista, em);
 
         try {
-            // ⚠️ Si aún usas JDBC para algo, conserva esta línea
             if(tipoBD.equals("mysql")){
                 conexion = Utilidad.establecerConexion(herramientas);
             }
 
-            // ⚠️ Aquí puedes elegir la factory "jpa" si ya tienes una DAOFactoryJPA creada
             DAOFactory factory = DAOFactory.getDAOFactory(tipoBD, conexion, herramientas);
             ClienteDAO cliDAO = factory.getClienteDAO();
             ArticuloDAO artDAO = factory.getArticuloDAO();

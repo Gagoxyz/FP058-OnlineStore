@@ -25,25 +25,15 @@ public class Pedido {
     @Column(name = "fecha_hora")
     private LocalDateTime fechaHora;
 
-    //private boolean pendiente;
-
     public Pedido() {}
 
-    /*public Pedido(Cliente cliente, Articulo articulo, int cantidad, LocalDateTime fechaHora, boolean pendiente) {
-        this.cliente = cliente;
+    public Pedido(Articulo articulo, int cantidad, Cliente cliente, LocalDateTime fechaHora, int numPedido) {
         this.articulo = articulo;
         this.cantidad = cantidad;
+        this.cliente = cliente;
         this.fechaHora = fechaHora;
-        this.pendiente = pendiente;
+        this.numPedido = numPedido;
     }
-
-    public Pedido(Articulo articulo, int cantidad, Cliente cliente) {
-        this.articulo = articulo;
-        this.cantidad = cantidad;
-        this.cliente = cliente;
-        this.fechaHora = LocalDateTime.now();
-        this.pendiente = true;
-    }*/
 
     public Pedido(Articulo articulo, int cantidad, Cliente cliente) {
         this.articulo = articulo;
@@ -51,30 +41,45 @@ public class Pedido {
         this.cliente = cliente;
     }
 
-    public Pedido(Articulo articulo, int cantidad, Cliente cliente, LocalDateTime fechaHora) {
+    public Articulo getArticulo() {
+        return articulo;
+    }
+
+    public void setArticulo(Articulo articulo) {
         this.articulo = articulo;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public LocalDateTime getFechaHora() {
+        return fechaHora;
+    }
+
+    public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
     }
 
-    public int getNumPedido() { return numPedido; }
-    public void setNumPedido(int numPedido) { this.numPedido = numPedido; }
+    public int getNumPedido() {
+        return numPedido;
+    }
 
-    public Cliente getCliente() { return cliente; }
-    public void setCliente(Cliente cliente) { this.cliente = cliente; }
-
-    public Articulo getArticulo() { return articulo; }
-    public void setArticulo(Articulo articulo) { this.articulo = articulo; }
-
-    public int getCantidad() { return cantidad; }
-    public void setCantidad(int cantidad) { this.cantidad = cantidad; }
-
-    public LocalDateTime getFechaHora() { return fechaHora; }
-    public void setFechaHora(LocalDateTime fechaHora) { this.fechaHora = fechaHora; }
-
-    /*public boolean isPendiente() { return pendiente; }
-    public void setPendiente(boolean pendiente) { this.pendiente = pendiente; }*/
+    public void setNumPedido(int numPedido) {
+        this.numPedido = numPedido;
+    }
 
     @Override
     public String toString() {

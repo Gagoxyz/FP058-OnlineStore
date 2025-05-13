@@ -30,18 +30,9 @@ public class ArticuloDAOJPA implements ArticuloDAO {
     }
 
     @Override
-    public void mostrarArticulos() {
+    public List<Articulo> mostrarArticulos() {
         List<Articulo> articulos;
         articulos = em.createQuery("SELECT a FROM Articulo a", Articulo.class).getResultList();
-        for(Articulo i : articulos){
-            String codigo = i.getCodigoProducto();
-            String descripcion = i.getDescripcion();
-            double precio = i.getPrecioVenta();
-            double gastos = i.getGastosEnvio();
-            int tiempo = i.getTiempoPrepEnvio();
-            herramientas.enviarMensaje(0, "\nCódigo del artículo: " + codigo + "\nDescripción: " +
-                    descripcion + "\nPrecio de venta: " + precio + " €\nGastos de envio: " + gastos +
-                    " €\nTiempo de preparación: " + tiempo + " minutos\n\n--------------");
-        }
+        return articulos;
     }
 }

@@ -32,63 +32,25 @@ public class PedidoDAOJPA implements PedidoDAO {
         em.getTransaction().begin();
         em.persist(pedido);
         em.getTransaction().commit();
-        herramientas.enviarMensaje(1, null);
+        //herramientas.enviarMensaje(1, null);
     }
 
     @Override
     public Cliente buscarCliente(String email) {
-        boolean vuelta = true;
-        Cliente cliente = new Cliente();
-        while(vuelta){
-            cliente = em.find(Cliente.class, email);
-            if(cliente == null){
-                email = herramientas.repetirString(2);
-                if(email.equals("0")){
-                    cliente = null;
-                    vuelta = false;
-                }
-            }else{
-                vuelta = false;
-            }
-        }
+        Cliente cliente = em.find(Cliente.class, email);
         return cliente;
     }
 
     @Override
     public Articulo buscarArticulo(String codigo) {
-        boolean vuelta = true;
-        Articulo articulo = new Articulo();
-        while(vuelta){
-            articulo = em.find(Articulo.class, codigo);
-            if(articulo == null){
-                codigo = herramientas.repetirString(2);
-                if(codigo.equals("0")){
-                    articulo = null;
-                    vuelta = false;
-                }
-            }else{
-                vuelta = false;
-            }
-        }
+        Articulo articulo = em.find(Articulo.class, codigo);
         return articulo;
     }
 
     @Override
     public Pedido buscarPedido(int numPedido) {
-        Pedido pedido = new Pedido();
-        boolean vuelta = true;
-        while (vuelta){
-            pedido = em.find(Pedido.class, numPedido);
-            if(pedido == null){
-                numPedido = herramientas.repetirInt();
-                if(numPedido == 0){
-                    pedido = null;
-                    vuelta = false;
-                }
-            }else{
-                vuelta = false;
-            }
-        }
+        Pedido pedido;
+        pedido = em.find(Pedido.class, numPedido);
         return pedido;
     }
 
@@ -102,24 +64,26 @@ public class PedidoDAOJPA implements PedidoDAO {
     }
 
     @Override
-    public void eliminarPedido(Pedido pedido) {
+    public boolean eliminarPedido(Pedido pedido) {
         em.getTransaction().begin();
         em.remove(pedido);
         em.getTransaction().commit();
-        herramientas.enviarMensaje(1, null);
+        return true;
     }
 
     @Override
-    public void mostrarPedidos(boolean pendiente, Cliente cliente) {
+    public List<Pedido> mostrarPedidos(boolean pendiente, Cliente cliente) {
         List<Pedido> pedidos;
         String consulta;
         if(cliente == null){
             if(pendiente){
                 consulta = "SELECT p.* FROM pedidos p JOIN articulos a ON p.cod_articulo = a.codigo\n" +
-                        "WHERE DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) > NOW();";
+                        "WHERE DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) > NOW()" +
+                        "ORDER BY p.num_pedido;";
             }else{
                 consulta = "SELECT p.* FROM pedidos p JOIN articulos a ON p.cod_articulo = a.codigo\n" +
-                        "WHERE DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) < NOW();";
+                        "WHERE DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) < NOW()" +
+                        "ORDER BY p.num_pedido;";
             }
             pedidos = em.createNativeQuery(consulta, Pedido.class).getResultList();
         }else{
@@ -134,19 +98,6 @@ public class PedidoDAOJPA implements PedidoDAO {
             }
             pedidos = em.createNativeQuery(consulta, Pedido.class).setParameter("email", cliente.getEmail()).getResultList();
         }
-        for(Pedido i : pedidos){
-            int numPedido = i.getNumPedido();
-            String email = i.getCliente().getEmail();
-            String codigo = i.getArticulo().getCodigoProducto();
-            int cantidad = i.getCantidad();
-            LocalDateTime fechaHora = i.getFechaHora();
-            herramientas.enviarMensaje(0, "\nNúmero de pedido: " + numPedido + "\nEmail del cliente: " +
-                    email + "\nCódigo del artículo: " + codigo + "\nCantidad: " + cantidad + "\nFecha y hora: " +
-                    fechaHora + "\n\n--------------");
-        }
-        int cantidad = pedidos.size();
-        if(cantidad == 0) {
-            herramientas.enviarMensaje(0, "No hay pedidos por mostrar.");
-        }
+        return pedidos;
     }
 }

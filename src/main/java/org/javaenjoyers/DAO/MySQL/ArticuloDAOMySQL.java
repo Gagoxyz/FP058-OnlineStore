@@ -4,6 +4,8 @@ import org.javaenjoyers.controlador.Herramientas;
 import org.javaenjoyers.modelo.Articulo;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ArticuloDAOMySQL implements ArticuloDAO {
     Connection conexion;
@@ -49,9 +51,10 @@ public class ArticuloDAOMySQL implements ArticuloDAO {
         return articulo;
     }
 
-    public void mostrarArticulos(){
+    public List<Articulo> mostrarArticulos(){
         String sql;
         Statement sentencia;
+        List<Articulo> listaArticulos = new ArrayList<>();
         sql = "SELECT * FROM articulos;";
         try{
             sentencia = conexion.createStatement();
@@ -62,12 +65,18 @@ public class ArticuloDAOMySQL implements ArticuloDAO {
                 double precio = resultado.getDouble("precio_venta");
                 double gastos = resultado.getDouble("gasto_envio");
                 int tiempo = resultado.getInt("tiempo_preparacion");
-                herramientas.enviarMensaje(0, "\nCódigo del artículo: " + codigo + "\nDescripción: " +
-                        descripcion + "\nPrecio de venta: " + precio + " €\nGastos de envio: " + gastos +
-                        " €\nTiempo de preparación: " + tiempo + " minutos\n\n--------------");
+
+                Articulo articulo = new Articulo();
+                articulo.setCodigoProducto(codigo);
+                articulo.setDescripcion(descripcion);
+                articulo.setPrecioVenta(precio);
+                articulo.setGastosEnvio(gastos);
+                articulo.setTiempoPrepEnvio(tiempo);
+                listaArticulos.add(articulo);
             }
         }catch(SQLException e){
             herramientas.enviarMensaje(2, null);
         }
+        return listaArticulos;
     }
 }

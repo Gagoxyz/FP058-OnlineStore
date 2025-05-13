@@ -3,6 +3,7 @@ package org.javaenjoyers.vista;
 import org.javaenjoyers.controlador.Herramientas;
 import org.javaenjoyers.modelo.Articulo;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class VistaArticulos {
@@ -39,5 +40,18 @@ public class VistaArticulos {
         System.out.print("Indica el tiempo de preparación del artículo: ");
         int tiempo = herramientas.errorIntEntrada();
         return new Articulo(codigo, descripcion, precio, gastos, tiempo);
+    }
+
+    public void mostrarArticulos(List<Articulo> listaArt){
+        for(Articulo i : listaArt){
+            String codigo = i.getCodigoProducto();
+            String descripcion = i.getDescripcion();
+            double precio = i.getPrecioVenta();
+            double gastos = i.getGastosEnvio();
+            int tiempo = i.getTiempoPrepEnvio();
+            System.out.println("\nCódigo del artículo: " + codigo + "\nDescripción: " +
+                        descripcion + "\nPrecio de venta: " + precio + " €\nGastos de envio: " + gastos +
+                       " €\nTiempo de preparación: " + tiempo + " minutos\n\n--------------");
+        }
     }
 }

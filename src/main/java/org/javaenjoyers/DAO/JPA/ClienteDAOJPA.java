@@ -31,7 +31,7 @@ public class ClienteDAOJPA implements ClienteDAO {
     }
 
     @Override
-    public void mostrarClientes(int opcion) {
+    public List<Cliente> mostrarClientes(int opcion) {
         List<Cliente> clientes;
         String consulta ="";
         switch (opcion){
@@ -46,19 +46,6 @@ public class ClienteDAOJPA implements ClienteDAO {
                 break;
         }
         clientes = em.createQuery(consulta, Cliente.class).getResultList();
-        for(Cliente i : clientes){
-            String email = i.getEmail();
-            String nombre = i.getNombre();
-            String domicilio = i.getDomicilio();
-            String nif = i.getNif();
-            String tipo;
-            if(i instanceof Estandar){
-                tipo = "Estándar";
-            }else{
-                tipo = "Premium";
-            }
-            herramientas.enviarMensaje(0, "\nEmail: "+ email + "\nNombre: " + nombre + "\nDomicilio: " +
-                    domicilio + "\nNIF: " + nif + "\nTipo: " + tipo + "\n\n--------------");
-        }
+        return clientes;
     }
 }

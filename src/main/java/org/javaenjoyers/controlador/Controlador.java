@@ -1,6 +1,7 @@
 package org.javaenjoyers.controlador;
 
 import org.javaenjoyers.vista.*;
+import org.javaenjoyers.vista.JavaFX.VistaJavaFX;
 
 import java.sql.SQLException;
 
@@ -11,12 +12,42 @@ public class Controlador {
     private ControladorArticulo contrArticulo;
     private ControladorPedido contrPedido;
 
+    private VistaJavaFX vistaJFX;
+
     public Controlador(ControladorArticulo contrArticulo, ControladorCliente contrCliente, ControladorPedido contrPedido, Herramientas herramientas, Vista vista) {
         this.contrArticulo = contrArticulo;
         this.contrCliente = contrCliente;
         this.contrPedido = contrPedido;
         this.herramientas = herramientas;
         this.vista = vista;
+    }
+
+    public void setVistaJFX(VistaJavaFX vistaJFX) {
+        this.vistaJFX = vistaJFX;
+    }
+
+    public ControladorArticulo getContrArticulo() {
+        return contrArticulo;
+    }
+
+    public void setContrArticulo(ControladorArticulo contrArticulo) {
+        this.contrArticulo = contrArticulo;
+    }
+
+    public ControladorCliente getContrCliente() {
+        return contrCliente;
+    }
+
+    public void setContrCliente(ControladorCliente contrCliente) {
+        this.contrCliente = contrCliente;
+    }
+
+    public ControladorPedido getContrPedido() {
+        return contrPedido;
+    }
+
+    public void setContrPedido(ControladorPedido contrPedido) {
+        this.contrPedido = contrPedido;
     }
 
     public void inicio() throws SQLException {
@@ -42,5 +73,9 @@ public class Controlador {
                     break;
             }
         }
+    }
+
+    public void menuPrincipal(){
+        vistaJFX.crearVista();
     }
 }

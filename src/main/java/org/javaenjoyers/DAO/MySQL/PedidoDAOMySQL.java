@@ -5,6 +5,8 @@ import org.javaenjoyers.modelo.*;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PedidoDAOMySQL implements PedidoDAO {
     Connection conexion;
@@ -68,7 +70,6 @@ public class PedidoDAOMySQL implements PedidoDAO {
             }catch(SQLException e){
                 herramientas.enviarMensaje(2, null);
             }
-            herramientas.enviarMensaje(1, null);
         }
     }
 
@@ -76,24 +77,17 @@ public class PedidoDAOMySQL implements PedidoDAO {
         String sql;
         PreparedStatement stmt;
         Cliente cliente = new Cliente();
-        boolean vuelta = true;
         try{
-            while(vuelta){
-                sql = "SELECT * FROM clientes WHERE email = ?;";
-                stmt = conexion.prepareStatement(sql);
-                stmt.setString(1, email);
-                ResultSet resultado = stmt.executeQuery();
-                if(resultado.next()){
-                    cliente.setEmail(resultado.getString("email"));
-                    vuelta = false;
-                }else{
-                    email = herramientas.repetirString(2);
-                    if(email.equals("0")){
-                        cliente = null;
-                        vuelta = false;
-                    }
-                }
+            sql = "SELECT * FROM clientes WHERE email = ?;";
+            stmt = conexion.prepareStatement(sql);
+            stmt.setString(1, email);
+            ResultSet resultado = stmt.executeQuery();
+            if(resultado.next()){
+                cliente.setEmail(resultado.getString("email"));
+            }else{
+                cliente = null;
             }
+
         }catch (SQLException e){
             herramientas.enviarMensaje(2, null);
         }
@@ -104,23 +98,15 @@ public class PedidoDAOMySQL implements PedidoDAO {
         String sql;
         PreparedStatement stmt;
         Articulo articulo = new Articulo();
-        boolean vuelta = true;
         try{
-            while(vuelta){
-                sql = "SELECT * FROM articulos WHERE cod_articulo = ?;";
-                stmt = conexion.prepareStatement(sql);
-                stmt.setString(1, codigo);
-                ResultSet resultado = stmt.executeQuery();
-                if(resultado.next()){
-                    articulo.setCodigoProducto(resultado.getString("cod_articulo"));
-                    vuelta = false;
-                }else{
-                    codigo = herramientas.repetirString(2);
-                    if(codigo.equals("0")){
-                        articulo = null;
-                        vuelta = false;
-                    }
-                }
+            sql = "SELECT * FROM articulos WHERE cod_articulo = ?;";
+            stmt = conexion.prepareStatement(sql);
+            stmt.setString(1, codigo);
+            ResultSet resultado = stmt.executeQuery();
+            if(resultado.next()){
+                articulo.setCodigoProducto(resultado.getString("cod_articulo"));
+            }else{
+                articulo = null;
             }
         }catch (SQLException e){
             herramientas.enviarMensaje(2, null);
@@ -132,23 +118,15 @@ public class PedidoDAOMySQL implements PedidoDAO {
         String sql;
         PreparedStatement stmt;
         Pedido pedido = new Pedido();
-        boolean vuelta = true;
         try{
-            while(vuelta){
-                sql = "SELECT * FROM pedidos WHERE num_pedido = ?;";
-                stmt = conexion.prepareStatement(sql);
-                stmt.setInt(1, numPedido);
-                ResultSet resultado = stmt.executeQuery();
-                if(resultado.next()){
-                    pedido.setNumPedido(resultado.getInt("num_pedido"));
-                    vuelta = false;
-                }else{
-                    numPedido = herramientas.repetirInt();
-                    if(numPedido == 0){
-                        pedido = null;
-                        vuelta = false;
-                    }
-                }
+            sql = "SELECT * FROM pedidos WHERE num_pedido = ?;";
+            stmt = conexion.prepareStatement(sql);
+            stmt.setInt(1, numPedido);
+            ResultSet resultado = stmt.executeQuery();
+            if(resultado.next()){
+                pedido.setNumPedido(resultado.getInt("num_pedido"));
+            }else{
+                pedido = null;
             }
         }catch (SQLException e){
             herramientas.enviarMensaje(2, null);
@@ -174,22 +152,25 @@ public class PedidoDAOMySQL implements PedidoDAO {
         return pendiente;
     }
 
-    public void eliminarPedido (Pedido pedido){
+    public boolean eliminarPedido (Pedido pedido){
         String sql;
+        boolean exito = false;
         try{
             sql = "DELETE FROM pedidos WHERE num_pedido = ?;";
             PreparedStatement stmt = conexion.prepareStatement(sql);
             stmt.setInt(1, pedido.getNumPedido());
             int resultado = stmt.executeUpdate();
             if(resultado > 0){
-                herramientas.enviarMensaje(1, null);
+                exito = true;
             }
         }catch (SQLException e){
             herramientas.enviarMensaje(2, null);
         }
+        return exito;
     }
 
-    public void mostrarPedidos(boolean pendiente, Cliente cliente){
+    public List<Pedido> mostrarPedidos(boolean pendiente, Cliente cliente){
+        List<Pedido> listaPed = new ArrayList<>();
         String sql1;
         String sql2;
         ResultSet resultado;
@@ -197,10 +178,12 @@ public class PedidoDAOMySQL implements PedidoDAO {
             if(cliente == null){
                 if(pendiente){
                     sql1 = "SELECT p.* FROM pedidos p JOIN articulos a ON p.cod_articulo = a.cod_articulo\n" +
-                            "WHERE DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) > NOW();";
+                            "WHERE DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) > NOW()\n" +
+                            "ORDER BY p.num_pedido;";
                 }else{
                     sql1 = "SELECT p.* FROM pedidos p JOIN articulos a ON p.cod_articulo = a.cod_articulo\n" +
-                            "WHERE DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) < NOW();";
+                            "WHERE DATE_ADD(fecha_hora, INTERVAL tiempo_preparacion*cantidad MINUTE) < NOW()\n" +
+                            "ORDER BY p.num_pedido;";
                 }
                 Statement stmt = conexion.createStatement();
                 resultado = stmt.executeQuery(sql1);
@@ -214,22 +197,24 @@ public class PedidoDAOMySQL implements PedidoDAO {
                 stmt.setString(1, cliente.getEmail());
                 resultado = stmt.executeQuery();
             }
-            if(resultado.next()){
-                do{
-                    int numPedido = resultado.getInt("num_pedido");
-                    String email = resultado.getString("email_cliente");
-                    String codArticulo = resultado.getString("cod_articulo");
-                    int cantidad = resultado.getInt("cantidad");
-                    Timestamp fechaHora = resultado.getTimestamp("fecha_hora");
-                    herramientas.enviarMensaje(0, "\nNúmero de pedido: " + numPedido + "\nEmail del cliente: " +
-                            email + "\nCódigo del artículo: " + codArticulo + "\nCantidad: " + cantidad + "\nFecha y hora: " +
-                            fechaHora + "\n\n--------------");
-                }while(resultado.next());
-            }else{
-                herramientas.enviarMensaje(0, "\nNo hay pedidos por mostrar.");
+            while(resultado.next()){
+                int numPedido = resultado.getInt("num_pedido");
+                String email = resultado.getString("email_cliente");
+                String codArticulo = resultado.getString("cod_articulo");
+                int cantidad = resultado.getInt("cantidad");
+                Timestamp fechaHora = resultado.getTimestamp("fecha_hora");
+
+                Cliente cliVacio = new Cliente();
+                cliVacio.setEmail(email);
+                Articulo artVacio = new Articulo();
+                artVacio.setCodigoProducto(codArticulo);
+                LocalDateTime tiempo = fechaHora.toLocalDateTime();
+                Pedido pedido = new Pedido(artVacio, cantidad, cliVacio, tiempo, numPedido);
+                listaPed.add(pedido);
             }
         }catch(SQLException e){
             herramientas.enviarMensaje(2, null);
         }
+        return listaPed;
     }
 }

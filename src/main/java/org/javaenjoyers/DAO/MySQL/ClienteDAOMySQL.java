@@ -7,6 +7,8 @@ import org.javaenjoyers.modelo.Estandar;
 import org.javaenjoyers.modelo.Premium;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClienteDAOMySQL implements ClienteDAO {
     Connection conexion;
@@ -59,9 +61,10 @@ public class ClienteDAOMySQL implements ClienteDAO {
         return cliente;
     }
 
-    public void mostrarClientes(int opcion){
+    public List<Cliente> mostrarClientes(int opcion){
         String sql = "";
         Statement sentencia;
+        List<Cliente> listaClientes = new ArrayList<>();
         switch (opcion){
             case 1:
                 sql = "SELECT * FROM clientes;";
@@ -87,11 +90,29 @@ public class ClienteDAOMySQL implements ClienteDAO {
                 }else{
                     tipo = "Premium";
                 }
-                herramientas.enviarMensaje(0, "\nEmail: "+ email + "\nNombre: " + nombre + "\nDomicilio: " +
-                        domicilio + "\nNIF: " + nif + "\nTipo: " + tipo + "\n\n--------------");
+                if(tipo.equals("Estándar")){
+                    Estandar cliEstandar = new Estandar();
+                    cliEstandar.setEmail(email);
+                    cliEstandar.setNombre(nombre);
+                    cliEstandar.setNif(nif);
+                    cliEstandar.setDomicilio(domicilio);
+                    listaClientes.add(cliEstandar);
+                }else{
+                    Premium cliPremium = new Premium();
+                    cliPremium.setEmail(email);
+                    cliPremium.setNombre(nombre);
+                    cliPremium.setNif(nif);
+                    cliPremium.setDomicilio(domicilio);
+                    listaClientes.add(cliPremium);
+                }
+//                herramientas.enviarMensaje(0, "\nEmail: "+ email + "\nNombre: " + nombre + "\nDomicilio: " +
+//                        domicilio + "\nNIF: " + nif + "\nTipo: " + tipo + "\n\n--------------");
+
             }
+
         }catch(SQLException e){
             herramientas.enviarMensaje(2, null);
         }
+        return listaClientes;
     }
 }
