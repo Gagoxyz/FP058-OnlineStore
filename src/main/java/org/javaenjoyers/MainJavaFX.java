@@ -60,7 +60,7 @@ public class MainJavaFX extends Application {
         Controlador controlador = new Controlador(contrArt, contrCli, contrPed, herramientas, vistaAntigua);
 
         StackPane rootPane = new StackPane();
-        VistaCliJavaFX vistaCliJFX = new VistaCliJavaFX(contrCli, controlador);
+        VistaCliJavaFX vistaCliJFX = new VistaCliJavaFX(contrCli, controlador, contrPed);
         VistaJavaFX vista = new VistaJavaFX(contrArt, contrCli, controlador, contrPed, rootPane);
         VistaArtJavaFX vistaArtJFX = new VistaArtJavaFX(contrArt, controlador, vista);
         VistaPedJavaFX vistaPedJFX = new VistaPedJavaFX(controlador, vista, contrPed);

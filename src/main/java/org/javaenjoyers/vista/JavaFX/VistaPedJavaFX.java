@@ -20,7 +20,6 @@ import org.javaenjoyers.modelo.Articulo;
 import org.javaenjoyers.modelo.Cliente;
 import org.javaenjoyers.modelo.Pedido;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -95,7 +94,7 @@ public class VistaPedJavaFX {
         botShow.setOnAction(e -> contrPed.crearClienteFX());
 
         Button atras = new Button("Atrás");
-        atras.setOnAction(e -> vistaJFX.cambiarVista(menuPedidos()));
+        atras.setOnAction(e -> contrPed.menuPedidosFX());
 
         root.getChildren().addAll(linea, botAdd, botShow, atras);
 
@@ -113,10 +112,18 @@ public class VistaPedJavaFX {
         TextField email = new TextField();
         email.setPromptText("Email");
 
-        Button buscar = new Button("Buscar cliente");
+        Button buscar;
+        if(caso == 1){
+            buscar = new Button("Buscar cliente");
+        }else{
+            buscar = new Button("Buscar pedidos");
+        }
         buscar.setOnAction(e -> contrPed.comprobarEmail(email.getText(), caso, pendiente));
 
-        form.getChildren().addAll(linea, email, buscar);
+        Button cancelar = new Button("Cancelar");
+        cancelar.setOnAction(e -> contrPed.menuPedidosFX());
+
+        form.getChildren().addAll(linea, email, buscar, cancelar);
 
         return form;
     }
@@ -165,7 +172,10 @@ public class VistaPedJavaFX {
         Button buscar = new Button("Buscar artículo");
         buscar.setOnAction(e -> contrPed.buscarArticulo(codigo.getText(), cliente));
 
-        form.getChildren().addAll(linea, codigo, buscar);
+        Button cancelar = new Button("Cancelar");
+        cancelar.setOnAction(e -> contrPed.menuPedidosFX());
+
+        form.getChildren().addAll(linea, codigo, buscar, cancelar);
 
         return form;
     }
@@ -184,7 +194,10 @@ public class VistaPedJavaFX {
         Button crear = new Button("Crear pedido");
         crear.setOnAction(e -> contrPed.crearPedido(cliente, articulo, cantidad.getText()));
 
-        form.getChildren().addAll(linea, cantidad, crear);
+        Button cancelar = new Button("Cancelar");
+        cancelar.setOnAction(e -> contrPed.menuPedidosFX());
+
+        form.getChildren().addAll(linea, cantidad, crear, cancelar);
 
         return form;
     }
@@ -259,7 +272,10 @@ public class VistaPedJavaFX {
         Button buscar = new Button("Buscar artículo");
         buscar.setOnAction(e -> contrPed.buscarPedido(numero.getText()));
 
-        form.getChildren().addAll(linea, numero, buscar);
+        Button cancelar = new Button("Cancelar");
+        cancelar.setOnAction(e -> contrPed.menuPedidosFX());
+
+        form.getChildren().addAll(linea, numero, buscar, cancelar);
 
         return form;
     }
@@ -273,7 +289,7 @@ public class VistaPedJavaFX {
         linea.setFill(Color.DARKRED);
 
         Button aceptar = new Button("OK");
-        aceptar.setOnAction(e -> vistaJFX.cambiarVista(menuPedidos()));
+        aceptar.setOnAction(e -> contrPed.menuPedidosFX());
 
         if(caso == 1){
             linea = new Text("El pedido ya ha sido enviado, no se puede eliminar.");

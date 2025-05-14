@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import org.javaenjoyers.controlador.Controlador;
 import org.javaenjoyers.controlador.ControladorCliente;
+import org.javaenjoyers.controlador.ControladorPedido;
 import org.javaenjoyers.modelo.Cliente;
 import org.javaenjoyers.modelo.Estandar;
 
@@ -21,12 +22,13 @@ import java.util.List;
 
 public class VistaCliJavaFX {
     private ControladorCliente contrCli;
-
+    private ControladorPedido contrPed;
     private Controlador controlador;
 
-    public VistaCliJavaFX(ControladorCliente contrCli, Controlador controlador) {
+    public VistaCliJavaFX(ControladorCliente contrCli, Controlador controlador, ControladorPedido contrPed) {
         this.contrCli = contrCli;
         this.controlador = controlador;
+        this.contrPed = contrPed;
     }
 
     public Parent menuClientes(){
@@ -88,7 +90,14 @@ public class VistaCliJavaFX {
         Button crear = new Button("Crear cliente");
         crear.setOnAction(e -> contrCli.comprobarEmail(email.getText(), paraPedido));
 
-        form.getChildren().addAll(linea, email, crear);
+        Button cancelar = new Button("Cancelar");
+        if(paraPedido){
+            cancelar.setOnAction(e -> contrPed.menuPedidosFX());
+        }else{
+            cancelar.setOnAction(e -> contrCli.menuClientesJFX());
+        }
+
+        form.getChildren().addAll(linea, email, crear, cancelar);
 
         return form;
     }
@@ -154,7 +163,14 @@ public class VistaCliJavaFX {
         Button crear = new Button("Crear cliente");
         crear.setOnAction(e -> contrCli.crearCliente(email, nombre.getText(), nif.getText(), domicilio.getText(), tipoEstandar, paraPedido));
 
-        form.getChildren().addAll(linea1, nombre, linea2, nif, linea3, domicilio, linea4, estandar, premium, crear);
+        Button cancelar = new Button("Cancelar");
+        if(paraPedido){
+            cancelar.setOnAction(e -> contrPed.menuPedidosFX());
+        }else{
+            cancelar.setOnAction(e -> contrCli.menuClientesJFX());
+        }
+
+        form.getChildren().addAll(linea1, nombre, linea2, nif, linea3, domicilio, linea4, estandar, premium, crear, cancelar);
 
         return form;
     }

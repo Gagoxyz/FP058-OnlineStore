@@ -82,7 +82,10 @@ public class VistaArtJavaFX {
         Button crear = new Button("Crear artículo");
         crear.setOnAction(e -> contrArt.comprobarCodigo(codigo.getText()));
 
-        form.getChildren().addAll(linea, codigo, crear);
+        Button cancelar = new Button("Cancelar");
+        cancelar.setOnAction(e -> contrArt.menuArticulosJFX());
+
+        form.getChildren().addAll(linea, codigo, crear, cancelar);
 
         return form;
     }
@@ -138,7 +141,10 @@ public class VistaArtJavaFX {
         Button crear = new Button("Crear artículo");
         crear.setOnAction(e -> contrArt.crearArticulo(codigo, descripcion.getText(), precio.getText(), gastos.getText(), tiempo.getText()));
 
-        form.getChildren().addAll(linea1, descripcion, linea2, precio, linea3, gastos, linea4, tiempo, crear);
+        Button cancelar = new Button("Cancelar");
+        cancelar.setOnAction(e -> contrArt.menuArticulosJFX());
+
+        form.getChildren().addAll(linea1, descripcion, linea2, precio, linea3, gastos, linea4, tiempo, crear, cancelar);
 
         return form;
     }
