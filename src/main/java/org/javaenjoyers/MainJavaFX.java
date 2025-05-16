@@ -7,7 +7,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
 import org.javaenjoyers.DAO.ArticuloDAO;
 import org.javaenjoyers.DAO.ClienteDAO;
 import org.javaenjoyers.DAO.DAOFactory;
@@ -25,7 +24,7 @@ import java.sql.Connection;
 public class MainJavaFX extends Application {
     @Override
     public void start(Stage stage){
-        String tipoBD = "jpa";
+        String tipoBD = "mysql";
         EntityManagerFactory emf;
         EntityManager em = null;
         Connection conexion;
@@ -61,7 +60,7 @@ public class MainJavaFX extends Application {
 
         StackPane rootPane = new StackPane();
         VistaCliJavaFX vistaCliJFX = new VistaCliJavaFX(contrCli, controlador, contrPed);
-        VistaJavaFX vista = new VistaJavaFX(contrArt, contrCli, controlador, contrPed, rootPane);
+        VistaJavaFX vista = new VistaJavaFX(contrArt, contrCli, contrPed, rootPane);
         VistaArtJavaFX vistaArtJFX = new VistaArtJavaFX(contrArt, controlador, vista);
         VistaPedJavaFX vistaPedJFX = new VistaPedJavaFX(controlador, vista, contrPed);
 
@@ -77,42 +76,11 @@ public class MainJavaFX extends Application {
         controlador.setVistaJFX(vista);
         //
 
-        Scene scene = new Scene(vista.crearVista(), 600, 400);
+        Scene scene = new Scene(vista.crearVista(), 600, 500);
+        scene.getStylesheets().add(getClass().getResource("/stylesheet.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Online Store - GUI");
         stage.show();
-
-
-        /*Label label = new Label("¡Hola desde JavaFX!");
-        Group root = new Group();
-        Scene scene = new Scene(root,600,400, Color.CORNFLOWERBLUE);
-        Image logo = new Image("logo.png");
-        stage.getIcons().add(logo);
-        stage.setTitle("Online Store - JavaFX");
-
-        //stage.setHeight(800);
-        //stage.setWidth(800);
-
-        Text text = new Text();
-        text.setText("Qué pasa peñíscolaaaa!!");
-        text.setX(10);
-        text.setY(70);
-        text.setFont(Font.font("Calibri Light", 26));
-        text.setFill(Color.DARKRED);
-
-
-        Image imatge = new Image("logo.png");
-        ImageView vista = new ImageView(imatge);
-        vista.setX(250);
-        vista.setY(300);
-        vista.setScaleX(80);
-
-
-        root.getChildren().add(text);
-        root.getChildren().add(vista);
-
-        stage.setScene(scene);
-        stage.show();*/
     }
 
     public static void main(String[] args){
@@ -125,4 +93,8 @@ public class MainJavaFX extends Application {
 /*https://www.youtube.com/watch?v=Ope4icw6bVk&list=PLZPZq0r_RZOM-8vJA3NQFZB7JroDcMwev&index=3&ab_channel=BroCode
 * https://www.youtube.com/watch?v=As7TEjqJ3Ao&list=PLZPZq0r_RZOM-8vJA3NQFZB7JroDcMwev&index=3&ab_channel=BroCode
 *https://www.youtube.com/watch?v=7nlU3_kEjTE&list=PLZPZq0r_RZOM-8vJA3NQFZB7JroDcMwev&index=4&ab_channel=BroCode
+*https://openjfx.io/javadoc/11/javafx.graphics/javafx/scene/doc-files/cssref.html#label
+*https://www.youtube.com/watch?v=1qVEuRhx27Q&ab_channel=JavaCodeJunkie
+*
+*
 * */

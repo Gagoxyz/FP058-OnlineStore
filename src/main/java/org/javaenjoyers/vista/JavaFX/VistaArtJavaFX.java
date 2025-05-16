@@ -3,17 +3,11 @@ package org.javaenjoyers.vista.JavaFX;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import org.javaenjoyers.controlador.Controlador;
 import org.javaenjoyers.controlador.ControladorArticulo;
 import org.javaenjoyers.modelo.Articulo;
@@ -35,17 +29,11 @@ public class VistaArtJavaFX {
         VBox root = new VBox(20);
         root.setPadding(new Insets(50, 50, 50, 50));
 
-        Text titulo = new Text("Tienda Online");
-        titulo.setFont(Font.font("Calibri", 26));
-        titulo.setFill(Color.DARKRED);
+        Label subtitulo = new Label("Gestión de artículos");
+        subtitulo.getStyleClass().add("titulo");
 
-        Text subtitulo = new Text("Gestión de artículos");
-        subtitulo.setFont(Font.font("Calibri", 20));
-        subtitulo.setFill(Color.DARKRED);
-
-        Text linea = new Text("¿Qué quieres hacer?");
-        linea.setFont(Font.font("Calibri", 15));
-        linea.setFill(Color.DARKRED);
+        Label linea = new Label("¿Qué quieres hacer?");
+        linea.getStyleClass().add("subtitulo");
 
         Button botAdd = new Button("Añadir artículo");
         botAdd.setOnAction(e -> contrArt.pedirCodigo());
@@ -54,16 +42,16 @@ public class VistaArtJavaFX {
         botShow.setOnAction(e -> contrArt.mostrarArticulos());
 
         Button atras = new Button("Atrás");
+        atras.getStyleClass().add("buttonAtras");
         atras.setOnAction(e -> controlador.menuPrincipal());
 
-        VBox.setMargin(titulo, new Insets(0, 0, 0, 0));
-        VBox.setMargin(subtitulo, new Insets(7, 0, 0, 0));
+        VBox.setMargin(subtitulo, new Insets(0, 0, 0, 0));
         VBox.setMargin(linea, new Insets(0, 0, 0, 0));
         VBox.setMargin(botAdd, new Insets(15, 0, 0, 0));
         VBox.setMargin(botShow, new Insets(15, 0, 0, 0));
         VBox.setMargin(atras, new Insets(10, 0, 0, 0));
 
-        root.getChildren().addAll(titulo, subtitulo, linea, botAdd, botShow, atras);
+        root.getChildren().addAll(subtitulo, linea, botAdd, botShow, atras);
 
         return root;
     }
@@ -72,18 +60,21 @@ public class VistaArtJavaFX {
         VBox form = new VBox(10);
         form.setPadding(new Insets(50, 50, 50, 50));
 
-        Text linea = new Text("Indica el código del nuevo artículo");
-        linea.setFont(Font.font("Calibri", 15));
-        linea.setFill(Color.DARKRED);
+        Label linea = new Label("Indica el código del nuevo artículo");
 
         TextField codigo = new TextField();
         codigo.setPromptText("Código");
+        codigo.getStyleClass().add("entrada");
 
         Button crear = new Button("Crear artículo");
         crear.setOnAction(e -> contrArt.comprobarCodigo(codigo.getText()));
 
         Button cancelar = new Button("Cancelar");
+        cancelar.getStyleClass().add("buttonAtras");
         cancelar.setOnAction(e -> contrArt.menuArticulosJFX());
+
+        VBox.setMargin(crear, new Insets(20, 0, 0, 0));
+        VBox.setMargin(cancelar, new Insets(20, 0, 0, 0));
 
         form.getChildren().addAll(linea, codigo, crear, cancelar);
 
@@ -94,12 +85,14 @@ public class VistaArtJavaFX {
         VBox mensaje = new VBox(10);
         mensaje.setPadding(new Insets(50, 50, 50, 50));
 
-        Text linea = new Text("Este artículo ya exite");
-        linea.setFont(Font.font("Calibri", 15));
-        linea.setFill(Color.DARKRED);
+        Label linea = new Label("Este artículo ya exite");
+        linea.getStyleClass().add("subtitulo");
 
         Button aceptar = new Button("OK");
         aceptar.setOnAction(e -> contrArt.pedirCodigo());
+
+        VBox.setMargin(linea, new Insets(30, 0, 0, 0));
+        VBox.setMargin(aceptar, new Insets(30, 0, 0, 0));
 
         mensaje.getChildren().addAll(linea, aceptar);
 
@@ -110,39 +103,39 @@ public class VistaArtJavaFX {
         VBox form = new VBox(10);
         form.setPadding(new Insets(50, 50, 50, 50));
 
-        Text linea1 = new Text("Indica la descripción del nuevo artículo");
-        linea1.setFont(Font.font("Calibri", 15));
-        linea1.setFill(Color.DARKRED);
+        Label linea1 = new Label("Indica la descripción del nuevo artículo");
 
         TextField descripcion = new TextField();
         descripcion.setPromptText("Descripción");
+        descripcion.getStyleClass().add("entrada");
 
-        Text linea2 = new Text("Indica el precio de venta del nuevo artículo");
-        linea2.setFont(Font.font("Calibri",  15));
-        linea2.setFill(Color.DARKRED);
+        Label linea2 = new Label("Indica el precio de venta del nuevo artículo");
 
         TextField precio = new TextField();
         precio.setPromptText("Precio de venta");
+        precio.getStyleClass().add("entrada");
 
-        Text linea3 = new Text("Indica los gastos de envío del nuevo artículo");
-        linea3.setFont(Font.font("Calibri", 15));
-        linea3.setFill(Color.DARKRED);
+        Label linea3 = new Label("Indica los gastos de envío del nuevo artículo");
 
         TextField gastos = new TextField();
         gastos.setPromptText("Gastos de envío");
+        gastos.getStyleClass().add("entrada");
 
-        Text linea4 = new Text("Indica el tiempo de preparación del nuevo artículo");
-        linea4.setFont(Font.font("Calibri", 15));
-        linea4.setFill(Color.DARKRED);
+        Label linea4 = new Label("Indica el tiempo de preparación del nuevo artículo");
 
         TextField tiempo = new TextField();
         tiempo.setPromptText("Tiempo de preparación");
+        tiempo.getStyleClass().add("entrada");
 
         Button crear = new Button("Crear artículo");
         crear.setOnAction(e -> contrArt.crearArticulo(codigo, descripcion.getText(), precio.getText(), gastos.getText(), tiempo.getText()));
 
         Button cancelar = new Button("Cancelar");
+        cancelar.getStyleClass().add("buttonAtras");
         cancelar.setOnAction(e -> contrArt.menuArticulosJFX());
+
+        VBox.setMargin(crear, new Insets(10, 0, 0, 0));
+        VBox.setMargin(cancelar, new Insets(10, 0, 0, 0));
 
         form.getChildren().addAll(linea1, descripcion, linea2, precio, linea3, gastos, linea4, tiempo, crear, cancelar);
 
@@ -153,23 +146,25 @@ public class VistaArtJavaFX {
         VBox mensaje = new VBox(10);
         mensaje.setPadding(new Insets(50, 50, 50, 50));
 
-        Text linea = new Text();
+        Label linea = new Label();
         switch (x){
             case 0:
-                linea = new Text("No has introducido el precio de venta correctamente");
+                linea = new Label("El precio está mal introducido");
                 break;
             case 1:
-                linea = new Text("No has introducido los gastos de envío correctamente");
+                linea = new Label("Los gastos están mal introducidos");
                 break;
             case 2:
-                linea = new Text("No has introducido el tiempo de preparación correctamente");
+                linea = new Label("El tiempo está mal introducido");
                 break;
         }
-        linea.setFont(Font.font("Calibri", 15));
-        linea.setFill(Color.DARKRED);
+        linea.getStyleClass().add("subtitulo");
 
         Button aceptar = new Button("Volver a introducir la información del artículo");
         aceptar.setOnAction(e -> vistaJFX.cambiarVista(infoArticulo(codigo)));
+
+        VBox.setMargin(linea, new Insets(30, 0, 0, 0));
+        VBox.setMargin(aceptar, new Insets(30, 0, 0, 0));
 
         mensaje.getChildren().addAll(linea, aceptar);
 
@@ -180,12 +175,14 @@ public class VistaArtJavaFX {
         VBox mensaje = new VBox(10);
         mensaje.setPadding(new Insets(50, 50, 50, 50));
 
-        Text linea = new Text("Artículo añadido correctamente");
-        linea.setFont(Font.font("Calibri", 15));
-        linea.setFill(Color.DARKRED);
+        Label linea = new Label("Artículo añadido correctamente");
+        linea.getStyleClass().add("subtitulo");
 
         Button aceptar = new Button("OK");
         aceptar.setOnAction(e -> contrArt.menuArticulosJFX());
+
+        VBox.setMargin(linea, new Insets(30, 0, 0, 0));
+        VBox.setMargin(aceptar, new Insets(30, 0, 0, 0));
 
         mensaje.getChildren().addAll(linea, aceptar);
 
@@ -196,60 +193,70 @@ public class VistaArtJavaFX {
         VBox muestra = new VBox(5);
         muestra.setPadding(new Insets(50, 50, 50, 50));
 
-        Text linea = new Text("Todos los artículos\n\n");
-        linea.setFont(Font.font("Calibri", 20));
-        linea.setFill(Color.DARKRED);
+        Label linea = new Label("Todos los artículos\n\n");
+        linea.getStyleClass().add("subtitulo");
+        VBox.setMargin(linea, new Insets(0, 0, 30, 0));
 
         muestra.getChildren().add(linea);
 
         for(Articulo i : listaArt){
-            Text codPresentacion = new Text("Código: ");
-            codPresentacion.setFont(Font.font("Calibri", 15));
+            Label codPresentacion = new Label("Código: ");
+            codPresentacion.setStyle("-fx-font-weight: normal;");
 
-            Text descPresentacion = new Text("Descripción: ");
-            descPresentacion.setFont(Font.font("Calibri", 15));
+            Label descPresentacion = new Label("Descripción: ");
+            descPresentacion.setStyle("-fx-font-weight: normal;");
 
-            Text prePresentacion = new Text("Precio de venta: ");
-            prePresentacion.setFont(Font.font("Calibri", 15));
+            Label prePresentacion = new Label("Precio de venta: ");
+            prePresentacion.setStyle("-fx-font-weight: normal;");
 
-            Text gasPresentacion = new Text("Gastos de envío: ");
-            gasPresentacion.setFont(Font.font("Calibri", 15));
+            Label gasPresentacion = new Label("Gastos de envío: ");
+            gasPresentacion.setStyle("-fx-font-weight: normal;");
 
-            Text tiePresentacion = new Text("Tiempo de preparación: ");
-            tiePresentacion.setFont(Font.font("Calibri", 15));
+            Label tiePresentacion = new Label("Tiempo de preparación: ");
+            tiePresentacion.setStyle("-fx-font-weight: normal;");
 
             //--------------------------------
 
-            Text codValor = new Text(i.getCodigoProducto());
-            codValor.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
+            Label codValor = new Label(i.getCodigoProducto());
+            codValor.getStyleClass().add("destacado");
 
-            Text descValor = new Text(i.getDescripcion());
-            descValor.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
+            Label descValor = new Label(i.getDescripcion());
+            descValor.getStyleClass().add("destacado");
 
             double precioDouble = i.getPrecioVenta();
             String precioString = String.valueOf(precioDouble);
-            Text preValor = new Text(precioString + " €");
-            preValor.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
+            Label preValor = new Label(precioString + " €");
+            preValor.getStyleClass().add("destacado");
 
             double gastosDouble = i.getGastosEnvio();
             String gastosString = String.valueOf(gastosDouble);
-            Text gasValor = new Text(gastosString + " €");
-            gasValor.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
+            Label gasValor = new Label(gastosString + " €");
+            gasValor.getStyleClass().add("destacado");
 
             int tiempoInt = i.getTiempoPrepEnvio();
             String tiempoString = String.valueOf(tiempoInt);
-            Text tieValor = new Text(tiempoString + " minutos");
-            tieValor.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
+            Label tieValor = new Label(tiempoString + " minutos");
+            tieValor.getStyleClass().add("destacado");
 
-            TextFlow codigo = new TextFlow(codPresentacion, codValor);
-            TextFlow descripcion = new TextFlow(descPresentacion, descValor);
-            TextFlow precio = new TextFlow(prePresentacion, preValor);
-            TextFlow gastos = new TextFlow(gasPresentacion, gasValor);
-            TextFlow tiempo = new TextFlow(tiePresentacion, tieValor);
+            GridPane tabla = new GridPane();
+            tabla.setHgap(10);
+            tabla.setVgap(10);
+            int row = 0;
+            tabla.add(codPresentacion, 0, row);
+            tabla.add(codValor, 1, row++);
+            tabla.add(descPresentacion, 0, row);
+            tabla.add(descValor, 1, row++);
+            tabla.add(prePresentacion, 0, row);
+            tabla.add(preValor, 1, row++);
+            tabla.add(gasPresentacion, 0, row);
+            tabla.add(gasValor, 1, row++);
+            tabla.add(tiePresentacion, 0, row);
+            tabla.add(tieValor, 1, row++);
 
-            Text separacion = new Text("\n----------------------------------\n");
+            Separator separacion = new Separator();
 
-            muestra.getChildren().addAll(codigo, descripcion, precio, gastos, tiempo, separacion);
+            muestra.getChildren().addAll(tabla, separacion);
+            VBox.setMargin(separacion, new Insets(17, 0, 17, 0));
         }
 
         ScrollPane scroll = new ScrollPane();

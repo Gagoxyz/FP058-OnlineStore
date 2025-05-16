@@ -5,13 +5,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import org.javaenjoyers.controlador.Controlador;
 import org.javaenjoyers.controlador.ControladorCliente;
 import org.javaenjoyers.controlador.ControladorPedido;
@@ -35,17 +31,11 @@ public class VistaCliJavaFX {
         VBox root = new VBox(20);
         root.setPadding(new Insets(50, 50, 50, 50));
 
-        Text titulo = new Text("Tienda Online");
-        titulo.setFont(Font.font("Calibri", 26));
-        titulo.setFill(Color.DARKRED);
+        Label subtitulo = new Label("Gestión de clientes");
+        subtitulo.getStyleClass().add("titulo");
 
-        Text subtitulo = new Text("Gestión de clientes");
-        subtitulo.setFont(Font.font("Calibri", 20));
-        subtitulo.setFill(Color.DARKRED);
-
-        Text linea = new Text("¿Qué quieres hacer?");
-        linea.setFont(Font.font("Calibri", 15));
-        linea.setFill(Color.DARKRED);
+        Label linea = new Label("¿Qué quieres hacer?");
+        linea.getStyleClass().add("subtitulo");
 
         Button botAdd = new Button("Añadir cliente");
         botAdd.setOnAction(e -> contrCli.pedirEmail(false));
@@ -60,10 +50,10 @@ public class VistaCliJavaFX {
         botShowPre.setOnAction(e -> contrCli.mostrarClientes(3));
 
         Button atras = new Button("Atrás");
+        atras.getStyleClass().add("buttonAtras");
         atras.setOnAction(e -> controlador.menuPrincipal());
 
-        VBox.setMargin(titulo, new Insets(0, 0, 0, 0));
-        VBox.setMargin(subtitulo, new Insets(7, 0, 0, 0));
+        VBox.setMargin(subtitulo, new Insets(0, 0, 0, 0));
         VBox.setMargin(linea, new Insets(0, 0, 0, 0));
         VBox.setMargin(botAdd, new Insets(15, 0, 0, 0));
         VBox.setMargin(botShow, new Insets(10, 0, 0, 0));
@@ -71,7 +61,7 @@ public class VistaCliJavaFX {
         VBox.setMargin(botShowPre, new Insets(10, 0, 0, 0));
         VBox.setMargin(atras, new Insets(10, 0, 0, 0));
 
-        root.getChildren().addAll(titulo, subtitulo, linea, botAdd, botShow, botShowEst, botShowPre, atras);
+        root.getChildren().addAll(subtitulo, linea, botAdd, botShow, botShowEst, botShowPre, atras);
 
         return root;
     }
@@ -80,22 +70,25 @@ public class VistaCliJavaFX {
         VBox form = new VBox(10);
         form.setPadding(new Insets(50, 50, 50, 50));
 
-        Text linea = new Text("Indica el email del nuevo cliente");
-        linea.setFont(Font.font("Calibri", 15));
-        linea.setFill(Color.DARKRED);
+        Label linea = new Label("Indica el email del nuevo cliente");
 
         TextField email = new TextField();
         email.setPromptText("Email");
+        email.getStyleClass().add("entrada");
 
         Button crear = new Button("Crear cliente");
         crear.setOnAction(e -> contrCli.comprobarEmail(email.getText(), paraPedido));
 
         Button cancelar = new Button("Cancelar");
+        cancelar.getStyleClass().add("buttonAtras");
         if(paraPedido){
             cancelar.setOnAction(e -> contrPed.menuPedidosFX());
         }else{
             cancelar.setOnAction(e -> contrCli.menuClientesJFX());
         }
+
+        VBox.setMargin(crear, new Insets(20, 0, 0, 0));
+        VBox.setMargin(cancelar, new Insets(20, 0, 0, 0));
 
         form.getChildren().addAll(linea, email, crear, cancelar);
 
@@ -106,12 +99,14 @@ public class VistaCliJavaFX {
         VBox mensaje = new VBox(10);
         mensaje.setPadding(new Insets(50, 50, 50, 50));
 
-        Text linea = new Text("Este cliente ya exite");
-        linea.setFont(Font.font("Calibri", 15));
-        linea.setFill(Color.DARKRED);
+        Label linea = new Label("Este cliente ya exite");
+        linea.getStyleClass().add("subtitulo");
 
         Button aceptar = new Button("OK");
         aceptar.setOnAction(e -> contrCli.pedirEmail(paraPedido));
+
+        VBox.setMargin(linea, new Insets(30, 0, 0, 0));
+        VBox.setMargin(aceptar, new Insets(30, 0, 0, 0));
 
         mensaje.getChildren().addAll(linea, aceptar);
 
@@ -122,30 +117,25 @@ public class VistaCliJavaFX {
         VBox form = new VBox(10);
         form.setPadding(new Insets(50, 50, 50, 50));
 
-        Text linea1 = new Text("Indica el nombre del nuevo cliente");
-        linea1.setFont(Font.font("Calibri", 15));
-        linea1.setFill(Color.DARKRED);
+        Label linea1 = new Label("Indica el nombre del nuevo cliente");
 
         TextField nombre = new TextField();
         nombre.setPromptText("Nombre");
+        nombre.getStyleClass().add("entrada");
 
-        Text linea2 = new Text("Indica el NIF del nuevo cliente");
-        linea2.setFont(Font.font("Calibri", 15));
-        linea2.setFill(Color.DARKRED);
+        Label linea2 = new Label("Indica el NIF del nuevo cliente");
 
         TextField nif = new TextField();
         nif.setPromptText("NIF");
+        nif.getStyleClass().add("entrada");
 
-        Text linea3 = new Text("Indica el domicilio del nuevo cliente");
-        linea3.setFont(Font.font("Calibri", 15));
-        linea3.setFill(Color.DARKRED);
+        Label linea3 = new Label("Indica el domicilio del nuevo cliente");
 
         TextField domicilio = new TextField();
         domicilio.setPromptText("Domicilio");
+        domicilio.getStyleClass().add("entrada");
 
-        Text linea4 = new Text("Indica de qué tipo es el nuevo cliente");
-        linea4.setFont(Font.font("Calibri", 15));
-        linea4.setFill(Color.DARKRED);
+        Label linea4 = new Label("Indica de qué tipo es el nuevo cliente");
 
         RadioButton estandar = new RadioButton("Estándar");
         RadioButton premium = new RadioButton("Premium");
@@ -164,11 +154,15 @@ public class VistaCliJavaFX {
         crear.setOnAction(e -> contrCli.crearCliente(email, nombre.getText(), nif.getText(), domicilio.getText(), tipoEstandar, paraPedido));
 
         Button cancelar = new Button("Cancelar");
+        cancelar.getStyleClass().add("buttonAtras");
         if(paraPedido){
             cancelar.setOnAction(e -> contrPed.menuPedidosFX());
         }else{
             cancelar.setOnAction(e -> contrCli.menuClientesJFX());
         }
+
+        VBox.setMargin(crear, new Insets(10, 0, 0, 0));
+        VBox.setMargin(cancelar, new Insets(10, 0, 0, 0));
 
         form.getChildren().addAll(linea1, nombre, linea2, nif, linea3, domicilio, linea4, estandar, premium, crear, cancelar);
 
@@ -179,12 +173,14 @@ public class VistaCliJavaFX {
         VBox mensaje = new VBox(10);
         mensaje.setPadding(new Insets(50, 50, 50, 50));
 
-        Text linea = new Text("Cliente añadido correctamente");
-        linea.setFont(Font.font("Calibri", 15));
-        linea.setFill(Color.DARKRED);
+        Label linea = new Label("Cliente añadido correctamente");
+        linea.getStyleClass().add("subtitulo");
 
         Button aceptar = new Button("OK");
         aceptar.setOnAction(e -> contrCli.menuClientesJFX());
+
+        VBox.setMargin(linea, new Insets(30, 0, 0, 0));
+        VBox.setMargin(aceptar, new Insets(30, 0, 0, 0));
 
         mensaje.getChildren().addAll(linea, aceptar);
 
@@ -195,71 +191,76 @@ public class VistaCliJavaFX {
         VBox muestra = new VBox(5);
         muestra.setPadding(new Insets(50, 50, 50, 50));
 
-        Text linea = new Text();
+        Label linea = new Label();
         switch (opcion){
             case 1:
-                linea = new Text("Todos los lientes\n\n");
+                linea = new Label("Todos los lientes");
                 break;
             case 2:
-                linea = new Text("Clientes estándar\n\n");
+                linea = new Label("Clientes estándar");
                 break;
             case 3:
-                linea = new Text("Clientes premium\n\n");
+                linea = new Label("Clientes premium");
                 break;
         }
-        linea.setFont(Font.font("Calibri", 20));
-        linea.setFill(Color.DARKRED);
+        linea.getStyleClass().add("subtitulo");
+        VBox.setMargin(linea, new Insets(0, 0, 30, 0));
 
         muestra.getChildren().add(linea);
 
         for(Cliente i : listaCli){
-            Text emaPresentacion = new Text("Email: ");
-            emaPresentacion.setFont(Font.font("Calibri", 15));
+            Label emaPresentacion = new Label("Email: ");
 
-            Text nomPresentacion = new Text("Nombre: ");
-            nomPresentacion.setFont(Font.font("Calibri", 15));
+            Label nomPresentacion = new Label("Nombre: ");
 
-            Text nifPresentacion = new Text("NIF: ");
-            nifPresentacion.setFont(Font.font("Calibri", 15));
+            Label nifPresentacion = new Label("NIF: ");
 
-            Text domPresentacion = new Text("Domicilio: ");
-            domPresentacion.setFont(Font.font("Calibri", 15));
+            Label domPresentacion = new Label("Domicilio: ");
 
-            Text tipoPresentacion = new Text("Tipo: ");
-            tipoPresentacion.setFont(Font.font("Calibri", 15));
+            Label tipoPresentacion = new Label("Tipo: ");
 
             //--------------------------------
 
-            Text emaValor = new Text(i.getEmail());
-            emaValor.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
+            Label emaValor = new Label(i.getEmail());
+            emaValor.getStyleClass().add("destacado");
 
-            Text nomValor = new Text(i.getNombre());
-            nomValor.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
+            Label nomValor = new Label(i.getNombre());
+            nomValor.getStyleClass().add("destacado");
 
-            Text nifValor = new Text(i.getNif());
-            nifValor.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
+            Label nifValor = new Label(i.getNif());
+            nifValor.getStyleClass().add("destacado");
 
-            Text domValor = new Text(i.getDomicilio());
-            domValor.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
+            Label domValor = new Label(i.getDomicilio());
+            domValor.getStyleClass().add("destacado");
 
-            Text tipoValor;
+            Label tipoValor;
             if(i instanceof Estandar){
-                tipoValor = new Text("Estándar");
-                tipoValor.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
+                tipoValor = new Label("Estándar");
+                tipoValor.getStyleClass().add("destacado");
             }else{
-                tipoValor = new Text("Premium");
-                tipoValor.setFont(Font.font("Calibri", FontWeight.BOLD, 15));
+                tipoValor = new Label("Premium");
+                tipoValor.getStyleClass().add("destacado");
             }
 
-            TextFlow email = new TextFlow(emaPresentacion, emaValor);
-            TextFlow nombre = new TextFlow(nomPresentacion, nomValor);
-            TextFlow nif = new TextFlow(nifPresentacion, nifValor);
-            TextFlow domicilio = new TextFlow(domPresentacion, domValor);
-            TextFlow tipo = new TextFlow(tipoPresentacion, tipoValor);
+            GridPane tabla = new GridPane();
+            tabla.setHgap(10);
+            tabla.setVgap(10);
+            int row = 0;
+            tabla.add(emaPresentacion, 0, row);
+            tabla.add(emaValor, 1, row++);
+            tabla.add(nomPresentacion, 0, row);
+            tabla.add(nomValor, 1, row++);
+            tabla.add(nifPresentacion, 0, row);
+            tabla.add(nifValor, 1, row++);
+            tabla.add(domPresentacion, 0, row);
+            tabla.add(domValor, 1, row++);
+            tabla.add(tipoPresentacion, 0, row);
+            tabla.add(tipoValor, 1, row++);
 
-            Text separacion = new Text("\n----------------------------------\n");
+            Separator separacion = new Separator();
 
-            muestra.getChildren().addAll(email, nombre, nif, domicilio, tipo, separacion);
+            muestra.getChildren().addAll(tabla, separacion);
+            VBox.setMargin(separacion, new Insets(17, 0, 17, 0));
         }
 
         ScrollPane scroll = new ScrollPane();

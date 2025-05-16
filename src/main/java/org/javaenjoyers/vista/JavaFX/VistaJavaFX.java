@@ -2,29 +2,28 @@ package org.javaenjoyers.vista.JavaFX;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import org.javaenjoyers.controlador.Controlador;
 import org.javaenjoyers.controlador.ControladorArticulo;
 import org.javaenjoyers.controlador.ControladorCliente;
 import org.javaenjoyers.controlador.ControladorPedido;
 
 public class VistaJavaFX {
-    private Controlador controlador;
     private ControladorCliente contrCli;
     private ControladorArticulo contrArt;
     private ControladorPedido contrPed;
     private StackPane rootPane;
 
-    public VistaJavaFX(ControladorArticulo contrArt, ControladorCliente contrCli, Controlador controlador, ControladorPedido contrPed, StackPane rootPane) {
+    public VistaJavaFX(ControladorArticulo contrArt, ControladorCliente contrCli, ControladorPedido contrPed, StackPane rootPane) {
         this.contrArt = contrArt;
         this.contrCli = contrCli;
-        this.controlador = controlador;
         this.contrPed = contrPed;
         this.rootPane = rootPane;
     }
@@ -33,13 +32,11 @@ public class VistaJavaFX {
         VBox menuPrincipal = new VBox(10);
         menuPrincipal.setPadding(new Insets(50, 50, 50, 50));
 
-        Text titulo = new Text("Tienda Online");
-        titulo.setFont(Font.font("Calibri", 26));
-        titulo.setFill(Color.DARKRED);
+        Label titulo = new Label("Online Store");
+        titulo.getStyleClass().add("titulo");
 
-        Text linea = new Text("¿Qué quieres hacer?");
-        linea.setFont(Font.font("Calibri", 15));
-        linea.setFill(Color.DARKRED);
+        Label linea = new Label("¿Qué quieres hacer?");
+        linea.getStyleClass().add("subtitulo");
 
         Button botCli = new Button("Gestión de clientes");
         botCli.setOnAction(e -> contrCli.menuClientesJFX());
@@ -51,19 +48,36 @@ public class VistaJavaFX {
         botPed.setOnAction(e -> contrPed.menuPedidosFX());
 
         Button salir = new Button("Salir");
+        salir.getStyleClass().add("buttonAtras");
         salir.setOnAction(e -> Platform.exit());
 
         VBox.setMargin(titulo, new Insets(0, 0, 0, 0));
-        VBox.setMargin(linea, new Insets(7, 0, 0, 0));
-        VBox.setMargin(botCli, new Insets(25, 0, 0, 0));
+        VBox.setMargin(linea, new Insets(5, 0, 0, 0));
+        VBox.setMargin(botCli, new Insets(20, 0, 0, 0));
         VBox.setMargin(botArt, new Insets(20, 0, 0, 0));
         VBox.setMargin(botPed, new Insets(20, 0, 0, 0));
         VBox.setMargin(salir, new Insets(20, 0, 0, 0));
 
         menuPrincipal.getChildren().addAll(titulo, linea, botCli, botArt, botPed, salir);
 
+        //---------------------------------
+
+        Image logo = new Image(getClass().getResourceAsStream("/logoOS.png"));
+        ImageView logoView = new ImageView(logo);
+        logoView.setFitWidth(200);
+        logoView.setPreserveRatio(true);
+        //logoView.setSmooth(true);
+
+        VBox logoBox = new VBox(logoView);
+        logoBox.setAlignment(Pos.TOP_RIGHT);
+        logoBox.setPadding(new Insets(50, 50, 0, 0));
+
+        HBox contenido = new HBox(10);
+        contenido.getChildren().addAll(menuPrincipal, logoBox);
+        contenido.setAlignment(Pos.TOP_CENTER);
+
         rootPane.getChildren().clear();
-        rootPane.getChildren().add(menuPrincipal);
+        rootPane.getChildren().add(contenido);
 
         return rootPane;
     }
