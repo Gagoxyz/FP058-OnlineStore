@@ -1,0 +1,52 @@
+.root{
+    -fx-font-family: 'Calibri';
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+    -fx-background-color: radial-gradient(focus-angle 45deg, focus-distance 20%, center 25% 25%, radius 50%, reflect, gray, darkgray 75%, dimgray);
+}
+
+.titulo{
+    -fx-font-family: 'Calibri';
+    -fx-font-size: 30px;
+    -fx-font-weight: normal;
+    -fx-text-fill: firebrick;
+}
+
+.subtitulo{
+    -fx-font-family: 'Calibri';
+    -fx-font-size: 25px;
+    -fx-font-weight: normal;
+    -fx-text-fill: firebrick;
+}
+
+.destacado{
+    -fx-font-weight: normal;
+    -fx-text-fill: darkred;
+}
+
+.entrada{
+    -fx-font-weight: normal;
+}
+
+.button{
+    -fx-background-color: radial-gradient(radius 100%, ghostwhite, silver);
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+    -fx-background-radius: 2;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.3), 4, 0.0, 0, 2);
+    -fx-cursor: hand;
+}
+
+.buttonAtras{
+    -fx-background-color: radial-gradient(radius 100%, indianred, firebrick);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+    -fx-background-radius: 2;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(one-pass-box, rgba(0,0,0,0.3), 4, 0.0, 0, 2);
+    -fx-cursor: hand;
+}
